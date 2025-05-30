@@ -41,7 +41,7 @@ export const GET_NOTE_URL = (noteId: number | string) => `${NOTE_URL}/${noteId}`
 // 받은 쪽지 조회 
 export const GET_RECEIVED_NOTE_URL = `${NOTE_URL}/receivednotes`;
 // 보낸 쪽지 조회 
-export const GET_SENDED_NOTE_URL = `${NOTE_URL}/sendednotes`;
+export const GET_SENT_NOTE_URL = `${NOTE_URL}/sentnotes`;
 // 쪽지 검색(보류) searches
 export const SEARCH_SENDED_NOTE_URL = (searchWord: string) => `${NOTE_URL}/search?searchWord=${encodeURIComponent(searchWord)}`;
 // 쪽지 삭제 
