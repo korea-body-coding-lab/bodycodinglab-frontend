@@ -46,3 +46,11 @@ export const GET_SENDED_NOTE_URL = `${NOTE_URL}/sendednotes`;
 export const SEARCH_SENDED_NOTE_URL = (searchWord: string) => `${NOTE_URL}/search?searchWord=${encodeURIComponent(searchWord)}`;
 // 쪽지 삭제 
 export const DELETE_NOTE_URL = (noteId: number | string) => `${NOTE_URL}/${noteId}`;
+
+
+
+
+
+
+
+
