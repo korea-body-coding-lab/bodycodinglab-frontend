@@ -96,3 +96,84 @@ export const GET_MEMBER_ONEDAY_TICKET_URL = (ticketStatus: string) => `${TRAINER
 export const PUT_USE_ONEDAY_TICKET_URL = `${TRAINER_ONEDAY_TICKET_MODULE_URL}/used-date`;
 export const PUT_APPROVE_ONEDAY_TICKET_URL = `${TRAINER_ONEDAY_TICKET_MODULE_URL}/approval-date`;
 export const PUT_REJECT_ONEDAY_TICKET_URL = `${TRAINER_ONEDAY_TICKET_MODULE_URL}/reject-progress-reason`;
+
+
+
+
+
+
+// 회원 폼 생성
+export const POST_FORM = `${API_DOMAIN}/api/v1/members/forms`;
+
+// 트레이너의 회원 폼 단건 조회
+export const GET_FIND_ID_FORM = (formId: number | string) => `${API_DOMAIN}/api/v1/trainsers/me/match-waiting-list/${formId}`;
+
+
+
+
+// 회원의 사용하지 않은 쿠폰 조회
+export const GET_NOT_USED_COUPON_URL = `${API_DOMAIN}/api/v1/members/me/coupons`;
+
+// 트레이너의 회원이 사용 신청한 쿠폰 조회
+export const GET_APPLICATION_COUPON_URL = `${API_DOMAIN}/api/v1/trainers/me/coupons`;
+
+// 트레이너의 사용 완료 처리된 쿠폰 조회
+export const GET_COMPLETE_COUPON_URL = `${API_DOMAIN}/api/v1/trainers/me/coupons`;
+
+// 트레이너의 쿠폰 사용 설정
+export const PUT_ENABLE_COUPON_URL = (couponId: number | string) => `${API_DOMAIN}/api/v1/trainers/me/coupons/${couponId}`;
+
+// 회원의 기간이 만료된 쿠폰 조회
+export const GET_EXPIRED_COUPON_URL = `${API_DOMAIN}/api/v1/members/me/coupons`;
+
+
+
+
+
+
+
+
+// 리뷰 관련 baseURL
+export const REVIEW_URL = `${API_DOMAIN}/api/v1/reviews`
+
+// 리뷰 작성
+export const POST_REVIEW =(matchId: number | string) =>  `${REVIEW_URL}/${matchId}`;
+
+// 리뷰 전체 조회
+export const GET_ALL_REVIEW = `${REVIEW_URL}`;
+
+// 회원의 내가 작성한 리뷰 조회
+export const GET_WRITTEN_BY_ME_REVIEW = `${API_DOMAIN}/api/v1/members/me/reviews`;
+
+// 트레이너의 자신에게 작성된 리뷰 조회
+export const GET_WRIIEN_TO_ME_REVIEW = `${API_DOMAIN}/api/v1/trainers/me/reviews`;
+
+// 회원의 리뷰 수정
+export const PUT_REVIEW = (reviewId: number | string) => `${API_DOMAIN}/api/v1/members/me/reviews/${reviewId}`;
+
+// 회원의 리뷰 삭제
+export const DELETE_REVIEW = (reviewId: number | string) => `${API_DOMAIN}/api/v1/members/me/reviews/${reviewId}`;
+
+// 리뷰 공감 추가
+export const PUT_ADD_REVIEW_RECOMMAND = (reviewId: number | string) => `${REVIEW_URL}/${reviewId}/review-recommands`;
+
+// 리뷰 공감 삭제
+export const PUT_DELETE_REVIEW_RECOMMAND = (reviewId: number | string) => `${REVIEW_URL}/${reviewId}/review-recommands`;
+
+// 리뷰 댓글 등록
+export const POST_REVIEW_COMMENT = (reviewId: number | string) => `trainers/me/reviews/${reviewId}/comments`;
+
+// 리뷰 댓글 조회
+export const GET_ALL_REVIEW_COMMENT = (reviewId: number | string ) => `${REVIEW_URL}/${reviewId}/comments`;
+
+// 리뷰 댓글 삭제
+export const DELETE_REVIEW_COMMENT = (reviewId: number | string, commentId: number | string) => `${REVIEW_URL}/${reviewId}/comments/${commentId}`;
+
+
+
+
+// 구독 기록 생성
+export const POST_SUBSCRIPTIONS = `${API_DOMAIN}/api/v1/members/subscriptions`;
+
+// 구독 기록 조회
+export const GET_SUBSCRIPTIONS = `${API_DOMAIN}/api/v1/members/me/subscriptions`;
