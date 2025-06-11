@@ -17,7 +17,7 @@ export const headerUp = css`
     
 `
 export const headerUpSet = css`
-    width: 70%;
+    width: 60%;
     margin: auto;
     display: flex;
     justify-content: space-between;
@@ -33,7 +33,7 @@ export const logoStyle = css`
     cursor: pointer;
 `
 export const loginStyle =css`
-    width: 300px;
+    width: 250px;
     height: 100px;
     font-size: 20px;
     display: flex;
@@ -44,8 +44,8 @@ export const loginStyle =css`
     
 `
 export const loginProfile = css`
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background-image: url("./profileImageSample.png");
     background-size: 100%;
     background-position: center;
@@ -56,13 +56,14 @@ export const loginProfile = css`
 export const loginStyleBtn = css`
     width: 50px;
     height: 50px;
-    margin-right: 10px;
+    
     text-decoration: none;
+    border-style: none;
     
 `
 
 export const logoutStyle =css`
-    width: 300px;
+    width: 250px;
     height: 100%;
     font-size: 20px;
     display: flex;

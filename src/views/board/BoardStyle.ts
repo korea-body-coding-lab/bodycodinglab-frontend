@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 
 export const category = css`
-    width: 70%;
+    width: 40%;
     height: 60px;
     margin: auto;
     display: flex;
@@ -30,9 +30,10 @@ export const writeBtn = css`
     line-height: 60px;
     background-color: #75A7EF;
     border-radius: 10px 0px 8px 10px;
+    cursor: pointer;
 `
 export const search = css` 
-    width: 70%;
+    width: 40%;
     height: 60px;
     margin: auto;
     border: 2px solid #C5CEE0;
@@ -64,11 +65,11 @@ export const searchBtn = css`
     border: none;
     border-radius: 35px;
     box-sizing: border-box;
-  
+    cursor: pointer;
 `
 
 export const board = css`
-width: 70%;
+width: 40%;
 margin: auto;
 height: 1000px;
     border: 2px solid #C5CEE0;
