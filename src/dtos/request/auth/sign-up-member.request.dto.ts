@@ -8,4 +8,4 @@ export interface SignUpMemberRequestDto {
   phone: string;
   email: string;
   address: string;
-};
+}

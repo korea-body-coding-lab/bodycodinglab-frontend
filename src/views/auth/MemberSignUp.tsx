@@ -97,16 +97,22 @@ function MemberSignUp() {
       <div css={authStyle.containerStyle}>
         <form onSubmit={handleSubmit} css={authStyle.formWrapperStyle}>
           <div css={authStyle.formSectionStyle}>
-            <h2 css={authStyle.formTitleStyle}>기본 정보</h2>
-            <div css={authStyle.formStyle}>
+            <h2 css={authStyle.formSignUpTitleStyle}>기본 정보</h2>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>아이디</label>
-              <div css={authStyle.inputWrapperStyle}>
-                <input type="text" name='username' value={form.username} onChange={handleInputChange} css={authStyle.inputStyle} />
+              <div css={authStyle.inputSignUpWrapperStyle}>
+                <input
+                  type="text"
+                  name='username'
+                  value={form.username}
+                  onChange={handleInputChange}
+                  css={authStyle.inputStyle}
+                />
               </div>
             </div>
-            <div css={authStyle.formStyle}>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>비밀번호</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="password"
                   name='password'
@@ -116,9 +122,9 @@ function MemberSignUp() {
                 />
               </div>
             </div>
-            <div css={authStyle.formStyle}>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>비밀번호 확인</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="password"
                   name='confirmPassword'
@@ -131,9 +137,9 @@ function MemberSignUp() {
                 </button>
               </div>
             </div>
-            <div css={authStyle.formStyle}>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>성명</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="text"
                   name='name'
@@ -143,9 +149,9 @@ function MemberSignUp() {
                 />
               </div>
             </div>
-            <div css={authStyle.formStyle}>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>생년월일</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="date"
                   name='birthdate'
@@ -155,7 +161,7 @@ function MemberSignUp() {
                 />
               </div>
             </div>
-            <div css={authStyle.formStyle}>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>성별</label>
               <div css={authStyle.genderSectionStyle}>
                 <input
@@ -191,9 +197,9 @@ function MemberSignUp() {
                 </label>
               </div>
             </div>
-            <div css={authStyle.formStyle}>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>휴대폰번호</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="text"
                   name='phone'
@@ -203,9 +209,9 @@ function MemberSignUp() {
                 />
               </div>
             </div>
-            <div css={authStyle.formStyle}>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>이메일</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="email"
                   name='email'
@@ -217,10 +223,10 @@ function MemberSignUp() {
             </div>
           </div>
           <div css={authStyle.formSectionStyle}>
-            <h2 css={authStyle.formTitleStyle}>추가 정보</h2>
-            <div css={authStyle.formStyle}>
+            <h2 css={authStyle.formSignUpTitleStyle}>추가 정보</h2>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>주소</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="text"
                   name='address'
@@ -233,10 +239,10 @@ function MemberSignUp() {
             </div>       
           </div>
           <div css={authStyle.formSectionStyle}>
-            <h2 css={authStyle.formTitleStyle}>선택 정보</h2>
-            <div css={authStyle.formStyle}>
+            <h2 css={authStyle.formSignUpTitleStyle}>선택 정보</h2>
+            <div css={authStyle.formSignUpStyle}>
               <label css={authStyle.formLabelStyle}>프로필 사진</label>
-              <div css={authStyle.inputWrapperStyle}>
+              <div css={authStyle.inputSignUpWrapperStyle}>
                 <input
                   type="file"
                   name='profile'
@@ -246,7 +252,7 @@ function MemberSignUp() {
               </div>
             </div>       
           </div>
-          <button type='submit' css={authStyle.buttonStyle}>
+          <button type='submit' css={authStyle.buttonSignUpStyle}>
             가입하기
           </button>
         </form>
