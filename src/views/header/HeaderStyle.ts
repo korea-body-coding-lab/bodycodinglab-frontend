@@ -25,7 +25,7 @@ export const headerUpSet = css`
 export const logoStyle = css`
     width: 200px;
     height: 100px;
-    background-image: url("./fitmatelogo.png");
+    background-image: url("/fitmatelogo.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -46,7 +46,7 @@ export const loginStyle =css`
 export const loginProfile = css`
     width: 60px;
     height: 60px;
-    background-image: url("./profileImageSample.png");
+    background-image: url("/profileImageSample.png");
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
