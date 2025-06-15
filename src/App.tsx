@@ -1,7 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Board from './views/board'
+import SignUp from './views/auth/SignUp'
 import Index from '.'
+import MemberSignUp from './views/auth/MemberSignUp'
+import TrainerSignUp from './views/auth/TrainerSignUp'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -25,6 +28,9 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Index />} />
+        <Route path='/auth/sign-up' element={<SignUp />} />
+        <Route path='/auth/sign-up/member' element={<MemberSignUp />} />
+        <Route path='/auth/sign-up/trainer' element={<TrainerSignUp />} />
         <Route path='/personal-community-boards' element={<Board />} />
       </Routes>
     </>
