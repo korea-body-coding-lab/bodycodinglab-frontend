@@ -1,60 +1,71 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react'
-import * as s from "./HeaderStyle"
-import { create } from 'zustand';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import * as s from "./HeaderStyle";
+import { create } from "zustand";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserStore } from "@/stores/user.store";
+import LogoutButton from "@/components/LogoutButton";
 
-interface LoginState{
-    isLogin: boolean;
+interface LoginState {
+  isLogin: boolean;
 
-    loginClick: () => void;
+  loginClick: () => void;
 }
-
-export const useLoginStore = create<LoginState>((set) => ({
-    isLogin: false,
-    loginClick: () => set(state => ({isLogin: state.isLogin ? false : true}))
-}));
 
 function Header() {
-    const navigate = useNavigate();
-    const { isLogin, loginClick } = useLoginStore();
-    const userName = "홍길동";// 회원정보에서 가져옴
+  const navigate = useNavigate();
+  const isLogin = useUserStore((state) => state.isLogin);
+  const userName = useUserStore((state) => state.name);
   return (
     <div>
-        <header css={s.headerStyle}>
-                <div css={s.headerUp}>
-                    <div css={s.headerUpSet}>
-                        <div  
-                            css={s.logoStyle}
-                            onClick={() => navigate('/')}
-                        ></div>
-                        <div>
-                        {isLogin ? (
-                            <div css={s.loginStyle}>
-                                <div css={s.loginProfile} onClick={() => navigate('/mypage')} />
-                                <span>{userName}님</span>
-                                <button css={s.loginStyleBtn} onClick={() => navigate('/notes')}>쪽지</button>
-                                <button css={s.loginStyleBtn} onClick={loginClick}>로그아웃</button>
-                            </div>
-                            ) : (
-                            <div css={s.logoutStyle}>
-                                <a css={s.logoutStyleA} href="/auth/sign-up">회원가입</a>
-                                <a css={s.logoutStyleA} href="/auth/sign-in">로그인</a>
-                                <button onClick={loginClick}>로그인(테스트)</button>
-                            </div>
-                        )}
-                        </div>
-                    </div>
+      <header css={s.headerStyle}>
+        <div css={s.headerUp}>
+          <div css={s.headerUpSet}>
+            <div css={s.logoStyle} onClick={() => navigate("/")}></div>
+            <div>
+              {isLogin ? (
+                <div css={s.loginStyle}>
+                  <div
+                    css={s.loginProfile}
+                    onClick={() => navigate("/mypage")}
+                  />
+                  <span>{userName}님</span>
+                  <button
+                    css={s.loginStyleBtn}
+                    onClick={() => navigate("/notes")}
+                  >
+                    쪽지
+                  </button>
+                  <LogoutButton />
                 </div>
-                
-                <nav css={s.headerNav}>
-                    <div css={s.headerNavDivs} onClick={() => navigate('/fitmateintro')}>핏메이트 소개</div>
-                    <div css={s.headerNavDivs} onClick={() => navigate('/find-trainer')}>트레이너 찾기</div>
-                    <div css={s.headerNavDivs} onClick={() => navigate('/personal-community-boards')}>1대1 커뮤니티</div>
-                </nav>
-            </header>
+              ) : (
+                <>
+                  <Link to="/auth/login" css={s.linkStyle}>로그인</Link>
+                  <span css={s.dividerStyle}>/</span>
+                  <Link to="/auth/sign-up" css={s.linkStyle}>회원가입</Link>
+                </>
+              )}
+            </div>
+          </div>
         </div>
-  )
+
+        <nav css={s.headerNav}>
+          <div css={s.headerNavDivs} onClick={() => navigate("/fitmateintro")}>
+            핏메이트 소개
+          </div>
+          <div css={s.headerNavDivs} onClick={() => navigate("/find-trainer")}>
+            트레이너 찾기
+          </div>
+          <div
+            css={s.headerNavDivs}
+            onClick={() => navigate("/personal-community-boards")}
+          >
+            1대1 커뮤니티
+          </div>
+        </nav>
+      </header>
+    </div>
+  );
 }
 
-export default Header
+export default Header;

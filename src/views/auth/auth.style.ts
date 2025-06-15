@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-const containerStyle = css`
+export const containerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,20 +9,20 @@ const containerStyle = css`
   background-color: #ffffff;
 `;
 
-const titleStyle = css`
+export const titleStyle = css`
   font-size: 32px;
   font-weight: bold;
   margin-bottom: 80px;
   color: #3F4756;
 `;
 
-const selectionWrapperStyle = css`
+export const selectionWrapperStyle = css`
   display: flex;
   justify-content: center;
   gap: 50px;
 `;
 
-const selectionStyle = css`
+export const selectionStyle = css`
   width: 300px;
   height: 300px;
   margin: 50px 50px;
@@ -42,20 +42,20 @@ const selectionStyle = css`
   }
 `;
 
-const selectionImageStyle = css`
+export const selectionImageStyle = css`
   width: 150px;
   height: 150px;
   background-color: #D9D9D9;
   margin-bottom: 30px;
 `;
 
-const selectionLabelStyle = css`
+export const selectionLabelStyle = css`
   font-size: 28px;
   font-weight: bold;
   color: #3F4756;
 `;
 
-const formSectionStyle = css`
+export const formSectionStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,20 +69,27 @@ const formSectionStyle = css`
   background-color: #ffffff;
 `;
 
-const formWrapperStyle = css`
+export const formWrapperStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const formStyle = css`
+export const formSignUpStyle = css`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
 `;
 
-const formTitleStyle = css`
+export const formStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+export const formSignUpTitleStyle = css`
   width: 100%;
   margin-bottom: 30px;
   text-align: left;
@@ -91,7 +98,14 @@ const formTitleStyle = css`
   color: #3F4756;
 `;
 
-const formLabelStyle = css`
+export const formTitleStyle = css`
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const formLabelStyle = css`
   width: 120px;
   margin-right: 15px;
   word-break: keep-all;
@@ -102,7 +116,7 @@ const formLabelStyle = css`
   color: #3F4756;
 `;
 
-const inputWrapperStyle = css`
+export const inputSignUpWrapperStyle = css`
   width: 540px;
   height: 60px;
   padding: 0 14px;
@@ -119,7 +133,23 @@ const inputWrapperStyle = css`
   }
 `;
 
-const inputStyle = css`
+export const inputLoginWrapperStyle = css`
+  width: 350px;
+  height: 60px;
+  padding: 0 14px;
+  border: 1px solid #8F98A9;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transition: border 0.3s;
+  &:focus-within {
+    outline: none;
+    border: 3px solid #707D97;
+  }
+`;
+
+export const inputStyle = css`
   flex: 1;
   border: none;
   outline: none;
@@ -127,7 +157,7 @@ const inputStyle = css`
   line-height: 1.4;
 `;
 
-const inputButtonStyle = css`
+export const inputButtonStyle = css`
   width: 80px;
   height: 50px;
   font-size: 18px;
@@ -143,20 +173,18 @@ const inputButtonStyle = css`
   }
 `;
 
-const genderSectionStyle = css`
+export const genderSectionStyle = css`
   display: flex;
   gap: 20px;
 `;
 
-const hiddenRadioStyle = css`
+export const hiddenRadioStyle = css`
   display: none;
 `;
 
-const genderButtonStyle = css`
+export const genderButtonStyle = css`
   width: 260px;
   height: 60px;
-  /* margin: 50px 50px;
-  padding: 42px; */
   text-align: center;
   font-size: 20px;
   font-weight: bold;
@@ -175,12 +203,12 @@ const genderButtonStyle = css`
   }
 `;
 
-const genderSelectionStyle = css`
+export const genderSelectionStyle = css`
   border: 3px solid #707D97;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 `;
 
-const buttonStyle = css`
+export const buttonSignUpStyle = css`
   width: 730px;
   padding: 1.3rem;
   margin-bottom: 50px;
@@ -198,11 +226,27 @@ const buttonStyle = css`
   }
 `;
 
-const errorMessageStyle = css`
+export const buttonLoginStyle = css`
+  width: 350px;
+  padding: 1.3rem;
+  margin-bottom: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  background-color: #699CE4;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #437BC0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+`;
+
+export const errorMessageStyle = css`
   color: red;
   text-align: center;
   margin-top: 10px;
   font-size: 14px;
 `;
-
-export { containerStyle, titleStyle, selectionWrapperStyle, selectionStyle, selectionImageStyle, selectionLabelStyle, formSectionStyle, formWrapperStyle, formStyle, formTitleStyle, formLabelStyle, inputWrapperStyle, inputStyle, inputButtonStyle, genderSectionStyle, hiddenRadioStyle, genderButtonStyle, genderSelectionStyle, buttonStyle, errorMessageStyle };

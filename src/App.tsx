@@ -5,6 +5,7 @@ import SignUp from './views/auth/SignUp'
 import Index from '.'
 import MemberSignUp from './views/auth/MemberSignUp'
 import TrainerSignUp from './views/auth/TrainerSignUp'
+import Login from './views/auth/Login'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -31,10 +32,11 @@ function App() {
         <Route path='/auth/sign-up' element={<SignUp />} />
         <Route path='/auth/sign-up/member' element={<MemberSignUp />} />
         <Route path='/auth/sign-up/trainer' element={<TrainerSignUp />} />
+        <Route path='/auth/login' element={<Login />} />
         <Route path='/personal-community-boards' element={<Board />} />
       </Routes>
     </>
   )
 }
 
-export default App
+export default App;
