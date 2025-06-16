@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '@/stores/user.store';
 import { validateLoginForm } from '@/utils/login.valid';
-import { LoginRequestDto } from '@/dtos/request/auth/login.request.dto';
+import { LoginRequestDto } from '@/dtos/auth/request/login.request.dto';
 import { loginRequest } from '@/apis/auth/login.api';
 
 function Login() {

@@ -2,7 +2,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import Header from '../header/Header';
 import * as authStyle from '@/views/auth/auth.style';
-import { SignUpMemberRequestDto } from '@/dtos/request/auth/sign-up-member.request.dto';
+import { SignUpMemberRequestDto } from '@/dtos/auth/request/sign-up-member.request.dto';
 import { signUpMemberRequest } from '@/apis/auth/sign-up.api';
 import { useNavigate } from 'react-router-dom';
 import { validateMemberForm } from '@/utils/sign-up.valid';

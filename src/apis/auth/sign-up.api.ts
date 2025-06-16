@@ -1,9 +1,9 @@
 import ResponseDto from "@/dtos/response.dto";
-import { SignUpMemberResponseDto } from "@/dtos/response/auth/sign-up-member.response.dto";
+import { SignUpMemberResponseDto } from "@/dtos/auth/response/sign-up-member.response.dto";
 import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { AxiosError } from "axios";
 import { SIGN_UP_MEMBER_URL, SIGN_UP_TRAINER_URL } from "../constants";
-import { SignUpTrainerResponseDto } from "@/dtos/response/auth/sign-up-trainer.response.dto";
+import { SignUpTrainerResponseDto } from "@/dtos/auth/response/sign-up-trainer.response.dto";
 
 export const signUpMemberRequest = async (formData: FormData): Promise<ResponseDto<SignUpMemberResponseDto>> => {
   try {
