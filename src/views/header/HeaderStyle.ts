@@ -3,6 +3,8 @@ import { css } from "@emotion/react";
 export const headerStyle = css`
   width: 100%;
   height: 180px;
+  margin-bottom: 15px;
+  margin-right: 15px;
   background-color: white;
   border-bottom: 3px solid #437bc0;
   box-sizing: border-box;

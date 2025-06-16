@@ -1,5 +1,8 @@
-export default interface LoginResponseDto {
+export interface LoginResponseDto {
+  id: number;
+  role: string;
+  username: string;
+  name: string;
   token: string;
   exprTime: number;
-  name: string;
 }

@@ -11,8 +11,10 @@ function SignUp() {
   const onTrainerClick = () => navigate("/auth/sign-up/trainer");
 
   return (
-    <div>
-      <Header />
+    <>
+      <div>
+        <Header />
+      </div>
       <div css={authStyle.containerStyle}>
         <h2 css={authStyle.titleStyle}>회원가입</h2>
         <div css={authStyle.selectionWrapperStyle}>
@@ -26,7 +28,7 @@ function SignUp() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
