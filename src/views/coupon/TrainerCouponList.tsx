@@ -1,4 +1,26 @@
-import React from 'react'
+import { findTrainerCouponRequest } from '@/apis/coupon/find.trainer.coupon.api';
+import { CouponStatus } from '@/dtos/response/coupon/copon.enum';
+import { MemberCouponResponseDto } from '@/dtos/response/coupon/member.coupon.response.dto';
+import React, { useEffect, useState } from 'react'
+
+const TrainerCouponListView = () => {
+  const [status, setStatus] = useState<CouponStatus>("APPLICATION");
+  const [coupons, setCoupons] = useState<MemberCouponResponseDto[]>([]);
+
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      const response = await findTrainerCouponRequest(status);
+      if (response && response.data) {
+        setCoupons(response.data);
+      }
+    };
+
+    fetchCoupons();
+  }, [status]);
+
+  const handleStatusChange = (status: CouponStatus) => {
+    setStatus(status);
+  };
 
 function TrainerCouponList() {
   return (

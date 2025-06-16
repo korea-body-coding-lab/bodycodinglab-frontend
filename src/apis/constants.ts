@@ -137,7 +137,7 @@ export const DELETE_MEBER_MATCH_URL = (matchId: number) => `${GET_MEMBER_MATCH_U
 export const POST_FORM = `${MEMBER_MODULE_URL}/forms`;
 
 // 트레이너의 회원 폼 단건 조회
-export const GET_FIND_ID_FORM = (formId: number | string) => `${TRAINER_MODULE_URL}/match-waiting-list/${formId}`;
+export const GET_FIND_ID_FORM = (formId: number) => `${TRAINER_MODULE_URL}/match-waiting-list/${formId}`;
 
 
 
@@ -145,26 +145,26 @@ export const GET_FIND_ID_FORM = (formId: number | string) => `${TRAINER_MODULE_U
 
 
 // 구독 기록 생성
-export const POST_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;
+export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_MATCH_WAITNG_LIST_URL}/${matchWaitingListId}/subscriptions`;
 
 // 구독 기록 조회
 export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;
 
 
-// 회원의 사용하지 않은 쿠폰 조회
-export const GET_NOT_USED_COUPON_URL = `${MEMBER_MODULE_URL}/coupons`;
+// 회원의 사용하지 않은 혹은 기간이 만료된 쿠폰 조회
+export const GET_MEMBER_COUPON_URL = `${MEMBER_MODULE_URL}/coupons`;
 
-// 트레이너의 회원이 사용 신청한 쿠폰 조회
-export const GET_APPLICATION_COUPON_URL = `${TRAINER_MODULE_URL}/coupons`;
+// 트레이너의 회원이 사용 신청한 혹은 사용 완료된 쿠폰 조회
+export const GET_TRAINER_COUPON_URL = `${TRAINER_MODULE_URL}/coupons`;
 
-// 트레이너의 사용 완료 처리된 쿠폰 조회
-export const GET_COMPLETE_COUPON_URL = `${TRAINER_MODULE_URL}/coupons`;
+
+
 
 // 트레이너의 쿠폰 사용 설정
-export const PUT_ENABLE_COUPON_URL = (couponId: number | string) => `${TRAINER_MODULE_URL}/coupons/${couponId}`;
+export const PUT_TRAINER_COUPON_URL = (couponId: number) => `${TRAINER_MODULE_URL}/coupons/${couponId}`;
 
-// 회원의 기간이 만료된 쿠폰 조회
-export const GET_EXPIRED_COUPON_URL = `${MEMBER_MODULE_URL}/coupons`;
+
+
 
 
 
