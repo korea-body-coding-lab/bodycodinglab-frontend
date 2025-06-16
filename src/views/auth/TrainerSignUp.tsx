@@ -101,7 +101,7 @@ function TrainerSignUp() {
   }
 
   return (
-    <div>
+    <>
       <div>
         <Header />
       </div>
@@ -282,7 +282,7 @@ function TrainerSignUp() {
           </button>
         </form>
       </div>
-    </div>
+    </>
   )
 }
 

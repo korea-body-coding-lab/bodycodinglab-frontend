@@ -5,17 +5,15 @@ import { create } from "zustand";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "@/stores/user.store";
 import LogoutButton from "@/components/LogoutButton";
-
-interface LoginState {
-  isLogin: boolean;
-
-  loginClick: () => void;
-}
+import MyPage from "../sidebar/MyPageSidebar";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
+import { useAuthStore } from "@/stores/auth.store";
 
 function Header() {
   const navigate = useNavigate();
-  const isLogin = useUserStore((state) => state.isLogin);
-  const userName = useUserStore((state) => state.name);
+  const isLogin = useAuthStore((state) => state.isLogin);
+  const user = useUserStore((state) => state.user);
+  
   return (
     <div>
       <header css={s.headerStyle}>
@@ -29,7 +27,7 @@ function Header() {
                     css={s.loginProfile}
                     onClick={() => navigate("/mypage")}
                   />
-                  <span>{userName}님</span>
+                  <span>{user?.name}님</span>
                   <button
                     css={s.loginStyleBtn}
                     onClick={() => navigate("/notes")}
@@ -63,7 +61,7 @@ function Header() {
             1대1 커뮤니티
           </div>
         </nav>
-      </header>
+      </header> 
     </div>
   );
 }

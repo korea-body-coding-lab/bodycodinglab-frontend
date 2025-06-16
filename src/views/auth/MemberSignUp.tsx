@@ -90,7 +90,7 @@ function MemberSignUp() {
   }
 
   return (
-    <div>
+    <>
       <div>
         <Header />
       </div>
@@ -257,7 +257,7 @@ function MemberSignUp() {
           </button>
         </form>
       </div>
-    </div>
+    </>
   )
 }
 

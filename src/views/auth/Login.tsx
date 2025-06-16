@@ -8,11 +8,13 @@ import { useUserStore } from '@/stores/user.store';
 import { validateLoginForm } from '@/utils/login.valid';
 import { LoginRequestDto } from '@/dtos/auth/request/login.request.dto';
 import { loginRequest } from '@/apis/auth/login.api';
+import { useAuthStore } from '@/stores/auth.store';
 
 function Login() {
   const navigate = useNavigate();
   const [cookies, setCookies] = useCookies(["accessToken"]);
-  const setLogin = useUserStore((state) => state.setLogin);
+  const setLogin = useAuthStore((state) => state.setLogin);
+  const setUser = useUserStore((state) => state.setUser);
 
   const [form, setForm] = useState({
     username: "",
@@ -27,7 +29,7 @@ function Login() {
   const handleLogin = async(e: FormEvent) => {
     e.preventDefault();
 
-    const { username, password } = form;
+    const { username: formUsername, password } = form;
 
     const validMessage = validateLoginForm(form);
     if (validMessage) {
@@ -35,7 +37,7 @@ function Login() {
       return;
     }
 
-    const requestBody: LoginRequestDto = { username, password };
+    const requestBody: LoginRequestDto = { username: formUsername, password };
     const response = await loginRequest(requestBody);
     const { code, message, data } = response;
 
@@ -44,7 +46,7 @@ function Login() {
       return;
     }
 
-    const { token, exprTime, name } = data;
+    const { id, role, username, name, token, exprTime } = data;
 
     if (!exprTime || isNaN(exprTime)) {
       console.error('Invalid exprTime:', exprTime);
@@ -63,12 +65,18 @@ function Login() {
       secure: true,
     });
 
-    setLogin(name);
+    setLogin(token, exprTime);
+    setUser({
+      userId: id,
+      role,
+      username,
+      name,
+    });
     navigate('/');
   };
 
   return (
-    <div>
+    <>
       <div>
         <Header />
       </div>
@@ -110,7 +118,7 @@ function Login() {
           
         </form>
       </div>
-    </div>
+    </>
   );
 }
 
