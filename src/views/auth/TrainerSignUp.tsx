@@ -3,7 +3,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react'
 import Header from '../header/Header';
 import * as authStyle from '@/views/auth/auth.style';
 import { useNavigate } from 'react-router-dom';
-import { SignUpTrainerRequestDto } from '@/dtos/request/auth/sign-up-trainer.request.dto';
+import { SignUpTrainerRequestDto } from '@/dtos/auth/request/sign-up-trainer.request.dto';
 import { signUpTrainerRequest } from '@/apis/auth/sign-up.api';
 import { validateTrainerForm } from '@/utils/sign-up.valid';
 
