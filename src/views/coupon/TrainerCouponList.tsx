@@ -1,11 +1,19 @@
-import { findTrainerCouponRequest } from '@/apis/coupon/find.trainer.coupon.api';
-import { CouponStatus } from '@/dtos/response/coupon/copon.enum';
-import { MemberCouponResponseDto } from '@/dtos/response/coupon/member.coupon.response.dto';
-import React, { useEffect, useState } from 'react'
+/** @jsxImportSource @emotion/react */
+import { findTrainerCouponRequest } from "@/apis/coupon/find.trainer.coupon.api";
+import { trainerPutCouponRequest } from "@/apis/coupon/put.trainer.coupon.api";
+import { PutCouponRequestDto } from "@/dtos/coupon/request/put.Coupon.Request.Dto";
+import { MemberCouponResponseDto } from "@/dtos/coupon/response/member.coupon.response.dto";
+import React, { useEffect, useState } from "react";
+import * as s from "./TrainerCouponModalStyle";
 
-const TrainerCouponListView = () => {
+type CouponStatus = "NOT_USED" | "APPLICATION" | "COMPLETE" | "EXPIRED";
+
+function TrainerCouponList() {
   const [status, setStatus] = useState<CouponStatus>("APPLICATION");
   const [coupons, setCoupons] = useState<MemberCouponResponseDto[]>([]);
+  const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
+  const [usedDate, setUsedDate] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -18,36 +26,92 @@ const TrainerCouponListView = () => {
     fetchCoupons();
   }, [status]);
 
-  const handleStatusChange = (status: CouponStatus) => {
-    setStatus(status);
+  const handleStatusChange = (newStatus: CouponStatus) => {
+    setStatus(newStatus);
   };
 
-function TrainerCouponList() {
+  const handleOpenModal = (couponId: number) => {
+    setSelectedCouponId(couponId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedCouponId(null);
+    setUsedDate("");
+  };
+
+  const handleConfirm = async () => {
+    if (!selectedCouponId || !usedDate) return;
+    const dto: PutCouponRequestDto = { usedDate };
+
+    const response = await trainerPutCouponRequest(dto, selectedCouponId);
+    if (response) {
+      handleCloseModal();
+      setStatus("COMPLETE");
+    }
+  };
+
   return (
-    <div><div className="trainerCouponContainerBox">
-    <p>쿠폰함</p>
-    <div className="trainercouponFilterTab">
-      <button>신청 대기 쿠폰</button> <button>사용 완료 쿠폰</button>
-    </div>
-    <div className="trainerCouponListBox">
-      <div className="trainerCouponBox">
-        <div className="trainerCouponSectionLeft">
-          <h4>쿠폰 번호</h4>
-          <button>사용 완료</button>
+    <div>
+      <div className="trainerCouponContainerBox">
+        <p>쿠폰함</p>
+
+        <div className="trainercouponFilterTab">
+          <button onClick={() => handleStatusChange("APPLICATION")}>
+            신청 대기 쿠폰
+          </button>
+          <button onClick={() => handleStatusChange("COMPLETE")}>
+            사용 완료 쿠폰
+          </button>
         </div>
-        <div className="trainerCouponSectionMiddle">
-          <h4>유효기간</h4>
-          <h4>사용기간</h4>
-          <h4>쿠폰진행단계</h4>
-        </div>
-        <div className="trainerCouponSectionRight">
-          <p>이미지</p>
-          <h4>회원 이름</h4>
+
+        <div className="trainerCouponListBox">
+          {coupons.length === 0 ? (
+            <p>해당 상태의 쿠폰이 없습니다.</p>
+          ) : (
+            coupons.map((coupon) => (
+              <div className="trainerCouponBox" key={coupon.couponId}>
+                <div className="trainerCouponSectionLeft">
+                  <h4>쿠폰 번호: {coupon.couponId}</h4>
+                  <button onClick={() => handleOpenModal(coupon.couponId)}>
+                    사용완료
+                  </button>
+                </div>
+                <div className="trainerCouponSectionMiddle">
+                  <h4>유효기간: {coupon.expirationPeriod}</h4>
+                  <h4>사용기간: {coupon.usedDate ?? "미사용"}</h4>
+                  <h4>진행 단계: {coupon.status}</h4>
+                </div>
+                <div className="trainerCouponSectionRight">
+                  <p>이미지</p>
+                  <h4>{coupon.memberName}</h4>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
+
+      {showModal && (
+        <div css={s.trainerCouponModalOverlay}>
+          <div css={s.trainerCouponModalContent}>
+            <h3>쿠폰 사용 날짜 입력</h3>
+            <input
+              type="date"
+              value={usedDate}
+              placeholder="xxxx-xx-xx"
+              onChange={(e) => setUsedDate(e.target.value)}
+            />
+            <div css={s.trainerCouponModalButtons}>
+              <button onClick={handleCloseModal}>취소</button>
+              <button onClick={handleConfirm}>확인</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  </div></div>
-  )
+  );
 }
 
-export default TrainerCouponList
+export default TrainerCouponList;
