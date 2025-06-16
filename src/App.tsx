@@ -5,6 +5,7 @@ import SignUp from './views/auth/SignUp'
 import Index from '.'
 import MemberSignUp from './views/auth/MemberSignUp'
 import TrainerSignUp from './views/auth/TrainerSignUp'
+import TrainerCareer from './views/trainer/TrainerCareer'
 import Login from './views/auth/Login'
 import TrainerList from './views/admin/TrainerList'
 
@@ -36,6 +37,7 @@ function App() {
         <Route path='/auth/login' element={<Login />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/personal-community-boards' element={<Board />} />
+        <Route path='/users/trainers/me/career' element={<TrainerCareer />} />
       </Routes>
     </>
   )
