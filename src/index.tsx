@@ -4,10 +4,12 @@ import Header from './views/header/Header'
 
 function Index() {
   return (
-    <div>
-        <Header></Header>
-    </div>
-  )
+    <>
+      <div>
+        <Header />
+      </div>
+    </>
+  );
 }
 
-export default Index
+export default Index;
