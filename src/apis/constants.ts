@@ -152,10 +152,10 @@ export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;
 
 
 // 회원의 사용하지 않은 혹은 기간이 만료된 쿠폰 조회
-export const GET_MEMBER_COUPON_URL = `${MEMBER_MODULE_URL}/coupons`;
+export const GET_MEMBER_COUPON_URL = (status: string) => `${MEMBER_MODULE_URL}/coupons?status=${status}`;
 
 // 트레이너의 회원이 사용 신청한 혹은 사용 완료된 쿠폰 조회
-export const GET_TRAINER_COUPON_URL = `${TRAINER_MODULE_URL}/coupons`;
+export const GET_TRAINER_COUPON_URL =(status: string) => `${TRAINER_MODULE_URL}/coupons?status=${status}`;
 
 // 회원의 쿠폰 사용 설정
 export const PUT_MEMBER_COUPON_URL = (couponId: number) => `${MEMBER_MODULE_URL}/coupons/${couponId}`

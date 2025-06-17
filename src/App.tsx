@@ -11,6 +11,7 @@ import Login from './views/auth/Login'
 import TrainerCouponList from './views/coupon/TrainerCouponList'
 
 import TrainerList from './views/admin/TrainerList'
+import MemberCouponLIst from './views/coupon/MemberCouponLIst'
 
 
 //! 프로젝트 기초 환경 설정
@@ -42,6 +43,7 @@ function App() {
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/personal-community-boards' element={<Board />} />
         <Route path='/users/trainers/me/career' element={<TrainerCareer />} />
+        <Route path='/users/members/me/coupons' element={<MemberCouponLIst/>}/>
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
       </Routes>
     </>
