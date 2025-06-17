@@ -1,6 +1,6 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
-
+import Board from './views/board'
 import SignUp from './views/auth/SignUp'
 import Index from '.'
 import MemberSignUp from './views/auth/MemberSignUp'
@@ -11,10 +11,6 @@ import Login from './views/auth/Login'
 import TrainerCouponList from './views/coupon/TrainerCouponList'
 
 import TrainerList from './views/admin/TrainerList'
-import BoardWrite from './views/board/BoardWrite'
-import BoardEdit from './views/board/BoardEdit'
-import Post from './views/board/Post'
-import Board from './views/board/Board'
 
 
 //! 프로젝트 기초 환경 설정
@@ -44,11 +40,7 @@ function App() {
         <Route path='/auth/sign-up/trainer' element={<TrainerSignUp />} />
         <Route path='/auth/login' element={<Login />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
-        <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
-        <Route path='/personal-community-boards/:categoryId/write' element={<BoardWrite />} />
-        <Route path='/personal-community-boards/:categoryId/edit' element={<BoardEdit />} />
-        <Route path="/personal-community-boards/:categoryId/:postId" element={<Post />} />
-        <Route path='/personal-community-boards/:categoryId' element={<Board />} />
+        <Route path='/personal-community-boards' element={<Board />} />
         <Route path='/users/trainers/me/career' element={<TrainerCareer />} />
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
       </Routes>
