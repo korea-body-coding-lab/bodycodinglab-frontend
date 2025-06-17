@@ -1,10 +1,10 @@
-import { TrainerCouponResponseDto } from "@/dtos/coupon/response/trainer.coupon.response.dto";
+import { TrainerCouponResponseDto } from "@/dtos/response/coupon/trainer.coupon.response.dto";
 import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { GET_MEMBER_COUPON_URL} from "../constants";
 import { AxiosError } from "axios";
 import ResponseDto from "@/dtos/response.dto";
+import { CouponStatus } from "@/dtos/response/coupon/copon.enum";
 
-type CouponStatus = "NOT_USED" | "APPLICATION" | "COMPLETE" | "EXPIRED";
 
 
 export const findMemberCouponRequest = async (status: CouponStatus ): Promise<ResponseDto<TrainerCouponResponseDto[]>> => {
