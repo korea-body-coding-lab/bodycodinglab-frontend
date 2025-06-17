@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface User {
-  userId: bigint;
+  userId: number;
   role: string;
   username: string;
   name: string;

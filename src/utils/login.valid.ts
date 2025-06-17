@@ -13,7 +13,6 @@ export const validateLoginForm = (form: FormState): string | null => {
     return "아이디는 필수 항목입니다.";
   }
 
-  
   if (!password) {
     return "비밀번호는 필수 항목 입니다.";
   }
