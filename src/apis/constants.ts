@@ -28,23 +28,23 @@ export const UPDATE_TRAINER_STATUS_URL = (trainerId: number) => `${GET_ALL_TRAIN
 export const REAPPLY_TRAINER_URL = (email: string) => `${AUTH_MODULE_URL}/trainer-reapply?email=${email}`;
 
 //# 트레이너 관련 URL
-const TRAINER_INFO_MODULE_URL = `${TRAINER_MODULE_URL}/me/information`;
+const TRAINER_INFO_MODULE_URL = `${TRAINER_MODULE_URL}/information`;
 const TRAINER_SEARCH_MODULE_URL = `${API_DOMAIN}/api/v1/trainers`
 
 export const POST_TRAINER_INFO = `${TRAINER_INFO_MODULE_URL}`;
-export const UPDATE_TRAINER_INFO = `${TRAINER_MODULE_URL}/update`;
+export const UPDATE_TRAINER_INFO = `${TRAINER_INFO_MODULE_URL}/update`;
 
-export const POST_TRAINER_CAREER = `${TRAINER_MODULE_URL}/career`;
-export const PUT_TRAINER_CAREER = `${TRAINER_MODULE_URL}/career`;
-export const DELETE_TRAINER_CAREER = (careerId: number) => `${TRAINER_MODULE_URL}/career/${careerId}`;
-export const DELETE_ALL_TRAINER_CAREER = `${TRAINER_MODULE_URL}/career/all`;
-export const GET_TRAINER_CAREER_RECENT = `${TRAINER_MODULE_URL}/career/recent`;
+export const POST_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career`;
+export const PUT_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career`;
+export const DELETE_TRAINER_CAREER = (careerId: number) => `${TRAINER_INFO_MODULE_URL}/career/${careerId}`;
+export const DELETE_ALL_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career/all`;
+export const GET_TRAINER_CAREER_RECENT = `${TRAINER_INFO_MODULE_URL}/career/recent`;
 
-export const POST_TRAINER_LICENSE = `${TRAINER_MODULE_URL}/license`;
-export const PUT_TRAINER_LICENSE = `${TRAINER_MODULE_URL}/license`;
-export const DELETE_TRAINER_LICENSE = (licenseId: number) => `${TRAINER_MODULE_URL}/license/${licenseId}`;
-export const DELETE_ALL_TRAINER_LICENSE = `${TRAINER_MODULE_URL}/license/all`;
-export const GET_TRAINER_LICENSE_RECENT = `${TRAINER_MODULE_URL}/license/recent`;
+export const POST_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license`;
+export const PUT_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license`;
+export const DELETE_TRAINER_LICENSE = (licenseId: number) => `${TRAINER_INFO_MODULE_URL}/license/${licenseId}`;
+export const DELETE_ALL_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license/all`;
+export const GET_TRAINER_LICENSE_RECENT = `${TRAINER_INFO_MODULE_URL}/license/recent`;
 
 export const GET_TRAINER_CAREER = `${TRAINER_SEARCH_MODULE_URL}/career`;
 export const GET_TRAINER_LICENSE = `${TRAINER_SEARCH_MODULE_URL}/license`;
@@ -152,10 +152,10 @@ export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;
 
 
 // 회원의 사용하지 않은 혹은 기간이 만료된 쿠폰 조회
-export const GET_MEMBER_COUPON_URL = `${MEMBER_MODULE_URL}/coupons`;
+export const GET_MEMBER_COUPON_URL = (status: string) => `${MEMBER_MODULE_URL}/coupons?status=${status}`;
 
 // 트레이너의 회원이 사용 신청한 혹은 사용 완료된 쿠폰 조회
-export const GET_TRAINER_COUPON_URL = `${TRAINER_MODULE_URL}/coupons`;
+export const GET_TRAINER_COUPON_URL =(status: string) => `${TRAINER_MODULE_URL}/coupons?status=${status}`;
 
 // 회원의 쿠폰 사용 설정
 export const PUT_MEMBER_COUPON_URL = (couponId: number) => `${MEMBER_MODULE_URL}/coupons/${couponId}`

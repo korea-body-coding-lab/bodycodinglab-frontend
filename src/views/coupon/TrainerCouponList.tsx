@@ -5,11 +5,14 @@ import { PutCouponRequestDto } from "@/dtos/coupon/request/put.Coupon.Request.Dt
 import { MemberCouponResponseDto } from "@/dtos/coupon/response/member.coupon.response.dto";
 import React, { useEffect, useState } from "react";
 import * as s from "./TrainerCouponModalStyle";
+import * as t from "./TrainerCouponListStyle"
+import { useCookies } from "react-cookie";
 
 type CouponStatus = "NOT_USED" | "APPLICATION" | "COMPLETE" | "EXPIRED";
 
 function TrainerCouponList() {
   const [status, setStatus] = useState<CouponStatus>("APPLICATION");
+  const [cookies, setCookies] = useCookies(["accessToken"]);
   const [coupons, setCoupons] = useState<MemberCouponResponseDto[]>([]);
   const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
   const [usedDate, setUsedDate] = useState<string>("");
@@ -17,9 +20,19 @@ function TrainerCouponList() {
 
   useEffect(() => {
     const fetchCoupons = async () => {
-      const response = await findTrainerCouponRequest(status);
+
+      const token = cookies.accessToken; 
+    if (!token) {
+      console.warn("Access token 없음. 인증된 사용자만 조회 가능합니다.");
+      return;
+    }
+
+      const response = await findTrainerCouponRequest(status, token);
+      console.log(response)
       if (response && response.data) {
         setCoupons(response.data);
+      } else{
+        console.log("데이터가 안 불러와짐 않음");
       }
     };
 
@@ -42,22 +55,32 @@ function TrainerCouponList() {
   };
 
   const handleConfirm = async () => {
+      const token = cookies.accessToken; 
+      if (!token) {
+      console.warn("Access token 없음. 인증된 사용자만 조회 가능합니다.");
+      return;
+    }
+
     if (!selectedCouponId || !usedDate) return;
     const dto: PutCouponRequestDto = { usedDate };
 
-    const response = await trainerPutCouponRequest(dto, selectedCouponId);
-    if (response) {
+    const response = await trainerPutCouponRequest(dto, selectedCouponId, token);
+    if (response.code === "SU") {
+      alert("쿠폰 사용 완료처리 되었습니다.")
       handleCloseModal();
       setStatus("COMPLETE");
+    } else{
+      alert("쿠폰 사용 완료 처리에 실패했습니다.")
     }
   };
 
   return (
     <div>
-      <div className="trainerCouponContainerBox">
+      <div css={t.trainerCouponContainer}>
+        <br />
         <p>쿠폰함</p>
-
-        <div className="trainercouponFilterTab">
+        <br />
+        <div css={t.couponFilterTab}>
           <button onClick={() => handleStatusChange("APPLICATION")}>
             신청 대기 쿠폰
           </button>
@@ -65,25 +88,32 @@ function TrainerCouponList() {
             사용 완료 쿠폰
           </button>
         </div>
+      <div css={t.trainerCouponContainerBox}>
 
-        <div className="trainerCouponListBox">
+
+        <div css={t.trainerCouponListBox}>
           {coupons.length === 0 ? (
             <p>해당 상태의 쿠폰이 없습니다.</p>
           ) : (
             coupons.map((coupon) => (
-              <div className="trainerCouponBox" key={coupon.couponId}>
-                <div className="trainerCouponSectionLeft">
+              <div css={t.trainerCouponBox} key={coupon.couponId}>
+                <div css={t.trainerCouponSectionLeft}>
                   <h4>쿠폰 번호: {coupon.couponId}</h4>
-                  <button onClick={() => handleOpenModal(coupon.couponId)}>
+                  {
+                    coupon.status === "APPLICATION" ? 
+                    <button onClick={() => handleOpenModal(coupon.couponId)}>
                     사용완료
-                  </button>
+                  </button> : null
+                  }
+                  
+                
                 </div>
-                <div className="trainerCouponSectionMiddle">
+                <div css={t.trainerCouponSectionMiddle}>
                   <h4>유효기간: {coupon.expirationPeriod}</h4>
                   <h4>사용기간: {coupon.usedDate ?? "미사용"}</h4>
-                  <h4>진행 단계: {coupon.status}</h4>
+                  <h4>진행 단계: {coupon.status ==="APPLICATION" ? "신청 대기" : "사용 완료"}</h4>
                 </div>
-                <div className="trainerCouponSectionRight">
+                <div css={t.trainerCouponSectionRight}>
                   <p>이미지</p>
                   <h4>{coupon.memberName}</h4>
                 </div>
@@ -91,6 +121,7 @@ function TrainerCouponList() {
             ))
           )}
         </div>
+      </div>
       </div>
 
       {showModal && (
