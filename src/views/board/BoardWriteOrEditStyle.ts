@@ -58,7 +58,7 @@ export const title = css`
 
 export const contentwrap = css`
     width: 90%;
-    height: 600px;
+    height: 500px;
     border: 3px solid #C5CEE0;
     border-radius: 10px 10px 0 0;
 `
@@ -66,7 +66,7 @@ export const content = css`
     padding-left: 10px;
     padding-right: 10px;
     width: 100%;
-    height: 600px;
+    height: 500px;
     outline: none;
     box-shadow: none;
     background-color: inherit;
@@ -75,8 +75,17 @@ export const content = css`
     &::placeholder {
         color: #3F4756; 
     }
+    resize: none;
     border-style: none;
+` 
+export const file = css`
+    width: 90%;
+    border: 3px solid #C5CEE0;
+    border-top: none;
+    font-size: 16px;
+    color: #437BC0;
 `
+
 
 export const writeBtn = css`
     width: 90%;
