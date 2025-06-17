@@ -2,7 +2,7 @@
 import React, { FormEvent, useState } from 'react'
 import Header from '../header/Header';
 import { buttonFindUsernameStyle, containerStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputFindUsernameWrapperStyle, inputStyle, formLabelFindUsernameStyle, getSectionStyle, getFindedUsernameStyle, linkStyle, linkLoginOrResetPasswordStyle, pLoginOrResetPasswordStyle, linkGroupStyle, labelFindUsernameStyle } from './auth.style';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { validateFindUsernameForm } from '@/utils/find-username.valid';
 import { FindUsernameRequestDto } from '@/dtos/auth/request/find-username.request.dto';
 import { findUsernameRequest } from '@/apis/auth/find-username.api';

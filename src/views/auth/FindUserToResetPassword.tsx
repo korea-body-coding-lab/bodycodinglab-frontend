@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { FormEvent, useState } from "react";
-import { buttonFindUsernameStyle, containerStyle, formLabelFindUsernameStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, getFindedUsernameStyle, getSectionStyle, inputFindUsernameWrapperStyle, inputStyle, pFindUsernameStyle } from "./auth.style";
+import { buttonFindUsernameStyle, containerStyle, formLabelFindUsernameStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, getSectionStyle, inputFindUsernameWrapperStyle, inputStyle, pFindUsernameStyle } from "./auth.style";
 import Header from "../header/Header";
-import { useNavigate } from "react-router-dom";
 import { findUserToResetPasswordRequest } from "@/apis/auth/find-user-to-reset-password.api";
 import { GetUserInformationToResetPasswordRequestDto } from "@/dtos/auth/request/get-user-information-to-reset-password.request.dto";
 import { validateGetUserInformationToResetPasswordForm } from "@/utils/get-user-informaiton-to-reset-password.valid";
@@ -10,7 +9,6 @@ import { sendEmailRequest } from "@/apis/auth/send-email.api";
 import { SendEmailRequestDto } from "@/dtos/auth/request/send-email.request.dto";
 
 function FindUserToResetPassword() {
-  const navigate = useNavigate();
   const [verifyEmail, setVerifyEmail] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [form, setForm] = useState({

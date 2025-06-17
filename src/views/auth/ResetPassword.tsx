@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { FormEvent, useEffect, useState } from 'react'
-import { buttonFindUsernameStyle, buttonResetPasswordStyle, containerStyle, formLabelFindUsernameStyle, formLabelResetPasswordStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputFindUsernameWrapperStyle, inputStyle } from './auth.style';
+import React, { FormEvent, useState } from 'react'
+import { buttonResetPasswordStyle, containerStyle, formLabelResetPasswordStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputFindUsernameWrapperStyle, inputStyle } from './auth.style';
 import Header from '../header/Header';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { validateResetPasswordForm } from '@/utils/reset-password.valid';

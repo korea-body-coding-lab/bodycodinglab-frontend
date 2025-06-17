@@ -15,11 +15,11 @@ const menuMap = {
   ],
   MEMBER: [
     { label: "운동 기록", path: "/member/workout" },
-    { label: "1:1 문의", path: "/member/inquiry" },
+    { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
   TRAINER: [
     { label: "회원 목록", path: "/trainer/members" },
-    { label: "피드백 등록", path: "/trainer/feedback" },
+    { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
 };
 
