@@ -12,7 +12,7 @@ import { SendEmailRequestDto } from "@/dtos/auth/request/send-email.request.dto"
 function FindUserToResetPassword() {
   const navigate = useNavigate();
   const [verifyEmail, setVerifyEmail] = useState('');
-  const [isSendingEmail, setIsSendingEmail] = useState(true);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [form, setForm] = useState({
     username: "",
     name: "",
@@ -26,41 +26,41 @@ function FindUserToResetPassword() {
   };
 
   const handleVarify = async(e: FormEvent) => {
-      e.preventDefault();
-  
-      const { username, name, birthdate, email } = form;
-      const validMessage = validateGetUserInformationToResetPasswordForm(form);
-      if (validMessage) {
-        alert(validMessage);
+    e.preventDefault();
+
+    const { username, name, birthdate, email } = form;
+    const validMessage = validateGetUserInformationToResetPasswordForm(form);
+    if (validMessage) {
+      alert(validMessage);
+      return;
+    }
+
+    try {
+      const dto: GetUserInformationToResetPasswordRequestDto = { username, name, birthdate, email };
+      const response = await findUserToResetPasswordRequest(dto);
+      const { code, message, data } = response;
+
+      if (code !== 'SU' || !data) {
+        alert(message);
         return;
       }
-  
-      try {
-        const dto: GetUserInformationToResetPasswordRequestDto = { username, name, birthdate, email };
-        const response = await findUserToResetPasswordRequest(dto);
-        const { code, message, data } = response;
-  
-        if (code !== 'SU' || !data) {
-          alert(message);
-          return;
-        }
 
-        const { email: verifyEmail } = data;
-        setVerifyEmail(verifyEmail);
-        const sendEmailRequestdto: SendEmailRequestDto = { email: verifyEmail };
-        const sendEmailResponse = await sendEmailRequest(sendEmailRequestdto);
-        const { code: seCode, message: seMessage } = sendEmailResponse;
-  
-        if (seCode !== 'SU') {
-          alert(seMessage);
-          return;
-        }
-        setIsSendingEmail(true);
+      const { email: verifyEmail } = data;
+      setVerifyEmail(verifyEmail);
+      const sendEmailRequestdto: SendEmailRequestDto = { email: verifyEmail };
+      const sendEmailResponse = await sendEmailRequest(sendEmailRequestdto);
+      const { code: seCode, message: seMessage } = sendEmailResponse;
 
-      } catch (e) {
-      console.log('비밀번호 재설정(이메일 인증) 오류: ', e);
-      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      if (seCode !== 'SU') {
+        alert(seMessage);
+        return;
       }
+      setIsSendingEmail(true);
+
+    } catch (e) {
+    console.log('비밀번호 재설정(이메일 인증) 오류: ', e);
+    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    }
   };
 
   return (

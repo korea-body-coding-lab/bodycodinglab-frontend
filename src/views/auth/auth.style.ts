@@ -137,6 +137,17 @@ export const formLabelFindUsernameStyle = css`
   color: #3F4756;
 `;
 
+export const formLabelResetPasswordStyle = css`
+  width: 120px;
+  margin-right: 15px;
+  text-align: right;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
 export const labelFindUsernameStyle = css`
   width: 70px;
   margin-bottom: 30px;
@@ -321,6 +332,24 @@ export const buttonLoginStyle = css`
 
 export const buttonFindUsernameStyle = css`
   width: 440px;
+  padding: 1.3rem;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  background-color: #699CE4;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #437BC0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+`;
+
+export const buttonResetPasswordStyle = css`
+  width: 480px;
   padding: 1.3rem;
   margin-top: 20px;
   font-size: 20px;

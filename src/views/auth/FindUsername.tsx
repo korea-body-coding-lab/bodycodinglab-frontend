@@ -22,32 +22,32 @@ function FindUsername() {
   };
 
   const handleSubmit = async(e: FormEvent) => {
-      e.preventDefault();
-  
-      const { name, birthdate, email } = form;
-      const validMessage = validateFindUsernameForm(form);
-      if (validMessage) {
-        alert(validMessage);
+    e.preventDefault();
+
+    const { name, birthdate, email } = form;
+    const validMessage = validateFindUsernameForm(form);
+    if (validMessage) {
+      alert(validMessage);
+      return;
+    }
+
+    try {
+      const dto: FindUsernameRequestDto = { name, birthdate, email };
+      const response = await findUsernameRequest(dto);
+      const { code, message, data } = response;
+
+      if (code !== 'SU' || !data) {
+        alert(message);
         return;
       }
-  
-      try {
-        const dto: FindUsernameRequestDto = { name, birthdate, email };
-        const response = await findUsernameRequest(dto);
-        const { code, message, data } = response;
-  
-        if (code !== 'SU' || !data) {
-          alert(message);
-          return;
-        }
-  
-        const { username } = data;
-        setFindedUsername(username);
-        setIsFinding(true);
-      } catch (e) {
-      console.log('아이디 찾기 오류: ', e);
-      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-      }
+
+      const { username } = data;
+      setFindedUsername(username);
+      setIsFinding(true);
+    } catch (e) {
+    console.log('아이디 찾기 오류: ', e);
+    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    }
   };
 
   return (
