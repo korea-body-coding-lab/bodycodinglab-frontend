@@ -1,4 +1,4 @@
-import { CouponStatus } from "./copon.enum";
+type CouponStatus = "NOT_USED" | "APPLICATION" | "COMPLETE" | "EXPIRED";
 
 export interface MemberCouponResponseDto{
   couponId : number;
