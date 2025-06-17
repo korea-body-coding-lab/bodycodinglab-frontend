@@ -14,7 +14,7 @@ const menuMap = {
     { label: "1:1 문의", path: "/member/inquiry" },
   ],
   MEMBER: [
-    { label: "운동 기록", path: "/member/workout" },
+    { label: "체험권", path: "/users/members/me/one-day-tickets" },
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
   TRAINER: [
