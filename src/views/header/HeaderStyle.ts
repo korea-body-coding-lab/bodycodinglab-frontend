@@ -2,20 +2,15 @@ import { css } from "@emotion/react";
 
 export const headerStyle = css`
   width: 100%;
-  height: 180px;
+  height: 100px;
+  margin-bottom: 15px;
+  margin-right: 15px;
   background-color: white;
   border-bottom: 3px solid #437bc0;
   box-sizing: border-box;
 `;
 
-export const headerUp = css`
-  width: 100%;
-  height: 100px;
-  margin: auto;
 
-  border-bottom: 3px solid #75a7ef;
-  box-sizing: border-box;
-`;
 
 export const headerUpSet = css`
   width: 60%;
@@ -63,6 +58,9 @@ export const loginStyleBtn = css`
   text-decoration: none;
   border-style: none;
 `;
+export const isLogin=css`
+  width: 200px;
+`
 
 export const linkStyle = css`
   text-decoration: none;
@@ -89,3 +87,33 @@ export const headerNavDivs = css`
   line-height: 80px;
   color: #699ce4;
 `;
+
+
+
+
+export const userName = css`
+    height: 100px;
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+export const click = css`
+    cursor: pointer;
+`
+
+
+export const logoutStyle =css`
+    width: 250px;
+    height: 100%;
+    font-size: 20px;
+    display: flex;
+    justify-content: end;
+`
+export const logoutStyleA = css`
+    margin-right: 10px;
+    text-decoration: none;
+
+
+`

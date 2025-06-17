@@ -1,9 +1,9 @@
 import { LoginRequestDto } from "@/dtos/auth/request/login.request.dto";
 import ResponseDto from "@/dtos/response.dto";
-import LoginResponseDto from "@/dtos/auth/response/login.response.dto";
 import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { LOGIN_URL } from "../constants";
 import { AxiosError } from "axios";
+import { LoginResponseDto } from "@/dtos/auth/response/login.response.dto";
 
 export const loginRequest = async (dto: LoginRequestDto): Promise<ResponseDto<LoginResponseDto>> => {
   try {

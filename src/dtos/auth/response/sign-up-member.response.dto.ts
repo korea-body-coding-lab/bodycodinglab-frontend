@@ -1,4 +1,4 @@
 export interface SignUpMemberResponseDto {
-  id: bigint;
+  id: number;
   username: string;
 }

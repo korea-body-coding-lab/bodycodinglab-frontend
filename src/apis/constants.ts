@@ -23,8 +23,8 @@ export const GET_TRAINER_MY_INFO_URL = `${TRAINER_MODULE_URL}`;
 export const UPDATE_MEMBER_MY_INFO_URL = `${MEMBER_MODULE_URL}/setting`;
 export const UPDATE_TRAINER_MY_INFO_URL = `${TRAINER_MODULE_URL}/setting`;
 export const GET_ALL_TRAINERS_URL = `${ADMIN_MODULE_URL}/trainers`;
-export const GET_TRAINER_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
-export const UPDATE_TRAINER_STATUS_URL = `${GET_TRAINER_URL}`;
+export const GET_TRAINER_DETAIL_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
+export const UPDATE_TRAINER_STATUS_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
 export const REAPPLY_TRAINER_URL = (email: string) => `${AUTH_MODULE_URL}/trainer-reapply?email=${email}`;
 
 //# 트레이너 관련 URL
@@ -157,8 +157,8 @@ export const GET_MEMBER_COUPON_URL = `${MEMBER_MODULE_URL}/coupons`;
 // 트레이너의 회원이 사용 신청한 혹은 사용 완료된 쿠폰 조회
 export const GET_TRAINER_COUPON_URL = `${TRAINER_MODULE_URL}/coupons`;
 
-
-
+// 회원의 쿠폰 사용 설정
+export const PUT_MEMBER_COUPON_URL = (couponId: number) => `${MEMBER_MODULE_URL}/coupons/${couponId}`
 
 // 트레이너의 쿠폰 사용 설정
 export const PUT_TRAINER_COUPON_URL = (couponId: number) => `${TRAINER_MODULE_URL}/coupons/${couponId}`;
