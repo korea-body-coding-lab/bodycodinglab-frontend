@@ -23,7 +23,7 @@ export const updateCareer = async (dto: TrainerCareerRequestDto, accessToken: st
   }
 }
 
-export const deleteCareer = async (careerId: number, accessToken: string): Promise<ResponseDto<null>> => {
+export const deleteCareer = async (careerId: number, accessToken: string): Promise<ResponseDto<TrainerCareerResponseDto>> => {
   try {
     const response = await axiosInstance.delete(DELETE_TRAINER_CAREER(careerId), bearerAuthorization(accessToken));
     return responseSuccessHandler(response);
@@ -35,6 +35,14 @@ export const deleteCareer = async (careerId: number, accessToken: string): Promi
 export const deleteAllCareer = async ( accessToken: string): Promise<ResponseDto<null>> => {
   try {
     const response = await axiosInstance.delete(DELETE_ALL_TRAINER_CAREER, bearerAuthorization(accessToken));
+
+      if (response.status === 204) {
+      return {
+        code: 'SU',
+        message: '전체 삭제 성공',
+        data: null,
+      };
+    };
     return responseSuccessHandler(response);
   } catch (error) {
     return responseErrorHandler(error as AxiosError<ResponseDto>);

@@ -16,6 +16,7 @@ import BoardEdit from './views/board/BoardEdit'
 import Post from './views/board/Post'
 import Board from './views/board/Board'
 
+import TrainerLicense from './views/trainer/TrainerLicense'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -51,6 +52,7 @@ function App() {
         <Route path='/personal-community-boards/:categoryId' element={<Board />} />
         <Route path='/users/trainers/me/career' element={<TrainerCareer />} />
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
+        <Route path='/users/trainers/me/license' element={<TrainerLicense />} />
       </Routes>
     </>
   )
