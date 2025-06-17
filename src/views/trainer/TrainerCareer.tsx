@@ -15,9 +15,11 @@ import { deleteAllCareer, deleteCareer, postCareer, updateCareer } from '@/apis/
 import { TrainerCareerRequestDto } from '@/dtos/trainer/request/trainer-career.request.dto';
 import { TrainerCareerResponseDto } from '@/dtos/trainer/response/trainer-career.response.dto';
 import React, { useState } from 'react'
+import { useCookies } from 'react-cookie';
 
 const TrainerCareer = () => {
-  const accessToken = localStorage.getItem("accessToken") || "";
+  const [cookies, setCookies] = useCookies(["accessToken"]);
+  const accessToken = cookies.accessToken || "";
   const [careers, setCareers] = useState<TrainerCareerResponseDto[]>([]);
   const [form, setForm] = useState<TrainerCareerRequestDto>({
     companyName: '',
@@ -64,6 +66,7 @@ const TrainerCareer = () => {
     const selected = careers[index];
     if (!selected) return;
     setForm({
+      id: selected.id,
       companyName: selected.companyName,
       companyJoin: selected.companyJoin,
       companyQuit: selected.companyQuit,
@@ -75,7 +78,7 @@ const TrainerCareer = () => {
     try {
       const result = await deleteCareer(id, accessToken);
       if (result.code) {
-        setCareers(careers.filter(c => c.trainerId !== id));
+        setCareers(careers.filter(c => c.id !== id));
       }
     } catch (error) {
       console.error("경력 삭제 실패", error);
@@ -130,7 +133,7 @@ const TrainerCareer = () => {
 
     <div>
       {careers.map((career, index) => (
-        <div key={career.trainerId} css={card}>
+        <div key={career.id} css={card}>
           <div css={cardText}>
             <div><strong>회사명:</strong> {career.companyName}</div>
             <div><strong>입사일:</strong> {career.companyJoin}</div>
@@ -138,7 +141,7 @@ const TrainerCareer = () => {
           </div>
           <div css={cardButtons}>
             <button onClick={() => handleEdit(index)} className="edit">수정</button>
-            <button onClick={() => handleDelete(career.trainerId)} className="delete">삭제</button>
+            <button onClick={() => handleDelete(career.id)} className="delete">삭제</button>
           </div>
         </div>
       ))}
