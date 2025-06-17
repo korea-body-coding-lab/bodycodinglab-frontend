@@ -3,14 +3,16 @@ import './App.css'
 
 import SignUp from './views/auth/SignUp'
 import Index from '.'
-import MemberSignUp from './views/auth/MemberSignUp'
-import TrainerSignUp from './views/auth/TrainerSignUp'
+import SignUpMember from './views/auth/SignUpMember'
+import SignUpTrainer from './views/auth/SignUpTrainer'
 import TrainerCareer from './views/trainer/TrainerCareer'
 import Login from './views/auth/Login'
 
 import TrainerCouponList from './views/coupon/TrainerCouponList'
 
 import TrainerList from './views/admin/TrainerList'
+import FindUsername from './views/auth/FindUsername'
+import FindUserToResetPassword from './views/auth/FindUserToResetPassword'
 
 import MemberCouponLIst from './views/coupon/MemberCouponLIst'
 import BoardWrite from './views/board/BoardWrite'
@@ -44,9 +46,11 @@ function App() {
       <Routes>
         <Route path='/' element={<Index />} />
         <Route path='/auth/sign-up' element={<SignUp />} />
-        <Route path='/auth/sign-up/member' element={<MemberSignUp />} />
-        <Route path='/auth/sign-up/trainer' element={<TrainerSignUp />} />
+        <Route path='/auth/sign-up/member' element={<SignUpMember />} />
+        <Route path='/auth/sign-up/trainer' element={<SignUpTrainer />} />
         <Route path='/auth/login' element={<Login />} />
+        <Route path='/auth/finding-id' element={<FindUsername />} />
+        <Route path='/auth/reset-password' element={<FindUserToResetPassword />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
         <Route path='/personal-community-boards/:categoryId/write' element={<BoardWrite />} />

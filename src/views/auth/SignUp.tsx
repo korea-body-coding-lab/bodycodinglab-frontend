@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react'
 import Header from '../header/Header';
-import * as authStyle from '@/views/auth/auth.style';
 import { useNavigate } from 'react-router-dom';
+import { containerStyle, selectionImageStyle, selectionLabelStyle, selectionStyle, selectionWrapperStyle, titleStyle } from './auth.style';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -15,16 +15,16 @@ function SignUp() {
       <div>
         <Header />
       </div>
-      <div css={authStyle.containerStyle}>
-        <h2 css={authStyle.titleStyle}>회원가입</h2>
-        <div css={authStyle.selectionWrapperStyle}>
-          <div css={authStyle.selectionStyle} onClick={onMemberClick}>
-            <div css={authStyle.selectionImageStyle}></div>
-            <label css={authStyle.selectionLabelStyle}>일반 회원</label>
+      <div css={containerStyle}>
+        <h2 css={titleStyle}>회원가입</h2>
+        <div css={selectionWrapperStyle}>
+          <div css={selectionStyle} onClick={onMemberClick}>
+            <div css={selectionImageStyle}></div>
+            <label css={selectionLabelStyle}>일반 회원</label>
           </div>
-          <div css={authStyle.selectionStyle} onClick={onTrainerClick}>
-            <div css={authStyle.selectionImageStyle}></div>
-            <label css={authStyle.selectionLabelStyle}>트레이너</label>
+          <div css={selectionStyle} onClick={onTrainerClick}>
+            <div css={selectionImageStyle}></div>
+            <label css={selectionLabelStyle}>트레이너</label>
           </div>
         </div>
       </div>

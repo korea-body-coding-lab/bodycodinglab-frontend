@@ -83,13 +83,23 @@ export const modalBackdropStyle = css`
 `;
 
 export const modalBoxStyle = css`
-  background: white;
-  padding: 24px;
   width: 700px;
+  max-height: 90vh;
+  padding: 24px;
+  background: white;
   border-radius: 12px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 24px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
 `;
 
 export const topSectionStyle = css`
