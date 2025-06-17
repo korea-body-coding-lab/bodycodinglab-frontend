@@ -38,10 +38,10 @@ function TrainerList() {
         console.error('트레이너 목록 불러오기 실패: ', message);
         alert('트레이너 목록 불러오기 실패');
       }
-  } catch (e) {
-    console.error('트레이너 목록 요청 중 에러 발생:', e);
-    alert('트레이너 목록 요청 중 문제가 발생했습니다.');
-  }
+    } catch (e) {
+      console.error('트레이너 목록 요청 중 에러 발생:', e);
+      alert('트레이너 목록 요청 중 문제가 발생했습니다.');
+    }
   };
 
   const handleDetailClick = async (trainerId: number) => {

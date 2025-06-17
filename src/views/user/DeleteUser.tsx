@@ -26,7 +26,7 @@ function DeleteUser() {
   const setLogout = useAuthStore((state) => state.setLogout);
   const user = useUserStore((state) => state.user);
 
-  if (!accessToken) return <div>로그인이 필요합니다.</div>;
+  if (!accessToken) return;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
