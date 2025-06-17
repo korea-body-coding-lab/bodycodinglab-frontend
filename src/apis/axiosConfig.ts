@@ -1,5 +1,5 @@
+import ResponseDto from "@/dtos/response.dto";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { ResponseDto } from "../dtos/response";
 
 
 export const axiosInstance = axios.create({
