@@ -31,6 +31,7 @@ import UpdateMemberInformation from './views/user/UpdateMemberInformation'
 import GetTrainerInformation from './views/user/GetTrainerInformation'
 import UpdateTrainerInformation from './views/user/UpdateTrainerInformation'
 import Note from './views/note/NotePage'
+import ReapplyTrainer from './views/auth/ReapplyTrainer'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -61,6 +62,7 @@ function App() {
         <Route path='/auth/finding-id' element={<FindUsername />} />
         <Route path='/auth/reset-password' element={<FindUserToResetPassword />} />
         <Route path='/auth/reset-password/setting' element={<ResetPassword />} />
+        <Route path='/auth/trainer-reapply' element={<ReapplyTrainer />} />
         <Route path='/users/members/me' element={<GetMemberInfomation />} />
         <Route path='/users/members/me/setting' element={<UpdateMemberInformation />} />
         <Route path='/users/trainers/me' element={<GetTrainerInformation />} />
