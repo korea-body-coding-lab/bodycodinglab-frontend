@@ -23,6 +23,8 @@ import Board from './views/board/Board'
 
 import TrainerLicense from './views/trainer/TrainerLicense'
 import ResetPassword from './views/auth/ResetPassword'
+import DeleteUser from './views/user/DeleteUser'
+import GetMemberAllTickets from './views/oneDayTicket/GetMemberAllTickets'
 import MemberFormPage from './views/memberForm/MemberFormPage'
 
 //! 프로젝트 기초 환경 설정
@@ -55,6 +57,7 @@ function App() {
         <Route path='/auth/reset-password' element={<FindUserToResetPassword />} />
         <Route path='/auth/reset-password/setting' element={<ResetPassword />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
+        <Route path='/users/account-cancellation/me' element={<DeleteUser />} />
         <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
         <Route path='/personal-community-boards/:categoryId/write' element={<BoardWrite />} />
         <Route path='/personal-community-boards/:categoryId/edit' element={<BoardEdit />} />
@@ -65,6 +68,7 @@ function App() {
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
         <Route path='/users/members/me/forms' element={<MemberFormPage/>}/>
         <Route path='/users/trainers/me/license' element={<TrainerLicense />} />
+        <Route path='/users/members/me/one-day-tickets' element={<GetMemberAllTickets />} />
       </Routes>
     </>
   )
