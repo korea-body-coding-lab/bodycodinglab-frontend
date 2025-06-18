@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import LogoutButton from '@/components/LogoutButton';
 import { useUserStore } from '@/stores/user.store';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { linkStyle, menuListStyle, menuStyle, profileStyle, sidebarStyle } from './sidebar.style';
 import { Link } from 'react-router-dom';
 
@@ -14,11 +14,12 @@ const menuMap = {
     { label: "1:1 문의", path: "/member/inquiry" },
   ],
   MEMBER: [
+    { label: "개인 정보 조회 / 수정", path: "/users/members/me" },
     { label: "체험권", path: "/users/members/me/one-day-tickets" },
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
   TRAINER: [
-    { label: "회원 목록", path: "/trainer/members" },
+    { label: "개인 정보 조회 / 수정", path: "/users/trainers/me" },
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
 };
@@ -27,7 +28,7 @@ function MyPageSidebar() {
   const [selectedMenu, setSelectedMenu] = useState("")
   const user = useUserStore((state) => state.user);
   const userRole = user?.role as UserRole | undefined;
-  const menus = menuMap[userRole || "ADMIN"];
+  const menus = menuMap[userRole || "MEMBER"];
   
 
   return (

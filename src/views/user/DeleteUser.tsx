@@ -7,7 +7,7 @@ import { DeleteUserRequestDto } from '@/dtos/user/request/delete-user.request.dt
 import { useCookies } from 'react-cookie';
 import { DeleteUserRequest } from '@/apis/user/delete-user.api';
 import MyPageSidebar from '../sidebar/MyPageSidebar';
-import { buttonDeleteUserStyle, formDeleteUserStyle, formLabelDeleteUserStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputDeleteUserWrapperStyle, inputStyle, layoutStyle, mainStyle, mainTitleStyle, pDeleteUserStyle } from './user.style';
+import { buttonDeleteUserStyle, formDeleteUserStyle, formLabelDeleteUserStyle, formSectionStyle, formSpanStyle, formStyle, formTitleStyle, formWrapperStyle, inputDeleteUsernameWrapperStyle, inputDeleteUserWrapperStyle, inputStyle, layoutStyle, mainStyle, mainTitleStyle, pDeleteUserStyle } from './user.style';
 import { getMenuTitleByPath } from '@/utils/menu.util';
 import { useAuthStore } from '@/stores/auth.store';
 
@@ -65,8 +65,8 @@ function DeleteUser() {
       setLogout();
       navigate('/');
     } catch (e) {
-    console.log('회원 탈퇴 오류: ', e);
-    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      console.log('회원 탈퇴 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
   };
 
@@ -84,8 +84,8 @@ function DeleteUser() {
               <h2 css={formTitleStyle}>회원 탈퇴</h2>
               <div css={formStyle}>
                 <label css={formLabelDeleteUserStyle}>아이디</label>
-                <div css={inputDeleteUserWrapperStyle}>
-                  <label css={formLabelDeleteUserStyle}>{user?.username}</label>
+                <div css={inputDeleteUsernameWrapperStyle}>
+                  <label css={formSpanStyle}>{user?.username}</label>
                 </div>
               </div>
               <div css={formStyle}>
