@@ -42,12 +42,13 @@ export const GET_TRAINER_CAREER_RECENT = `${TRAINER_INFO_MODULE_URL}/career/rece
 
 export const POST_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license`;
 export const PUT_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license`;
+export const GET_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license`;
 export const DELETE_TRAINER_LICENSE = (licenseId: number) => `${TRAINER_INFO_MODULE_URL}/license/${licenseId}`;
 export const DELETE_ALL_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license/all`;
 export const GET_TRAINER_LICENSE_RECENT = `${TRAINER_INFO_MODULE_URL}/license/recent`;
 
 export const GET_TRAINER_CAREER = `${TRAINER_SEARCH_MODULE_URL}/career`;
-export const GET_TRAINER_LICENSE = `${TRAINER_SEARCH_MODULE_URL}/license`;
+export const SEARCH_TRAINER_LICENSE = `${TRAINER_SEARCH_MODULE_URL}/license`;
 export const GET_ALL_TRAINER_INFO = `${TRAINER_SEARCH_MODULE_URL}/trainer-list`;
 export const GET_TRAINER_INFO = (trainerId: number) => `${TRAINER_SEARCH_MODULE_URL}/${trainerId}`;
 export const GET_TRAINER_BY_NAME = `${TRAINER_SEARCH_MODULE_URL}/search-name`;
@@ -118,13 +119,15 @@ export const PUT_CANCEL_ONE_DAY_TICKET_URL = `${GET_TRAINER_ALL_TICKETS_URL}/can
 
 
 
-//# 매칭 관련 URL
+//# 매칭 대기 리스트 관련 URL
 export const POST_MEMBER_MATCH_WAITING_LIST_URL = (trainerId: number) => `${USER_MODULE_URL}/members/trainers/${trainerId}/match-waiting-lists`;
 export const GET_TRAINER_MATCH_WAITING_LIST_URL = `${TRAINER_MODULE_URL}/match-waiting-lists`;
-export const GET_MEMBER_MATCH_WAITNG_LIST_URL = `${MEMBER_MODULE_URL}/match-waiting-lists`;
-export const PUT_TRAINER_MATCH_WAITING_LIST_APPROVE_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}`;
-export const DELETE_TRAINER_MATCH_WAITING_LIST_REJECT_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}`;
-export const DELETE_MEMBER_MATCH_WAITIMG_LIST_CENCEL_URL = `${GET_MEMBER_MATCH_WAITNG_LIST_URL}/cancels`
+export const GET_MEMBER_MATCH_WAITING_LIST_URL = `${MEMBER_MODULE_URL}/match-waiting-lists`;
+export const PUT_TRAINER_MATCH_WAITING_LIST_APPROVE_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/approves`;
+export const PUT_TRAINER_MATCH_WAITING_LIST_REJECT_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/rejects`;
+export const PUT_MEMBER_MATCH_WAITIMG_LIST_CENCEL_URL = `${GET_MEMBER_MATCH_WAITING_LIST_URL}/cancels`
+
+//# 매칭 관련 URL 
 export const GET_MEMBER_MATCH_URL = `${MEMBER_MODULE_URL}/match-success-lists`;
 export const GET_TRAINER_MATCH_URL = `${TRAINER_MODULE_URL}/match-success-lists`;
 export const GET_TRAINER_MATCH_FIND_MEMBER_URL = (matchId: number) => `${GET_TRAINER_MATCH_URL}/${matchId}`;
@@ -144,7 +147,7 @@ export const GET_FIND_ID_FORM = `${MEMBER_MODULE_URL}/forms`;
 
 
 // 구독 기록 생성
-export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_MATCH_WAITNG_LIST_URL}/${matchWaitingListId}/subscriptions`;
+export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/subscriptions`;
 
 // 구독 기록 조회
 export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;
