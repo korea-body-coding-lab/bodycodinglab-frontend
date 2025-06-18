@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React, { FormEvent, useState } from 'react'
 import Header from '../header/Header';
-import * as authStyle from '@/views/auth/auth.style';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '@/stores/user.store';
 import { validateLoginForm } from '@/utils/login.valid';
 import { LoginRequestDto } from '@/dtos/auth/request/login.request.dto';
 import { loginRequest } from '@/apis/auth/login.api';
 import { useAuthStore } from '@/stores/auth.store';
+import { buttonLoginStyle, containerStyle, dividerStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputLoginWrapperStyle, inputStyle, linkEtcFunctionStyle, linkStyle } from './auth.style';
 
 function Login() {
   const navigate = useNavigate();
@@ -37,42 +37,47 @@ function Login() {
       return;
     }
 
-    const requestBody: LoginRequestDto = { username: formUsername, password };
-    const response = await loginRequest(requestBody);
-    const { code, message, data } = response;
-
-    if (code !== 'SU' || !data) {
-      alert(message);
-      return;
+    try {
+      const dto: LoginRequestDto = { username: formUsername, password };
+      const response = await loginRequest(dto);
+      const { code, message, data } = response;
+  
+      if (code !== 'SU' || !data) {
+        alert(message);
+        return;
+      }
+  
+      const { id, role, username, name, token, exprTime } = data;
+  
+      if (!exprTime || isNaN(exprTime)) {
+        console.error('Invalid exprTime:', exprTime);
+        return;
+      }
+  
+      const expireDate = new Date();
+      expireDate.setMilliseconds(expireDate.getMilliseconds() + exprTime);
+  
+      console.log('exprTime:', exprTime);
+  
+      setCookies("accessToken", token, {
+        path: '/',
+        expires: expireDate,
+        sameSite: 'strict',
+        secure: true,
+      });
+  
+      setLogin(token, exprTime);
+      setUser({
+        userId: id,
+        role,
+        username,
+        name,
+      });
+      navigate('/');
+    } catch (e) {
+      console.log('로그인 요청 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
-
-    const { id, role, username, name, token, exprTime } = data;
-
-    if (!exprTime || isNaN(exprTime)) {
-      console.error('Invalid exprTime:', exprTime);
-      return;
-    }
-
-    const expireDate = new Date();
-    expireDate.setMilliseconds(expireDate.getMilliseconds() + exprTime);
-
-    console.log('exprTime:', exprTime);
-
-    setCookies("accessToken", token, {
-      path: '/',
-      expires: expireDate,
-      sameSite: 'strict',
-      secure: true,
-    });
-
-    setLogin(token, exprTime);
-    setUser({
-      userId: id,
-      role,
-      username,
-      name,
-    });
-    navigate('/');
   };
 
   return (
@@ -80,42 +85,48 @@ function Login() {
       <div>
         <Header />
       </div>
-      <div css={authStyle.containerStyle}>
-        <form css={authStyle.formWrapperStyle}>
-          <div css={authStyle.formSectionStyle}>
-            <h2 css={authStyle.formTitleStyle}>로그인</h2>
-            <div css={authStyle.formStyle}>
-              <div css={authStyle.inputLoginWrapperStyle}>
+      <div css={containerStyle}>
+        <form css={formWrapperStyle}>
+          <div css={formSectionStyle}>
+            <h2 css={formTitleStyle}>로그인</h2>
+            <div css={formStyle}>
+              <div css={inputLoginWrapperStyle}>
                 <input
                   type="text"
                   name='username'
                   value={form.username}
                   placeholder='아이디'
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
-            <div css={authStyle.formStyle}>
-              <div css={authStyle.inputLoginWrapperStyle}>
+            <div css={formStyle}>
+              <div css={inputLoginWrapperStyle}>
                 <input
                   type="password"
                   name='password'
                   value={form.password}
                   placeholder='비밀번호'
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
             <button
               type='submit'
               onClick={handleLogin}
-              css={authStyle.buttonLoginStyle}>
+              css={buttonLoginStyle}>
               로그인
             </button>
+            <div css={linkEtcFunctionStyle}>
+              <Link to="/auth/finding-id" css={linkStyle}>아이디 찾기</Link>
+              <span css={dividerStyle}>|</span>
+              <Link to="/auth/reset-password" css={linkStyle}>비밀번호 재설정</Link>
+              <span css={dividerStyle}>|</span>
+              <Link to="/auth/sign-up" css={linkStyle}>회원가입</Link>
+            </div>
           </div>
-          
         </form>
       </div>
     </>

@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import Header from '../header/Header';
-import * as authStyle from '@/views/auth/auth.style';
 import { useNavigate } from 'react-router-dom';
 import { SignUpTrainerRequestDto } from '@/dtos/auth/request/sign-up-trainer.request.dto';
 import { signUpTrainerRequest } from '@/apis/auth/sign-up.api';
 import { validateTrainerForm } from '@/utils/sign-up.valid';
+import { buttonSignUpStyle, containerStyle, formLabelStyle, formSectionStyle, formSignUpStyle, formSignUpTitleStyle, formWrapperStyle, genderButtonStyle, genderSectionStyle, genderSelectionStyle, hiddenRadioStyle, inputButtonStyle, inputSignUpWrapperStyle, inputStyle } from './auth.style';
 
-function TrainerSignUp() {
+function SignUpTrainer() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
@@ -94,87 +94,88 @@ function TrainerSignUp() {
 
       alert('회원가입이 완료되었습니다.');
       navigate('/auth/login');
-    } catch(error) {
-      alert('서버 오류로 인해 가입에 실패하였습니다.');
+    } catch(e) {
+      console.log('회원가입 요청 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
     
-  }
+  };
 
   return (
     <>
       <div>
         <Header />
       </div>
-      <div css={authStyle.containerStyle}>
-        <form onSubmit={handleSubmit} css={authStyle.formWrapperStyle}>
-          <div css={authStyle.formSectionStyle}>
-            <h2 css={authStyle.formSignUpTitleStyle}>기본 정보</h2>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>아이디</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+      <div css={containerStyle}>
+        <form onSubmit={handleSubmit} css={formWrapperStyle}>
+          <div css={formSectionStyle}>
+            <h2 css={formSignUpTitleStyle}>기본 정보</h2>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>아이디</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="text"
                   name='username'
                   value={form.username}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>비밀번호</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>비밀번호</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="password"
                   name='password'
                   value={form.password}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>비밀번호 확인</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>비밀번호 확인</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="password"
                   name='confirmPassword'
                   value={form.confirmPassword}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
-                <button type="button" onClick={handleConfirmPassword} css={authStyle.inputButtonStyle}>
+                <button type="button" onClick={handleConfirmPassword} css={inputButtonStyle}>
                   확인
                 </button>
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>성명</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>성명</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="text"
                   name='name'
                   value={form.name}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>생년월일</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>생년월일</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="date"
                   name='birthdate'
                   value={form.birthdate}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>성별</label>
-              <div css={authStyle.genderSectionStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>성별</label>
+              <div css={genderSectionStyle}>
                 <input
                   type="radio"
                   id='man'
@@ -182,11 +183,11 @@ function TrainerSignUp() {
                   value="man"
                   checked={form.gender === "man"}
                   onChange={handleInputChange}
-                  css={authStyle.hiddenRadioStyle}
+                  css={hiddenRadioStyle}
                 />
                 <label
                   htmlFor="man"
-                  css={[authStyle.genderButtonStyle, form.gender === "man" && authStyle.genderSelectionStyle]}
+                  css={[genderButtonStyle, form.gender === "man" && genderSelectionStyle]}
                 >
                   남성
                 </label>
@@ -198,86 +199,86 @@ function TrainerSignUp() {
                   value="woman"
                   checked={form.gender === "woman"}
                   onChange={handleInputChange}
-                  css={authStyle.hiddenRadioStyle}
+                  css={hiddenRadioStyle}
                 />
                 <label
                   htmlFor="woman"
-                  css={[authStyle.genderButtonStyle, form.gender === "woman" && authStyle.genderSelectionStyle]}
+                  css={[genderButtonStyle, form.gender === "woman" && genderSelectionStyle]}
                 >
                   여성
                 </label>
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>휴대폰번호</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>휴대폰번호</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="text"
                   name='phone'
                   value={form.phone}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>이메일</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>이메일</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="email"
                   name='email'
                   value={form.email}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>
           </div>
-          <div css={authStyle.formSectionStyle}>
-            <h2 css={authStyle.formSignUpTitleStyle}>추가 정보</h2>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>근무지 주소</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+          <div css={formSectionStyle}>
+            <h2 css={formSignUpTitleStyle}>추가 정보</h2>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>근무지 주소</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="text"
                   name='jobAddress'
                   value={form.jobAddress}
                   onChange={handleInputChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
-                <button css={authStyle.inputButtonStyle}>찾아보기</button>
+                <button css={inputButtonStyle}>찾아보기</button>
               </div>
             </div>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>
                 첨부 파일 <br />
                 (계약서 등)
               </label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="file"
                   name='attachmentFile'
                   onChange={handleAttachmentChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>       
           </div>
-          <div css={authStyle.formSectionStyle}>
-            <h2 css={authStyle.formSignUpTitleStyle}>선택 정보</h2>
-            <div css={authStyle.formSignUpStyle}>
-              <label css={authStyle.formLabelStyle}>프로필 사진</label>
-              <div css={authStyle.inputSignUpWrapperStyle}>
+          <div css={formSectionStyle}>
+            <h2 css={formSignUpTitleStyle}>선택 정보</h2>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>프로필 사진</label>
+              <div css={inputSignUpWrapperStyle}>
                 <input
                   type="file"
                   name='profile'
                   onChange={handleProfileChange}
-                  css={authStyle.inputStyle}
+                  css={inputStyle}
                 />
               </div>
             </div>       
           </div>
-          <button type='submit' css={authStyle.buttonSignUpStyle}>
+          <button type='submit' css={buttonSignUpStyle}>
             가입하기
           </button>
         </form>
@@ -286,4 +287,4 @@ function TrainerSignUp() {
   )
 }
 
-export default TrainerSignUp;
+export default SignUpTrainer;

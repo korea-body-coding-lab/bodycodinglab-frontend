@@ -69,6 +69,16 @@ export const formSectionStyle = css`
   background-color: #ffffff;
 `;
 
+export const getSectionStyle = css`
+  width: auto;
+  height: auto;
+  gap: 20px;
+  padding: 30px;
+  border: 1px solid #C5CEE0;
+  border-radius: 12px;
+  background-color: #ffffff;
+`;
+
 export const formWrapperStyle = css`
   display: flex;
   flex-direction: column;
@@ -116,6 +126,67 @@ export const formLabelStyle = css`
   color: #3F4756;
 `;
 
+export const formLabelFindUsernameStyle = css`
+  width: 70px;
+  margin-right: 15px;
+  text-align: right;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const formLabelResetPasswordStyle = css`
+  width: 120px;
+  margin-right: 15px;
+  text-align: right;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const labelFindUsernameStyle = css`
+  width: 70px;
+  margin-bottom: 30px;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const pFindUsernameStyle = css`
+  margin: 15px;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const labelResetPasswordStyle = css`
+  width: 70px;
+  margin-bottom: 30px;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const getFindedUsernameStyle = css`
+  width: 70px;
+  margin: auto 15px;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 25px;
+  font-weight: bold;
+  color: #437BC0;
+`;
+
 export const inputSignUpWrapperStyle = css`
   width: 540px;
   height: 60px;
@@ -134,6 +205,22 @@ export const inputSignUpWrapperStyle = css`
 `;
 
 export const inputLoginWrapperStyle = css`
+  width: 350px;
+  height: 60px;
+  padding: 0 14px;
+  border: 1px solid #8F98A9;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transition: border 0.3s;
+  &:focus-within {
+    outline: none;
+    border: 3px solid #707D97;
+  }
+`;
+
+export const inputFindUsernameWrapperStyle = css`
   width: 350px;
   height: 60px;
   padding: 0 14px;
@@ -229,7 +316,42 @@ export const buttonSignUpStyle = css`
 export const buttonLoginStyle = css`
   width: 350px;
   padding: 1.3rem;
-  margin-bottom: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  background-color: #699CE4;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #437BC0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+`;
+
+export const buttonFindUsernameStyle = css`
+  width: 440px;
+  padding: 1.3rem;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  background-color: #699CE4;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #437BC0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+`;
+
+export const buttonResetPasswordStyle = css`
+  width: 480px;
+  padding: 1.3rem;
+  margin-top: 20px;
   font-size: 20px;
   font-weight: bold;
   border: none;
@@ -249,4 +371,44 @@ export const errorMessageStyle = css`
   text-align: center;
   margin-top: 10px;
   font-size: 14px;
+`;
+
+export const linkEtcFunctionStyle = css `
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const linkLoginOrResetPasswordStyle = css `
+  width: 100%;
+  margin-top: 30px;
+`;
+
+export const pLoginOrResetPasswordStyle = css `
+  width: 70px;
+  word-break: keep-all;
+  white-space: normal;
+  font-size: 15px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const linkStyle = css`
+  text-decoration: none;
+  color: #3f4756;
+  margin: 0 4px;
+`;
+
+export const dividerStyle = css`
+  margin: 0 6px;
+  color: #ccc;
+`;
+
+export const linkGroupStyle = css`
+  margin-top: 10px;
+  
+  &:first-of-type {
+    margin-top: 0;
+  }
 `;

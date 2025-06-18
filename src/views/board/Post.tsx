@@ -1,28 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react'
-import * as s from "./postStyle"
+import * as s from "./PostStyle"
+import { PostDetailData } from '@/dtos/board/request/get-post.dto';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../header/Header';
 import BoardCategory from './BoardCategory';
-type PostData = {
-    id: number;
-    writerId: string | null;
-    title: string;
-    content: string;
-    createdAt: string;
-    postLike?: number; 
-    commentCount?: number;
-    viewCount?: number;
-  }
+
 function Post() {
     const {postId, categoryId} = useParams<{ postId: string; categoryId: string }>();
-    console.log("params:", categoryId, postId);
     const [isProfileBoxOpen, setProfileBoxOpen] = useState(false);
     const closeModal = () => setProfileBoxOpen(false);
     const [modalProfilePosition, setProfileModalPosition] = useState({ x: 0, y: 0 });
     const navigate = useNavigate();
     const [isDeleteBoxOpen, setDeleteBoxOpen] = useState(false);
-    const [post, setPost] = useState<PostData | null>(null);
+    const [post, setPost] = useState<PostDetailData | null>(null);
     const [loading, setLoading] = useState(true);
     const handleDelete = async () => {
         try {
@@ -38,7 +29,6 @@ function Post() {
             navigate(-1); // 뒤로가기 혹은 목록 페이지 이동
           } catch (error) {
             alert("삭제 중 오류가 발생했습니다.");
-            console.error(error);
           }
     };
     const handleProfileClick = (e: React.MouseEvent) => {
@@ -53,12 +43,12 @@ function Post() {
                 if (!response.ok) throw new Error("데이터 요청 실패");
 
                 const data = await response.json();
-                console.log("백엔드 응답:", data);
+            
                 setPost(data.data);
             }catch(error){
-                console.error("에러 발생!", error);
+   
                 alert("게시글을 불러오는데 실패했습니다.")
-                console.log("1");
+     
             }finally{
                 setLoading(false);
             }
@@ -68,7 +58,7 @@ function Post() {
 
     if (loading) return <div>불러오는 중...</div>;
     if (!post) return <div>게시글이 존재하지 않습니다.</div>;
-    const userName = "홍길동";
+    const userName = "홍길동";// 로그인한 유저 이름/id
   return (
     <div>
         <Header/>

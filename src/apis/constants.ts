@@ -107,26 +107,27 @@ export const DELETE_NOTE_URL = (noteId: number | string) => `${NOTE_URL}/${noteI
 const MEMBER_ONE_DAY_TICKET_MODULE_URL = `${MEMBER_MODULE_URL}/one-day-tickets`;
 const TRAINER_ONE_DAY_TICKET_MODULE_URL = `${TRAINER_MODULE_URL}/one-day-tickets`;
 export const ISSUE_TRAINER_ONE_DAY_TICKET_URL = `${TRAINER_ONE_DAY_TICKET_MODULE_URL}/issued`;
-export const GET_MEMBER_ALL_TICKETS_ONE_DAY_TICKET_URL = `${MEMBER_ONE_DAY_TICKET_MODULE_URL}`;
-export const GET_TRAINER_ALL_TICKETS_ONE_DAY_TICKET_URL = `${TRAINER_ONE_DAY_TICKET_MODULE_URL}`;
-export const GET_MEMBER_TICKETS_BY_STATUS_ONE_DAY_TICKET_URL = (status: string) => `$GET_MEMBER_ALL_TICKETS_ONE_DAY_TICKET_URL}/status?status=${status}`;
-export const GET_TRAINER_TICKETS_BY_STATUS_ONE_DAY_TICKET_URL = (status: string) => `${GET_TRAINER_ALL_TICKETS_ONE_DAY_TICKET_URL}/?status=${status}`;
-// ----- 체험권 사용, 승인, 거부 설정 ----- //
-export const PUT_USE_ONEDAY_TICKET_URL = `${GET_TRAINER_ALL_TICKETS_ONE_DAY_TICKET_URL}/used-date`;
-export const PUT_APPROVE_ONEDAY_TICKET_URL = `${GET_TRAINER_ALL_TICKETS_ONE_DAY_TICKET_URL}/approval-date`;
+export const GET_MEMBER_ALL_TICKETS_URL = `${MEMBER_ONE_DAY_TICKET_MODULE_URL}`;
+export const GET_TRAINER_ALL_TICKETS_URL = `${TRAINER_ONE_DAY_TICKET_MODULE_URL}`;
+export const GET_MEMBER_TICKETS_BY_STATUS_TICKET_URL = (status: string) => `$GET_MEMBER_ALL_TICKETS_ONE_DAY_TICKET_URL}/status?status=${status}`;
+export const GET_TRAINER_TICKETS_BY_STATUS_TICKET_URL = (status: string) => `${GET_TRAINER_ALL_TICKETS_URL}/?status=${status}`;
+export const PUT_USE_ONE_DAY_TICKET_URL = `${GET_TRAINER_ALL_TICKETS_URL}/used-date`;
+export const PUT_CANCEL_ONE_DAY_TICKET_URL = `${GET_TRAINER_ALL_TICKETS_URL}/canceled-date`;
 
 
 
 
 
 
-//# 매칭 관련 URL
+//# 매칭 대기 리스트 관련 URL
 export const POST_MEMBER_MATCH_WAITING_LIST_URL = (trainerId: number) => `${USER_MODULE_URL}/members/trainers/${trainerId}/match-waiting-lists`;
 export const GET_TRAINER_MATCH_WAITING_LIST_URL = `${TRAINER_MODULE_URL}/match-waiting-lists`;
-export const GET_MEMBER_MATCH_WAITNG_LIST_URL = `${MEMBER_MODULE_URL}/match-waiting-lists`;
-export const PUT_TRAINER_MATCH_WAITING_LIST_APPROVE_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}`;
-export const DELETE_TRAINER_MATCH_WAITING_LIST_REJECT_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}`;
-export const DELETE_MEMBER_MATCH_WAITIMG_LIST_CENCEL_URL = `${GET_MEMBER_MATCH_WAITNG_LIST_URL}/cancels`
+export const GET_MEMBER_MATCH_WAITING_LIST_URL = `${MEMBER_MODULE_URL}/match-waiting-lists`;
+export const PUT_TRAINER_MATCH_WAITING_LIST_APPROVE_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/approves`;
+export const PUT_TRAINER_MATCH_WAITING_LIST_REJECT_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/rejects`;
+export const PUT_MEMBER_MATCH_WAITIMG_LIST_CENCEL_URL = `${GET_MEMBER_MATCH_WAITING_LIST_URL}/cancels`
+
+//# 매칭 관련 URL 
 export const GET_MEMBER_MATCH_URL = `${MEMBER_MODULE_URL}/match-success-lists`;
 export const GET_TRAINER_MATCH_URL = `${TRAINER_MODULE_URL}/match-success-lists`;
 export const GET_TRAINER_MATCH_FIND_MEMBER_URL = (matchId: number) => `${GET_TRAINER_MATCH_URL}/${matchId}`;
@@ -137,8 +138,8 @@ export const DELETE_MEBER_MATCH_URL = (matchId: number) => `${GET_MEMBER_MATCH_U
 // 회원 폼 생성
 export const POST_FORM = `${MEMBER_MODULE_URL}/forms`;
 
-// 트레이너의 회원 폼 단건 조회
-export const GET_FIND_ID_FORM = (formId: number) => `${TRAINER_MODULE_URL}/match-waiting-list/${formId}`;
+// 회원의의 회원 폼 단건 조회
+export const GET_FIND_ID_FORM = `${MEMBER_MODULE_URL}/forms`;
 
 
 
@@ -146,17 +147,17 @@ export const GET_FIND_ID_FORM = (formId: number) => `${TRAINER_MODULE_URL}/match
 
 
 // 구독 기록 생성
-export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_MATCH_WAITNG_LIST_URL}/${matchWaitingListId}/subscriptions`;
+export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/subscriptions`;
 
 // 구독 기록 조회
 export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;
 
 
 // 회원의 사용하지 않은 혹은 기간이 만료된 쿠폰 조회
-export const GET_MEMBER_COUPON_URL = `${MEMBER_MODULE_URL}/coupons`;
+export const GET_MEMBER_COUPON_URL = (status: string) => `${MEMBER_MODULE_URL}/coupons?status=${status}`;
 
 // 트레이너의 회원이 사용 신청한 혹은 사용 완료된 쿠폰 조회
-export const GET_TRAINER_COUPON_URL = `${TRAINER_MODULE_URL}/coupons`;
+export const GET_TRAINER_COUPON_URL =(status: string) => `${TRAINER_MODULE_URL}/coupons?status=${status}`;
 
 // 회원의 쿠폰 사용 설정
 export const PUT_MEMBER_COUPON_URL = (couponId: number) => `${MEMBER_MODULE_URL}/coupons/${couponId}`
