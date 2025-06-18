@@ -16,13 +16,13 @@ export interface memberFormRequestDto {
   bodyForm : BodyForm; 
   goal: Goal;
   bmi: Bmi;
-  improved_part :Improved_part;
+  improvedPart :Improved_part;
   preferredDiet : PreferredDiet;
   sugarIntake : SugarIntake;
   waterIntake : WaterIntake
-  height : number;
-  weight : number;
-  weightGoal: number;
+  height : number | string;
+  weight : number | string;
+  weightGoal: number | string;
   physicalLevel: number;
   exercisingProblem: ExercisingProblem;
   pushupLevel : PushupLevel

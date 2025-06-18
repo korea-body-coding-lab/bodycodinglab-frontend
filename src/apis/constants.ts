@@ -136,8 +136,8 @@ export const DELETE_MEBER_MATCH_URL = (matchId: number) => `${GET_MEMBER_MATCH_U
 // 회원 폼 생성
 export const POST_FORM = `${MEMBER_MODULE_URL}/forms`;
 
-// 트레이너의 회원 폼 단건 조회
-export const GET_FIND_ID_FORM = (formId: number) => `${TRAINER_MODULE_URL}/match-waiting-list/${formId}`;
+// 회원의의 회원 폼 단건 조회
+export const GET_FIND_ID_FORM = `${MEMBER_MODULE_URL}/forms`;
 
 
 
