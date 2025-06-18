@@ -4,5 +4,4 @@ export interface TrainerLicenseResponseDto {
   licenseType: string;
   licenseName: string;
   file?: File
-  fileName?: string;
 }

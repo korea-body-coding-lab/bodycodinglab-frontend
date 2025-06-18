@@ -83,7 +83,7 @@ export const headerNav = css`
 `;
 
 export const headerNavDivs = css`
-  font-size: 32px;
+  font-size: 2vw;
   line-height: 80px;
   color: #699ce4;
 `;

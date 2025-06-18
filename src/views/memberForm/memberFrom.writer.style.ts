@@ -7,7 +7,7 @@ export const fromCotinaerBox=css`
 
 
 export const formContainer = css`
-  max-width: 1000px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 40px 20px;
   background-color: #f5fbff;
