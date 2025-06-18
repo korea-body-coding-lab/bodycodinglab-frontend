@@ -11,6 +11,23 @@ type PullupLevel = "LESS_5" | "BETWEEN_5TO10" | "MORE_10";
 type ExerciseFrequency = "NEVER"| "WEEK_1TO2" | "WEEK_3" | "MORE_WEEK_3";
 type InvestableTime = "MIN30" | "MIN40" | "HOUR1" | "FREEDOM";
 
-// export interface memberFormResponseDto {
-
-// }
+export interface memberFormResponseDto { 
+  memberId: number;
+  memberName: string;
+  bodyForm: BodyForm;
+  goal: Goal;
+  bmi: Bmi;
+  improvedPart: Improved_part;
+  preferredDiet: PreferredDiet;
+  sugarIntake: SugarIntake;
+  waterIntake: WaterIntake;
+  height: number;
+  weight: number;
+  weightGoal: number;
+  physicalLevel: number;
+  exercisingProblem: ExercisingProblem;
+  pushupLevel: PushupLevel;
+  pullupLevel: PullupLevel;
+  exerciseFrequency: ExerciseFrequency
+  investableTime: InvestableTime
+}
