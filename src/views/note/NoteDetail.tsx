@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import * as s from "./NoteListStyle";
 import { NoteType } from '@/dtos/note/request/get-note.dto';
-import { getAccessTokenFromCookie } from '@/get-token';
+import { getAccessTokenFromCookie } from '@/apis/get-token';
 
 function NoteDetail() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function NoteDetail() {
 
     const fetchNote = async () => {
       try {
-        onst token = getAccessTokenFromCookie();
+        const token = getAccessTokenFromCookie();
         if (!token) throw new Error("토큰이 없습니다.");
 
         const res = await fetch(`/api/v1/notes/${noteId}`, {

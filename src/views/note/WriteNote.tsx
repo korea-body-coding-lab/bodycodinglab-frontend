@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as s from "./NoteListStyle";
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { getAccessTokenFromCookie } from '@/get-token';
+import { getAccessTokenFromCookie } from '@/apis/get-token';
 
 function WriteNote() {
   const [searchParams] = useSearchParams();
@@ -31,7 +31,7 @@ function WriteNote() {
     }
 
     try {
-      onst token = getAccessTokenFromCookie();
+      const token = getAccessTokenFromCookie();
       if (!token) throw new Error("토큰이 없습니다.");
 
       const response = await fetch('/api/v1/notes', {
