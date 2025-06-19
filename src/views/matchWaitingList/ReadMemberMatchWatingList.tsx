@@ -6,6 +6,8 @@ import { useCookies } from 'react-cookie';
 import * as m from './memberMatchWaitingList.style'
 import { memberCancelRequest } from '@/apis/memberMatchWaitingList/put.MatchCancel.api';
 import { useNavigate } from 'react-router-dom';
+import { postSubscriptionRequest } from '@/apis/subscription/post.subscription.api';
+
 
 
 
@@ -49,14 +51,25 @@ function ReadMemberMatchWatingList() {
 
     }
 
+    const subscriptionButton = async(matchWaitingListId: number) => {
+      const token = cookies.accessToken;
+      if(!token){
+        alert("구독 신청을 할 권한이 존재하지 않습니다.")
+      }
+
+      const response = await postSubscriptionRequest(matchWaitingListId, token);
+      if(response.data){
+        alert("구독 신청 완료")
+        navigate("/");
+      }
+    }
+
     if (loading) return <p>로딩 중입니다...</p>;
-    if (!trainerData) return <p>매칭 신청한 트레이너 정보가 없습니다.</p>;
+    if (!trainerData) return <p>매칭 신청한 트레이너가 존재하지 않거나 신청이 거절되었습니다.</p>;
 
     return (
     <div css={m.MemberMatchWaitingListContainerBox} >
-      {!trainerData || undefined ? <div>
-        <h3>매칭 신청한 트레이너 정보가 없습니다</h3>
-        </div> :  <div css={m.MemberMatchWaitingListContainer}>
+        <div css={m.MemberMatchWaitingListContainer}>
           <h2 css={m.MemberMatchWaitingListTitle}>매칭 신청한 트레이너</h2>
           <br />
           <br />
@@ -89,9 +102,11 @@ function ReadMemberMatchWatingList() {
           <br />
           <div css={m.MemberMatchWaitingListButtonContainer}>
           <button css={m.MatchWaitingListButton} onClick={matchCancelButton}>매칭 취소</button>
-          <button css={m.MatchWaitingListButton}>구독</button>
+          <button
+          onClick={() => subscriptionButton(trainerData.matchWaitingListId)}
+          css={m.MatchWaitingListButton} disabled={trainerData.approvedStatus === "NOT_APPROVED"}>구독</button>
           </div>
-          </div>}  
+          </div>  
     </div>
   )
 }
