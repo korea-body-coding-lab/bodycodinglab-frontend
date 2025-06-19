@@ -2,7 +2,7 @@ import { TrainerCareerRequestDto } from "@/dtos/trainer/request/trainer-career.r
 import ResponseDto from "@/dtos/response.dto";
 import { TrainerCareerResponseDto } from "@/dtos/trainer/response/trainer-career.response.dto";
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
-import { DELETE_ALL_TRAINER_CAREER, DELETE_TRAINER_CAREER, POST_TRAINER_CAREER, PUT_TRAINER_CAREER } from "../constants";
+import { DELETE_ALL_TRAINER_CAREER, DELETE_TRAINER_CAREER, GET_TRAINER_CAREER, POST_TRAINER_CAREER, PUT_TRAINER_CAREER } from "../constants";
 import { AxiosError } from "axios";
 
 export const postCareer = async (dto: TrainerCareerRequestDto, accessToken: string): Promise<ResponseDto<TrainerCareerResponseDto>> => {
@@ -43,6 +43,15 @@ export const deleteAllCareer = async ( accessToken: string): Promise<ResponseDto
         data: null,
       };
     };
+    return responseSuccessHandler(response);
+  } catch (error) {
+    return responseErrorHandler(error as AxiosError<ResponseDto>);
+  }
+}
+
+export const getCareerList = async (accessToken: string): Promise<ResponseDto<TrainerCareerResponseDto>> => {
+  try {
+    const response = await axiosInstance.get(GET_TRAINER_CAREER, bearerAuthorization(accessToken));
     return responseSuccessHandler(response);
   } catch (error) {
     return responseErrorHandler(error as AxiosError<ResponseDto>);
