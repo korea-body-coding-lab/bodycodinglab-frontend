@@ -70,6 +70,20 @@ export const profileSpan = css`
         box-shadow: none; 
   }
 `
+export const profileBtn = css`
+    width: 70px;
+    height: 40px;
+    background-color: #699CE4;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #3F4756;
+    :active{
+        background-color: #437BC0;
+        color: white;
+    }
+    cursor: pointer;
+`
 export const noteText = css`
    
     padding-left: 10px;
@@ -102,6 +116,9 @@ export const sendBtn = css`
     font-size: 26px;
     color: white;
     background-color: #699CE4;
+    :active{
+        background-color: #437BC0;
+    }
     cursor: pointer;
 `
 
@@ -112,45 +129,62 @@ export const note = css`
     cursor: pointer;
     
 `
-export const spans = css`
-    color: #ccc;
+export const spanHead = css`
+    color: #3F4756;;
     border-bottom: 1px solid #ccc;
+`
+export const noteTextHead = css`
+    margin-left: 10px;
+    display: inline-block;
+
+    width: 50.8%;
+    border-right: 1px solid #ccc;
+    text-align: center;
+`
+export const spans = css`
+    color: #3F4756;;
+    border-bottom: 1px solid #ccc;
+    
+    :hover{
+        background-color: #ccc;
+        color: white;
+    }
     
 `
 export const noteIdSpan = css`
     margin-left: 10px;
     display: inline-block;
-    color: #3F4756;
+    
     border-right: 1px solid #ccc;
-    min-width: 60px;
+    width: 7.2%;
     
 `
 export const noteTextSpan = css`
     margin-left: 10px;
     display: inline-block;
-    color: #3F4756;
-    min-width: 470px;
+
+    width: 50.8%;
     border-right: 1px solid #ccc;
 `
 export const noteWriterSpan = css`
     margin-left: 10px;
     display: inline-block;
-    color: #3F4756;
-    min-width: 80px;
+
+    width: 9%;
     border-right: 1px solid #ccc;
 `
 export const noteReceiverSpan = css`
     margin-left: 10px;
     display: inline-block;
-    color: #3F4756;
-    min-width: 80px;
+
+    width: 9%;
     border-right: 1px solid #ccc;
 `
 export const noteDateSpan = css`
     margin-left: 10px;
     display: inline-block;
-    color: #3F4756;
-    min-width: 60px;
+
+    width: 18.05%;
 `
 
 export const page = css`
