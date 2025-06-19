@@ -24,6 +24,7 @@ function ReadMemberMatchWatingList() {
         if(!token){
           setLoading(false);
           alert("접근 권한이 존재하지 않습니다.");
+          navigate("/");
         }
         const response = await findMemberMatchWaitingListRequest(token);
         setTrainerData(response.data);
@@ -37,10 +38,11 @@ function ReadMemberMatchWatingList() {
       const token = cookies.accessToken;
       if(!token){
         alert("매칭을 취소할 권한이 존재하지 않습니다.");
+        navigate("/");
       }
 
       const response = await memberCancelRequest({approvedStatus : "REJECT"}, token);
-      if(response.code == "SU"){
+      if(response.code === "SU"){
         alert("매칭이 성공적으로 취소되었습니다.")
         navigate("/");
       }
@@ -51,11 +53,11 @@ function ReadMemberMatchWatingList() {
     if (!trainerData) return <p>매칭 신청한 트레이너 정보가 없습니다.</p>;
 
     return (
-    <div css={m.TrainerMatchWaitingListContainerBox} >
+    <div css={m.MemberMatchWaitingListContainerBox} >
       {!trainerData || undefined ? <div>
         <h3>매칭 신청한 트레이너 정보가 없습니다</h3>
-        </div> :  <div css={m.TrainerMatchWaitingListContainer}>
-          <h2 css={m.TrainerMatchWaitingListTitle}>매칭 신청한 트레이너</h2>
+        </div> :  <div css={m.MemberMatchWaitingListContainer}>
+          <h2 css={m.MemberMatchWaitingListTitle}>매칭 신청한 트레이너</h2>
           <br />
           <br />
           <p>트레이너 프로필 이미지 자리</p>
@@ -74,11 +76,18 @@ function ReadMemberMatchWatingList() {
           <br />
           <br />
           <div>
-          <strong>신청일:</strong> <p>{new Date(trainerData.appliedAt).toLocaleString()}</p>
+          <strong>신청일:</strong> <p>{new Date(trainerData.appliedAt).toLocaleString("ko-kR",{
+                year: "numeric",
+                month: "long",
+                day:"numeric",
+                hour:"2-digit",
+                minute:"2-digit",
+                hour12: true
+              })}</p>
           </div>
           <br />
           <br />
-          <div css={m.TrainerMatchWaitingListButtonContainer}>
+          <div css={m.MemberMatchWaitingListButtonContainer}>
           <button css={m.MatchWaitingListButton} onClick={matchCancelButton}>매칭 취소</button>
           <button css={m.MatchWaitingListButton}>구독</button>
           </div>
