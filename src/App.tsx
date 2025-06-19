@@ -32,6 +32,8 @@ import GetTrainerInformation from './views/user/GetTrainerInformation'
 import UpdateTrainerInformation from './views/user/UpdateTrainerInformation'
 import Note from './views/note/NotePage'
 import ReapplyTrainer from './views/auth/ReapplyTrainer'
+import ReadMemberMatchWatingList from './views/matchWaitingList/ReadMemberMatchWatingList'
+import ReadTrainerMatchWaitingList from './views/matchWaitingList/ReadTrainerMatchWaitingList'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -85,6 +87,8 @@ function App() {
         <Route path='/users/members/me/forms' element={<MemberFormPage/>}/>
         <Route path='/users/trainers/me/license' element={<TrainerLicense />} />
         <Route path='/users/members/me/one-day-tickets' element={<GetMemberAllTickets />} />
+        <Route path='/users/members/me/match-waiting-lists'element={<ReadMemberMatchWatingList/>} />
+        <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>}/>
       </Routes>
     </>
   )

@@ -1,5 +1,5 @@
 type Gender = "MAN" | "WOMAN"; 
-
+type ApprovedStatus = "NOT_APPROVED" | "APPROVED" | "REJECT";
 export interface memberMatchWaitingListResponseDto{
   matchWaitingListId: number;
   memberId: number;
@@ -7,4 +7,5 @@ export interface memberMatchWaitingListResponseDto{
   memberAge: number;
   memberGender: Gender;
   appliedAt: string;
+  approvedStatus: ApprovedStatus;
 }
