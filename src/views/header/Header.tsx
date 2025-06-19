@@ -1,12 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import * as s from "./HeaderStyle";
-import { create } from "zustand";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "@/stores/user.store";
 import LogoutButton from "@/components/LogoutButton";
-import MyPage from "../sidebar/MyPageSidebar";
-import MyPageSidebar from "../sidebar/MyPageSidebar";
 import { useAuthStore } from "@/stores/auth.store";
 
 
@@ -15,6 +12,12 @@ function Header() {
 
   const isLogin = useAuthStore((state) => state.isLogin);
   const user = useUserStore((state) => state.user);
+
+  const handleProfileClick = () => {
+    if (user?.role === 'MEMBER') navigate('/users/members/me');
+    if (user?.role === 'TRAINER') navigate('/users/trainers/me');
+    if (user?.role === 'ADMIN') navigate('/admin/trainers');
+  }
 
 
   return (
@@ -33,7 +36,7 @@ function Header() {
                 <div css={s.loginStyle}>
                   <div
                     css={s.loginProfile}
-                    onClick={() => navigate("/mypage")}
+                    onClick={handleProfileClick}
                   />
                   <span>{user?.name}님</span>
                   

@@ -1,4 +1,4 @@
-export interface TrainerLicenseResponseDto {
+export interface TrainerLicenseListResponseDto {
   id: number;
   trainerId: number;
   licenseType: string;

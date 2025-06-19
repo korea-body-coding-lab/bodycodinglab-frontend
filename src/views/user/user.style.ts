@@ -43,6 +43,20 @@ export const formSectionStyle = css`
   background-color: #ffffff;
 `;
 
+export const formSectionInformationStyle = css`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 30px;
+  border: 1px solid #C5CEE0;
+  border-radius: 12px;
+  background-color: #ffffff;
+`;
+
 export const formTitleStyle = css`
   margin-bottom: 30px;
   font-size: 28px;
@@ -73,6 +87,21 @@ export const inputDeleteUserWrapperStyle = css`
   height: 60px;
   padding: 0 14px;
   border: 1px solid #8F98A9;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transition: border 0.3s;
+  &:focus-within {
+    outline: none;
+    border: 3px solid #707D97;
+  }
+`;
+export const inputDeleteUsernameWrapperStyle = css`
+  width: 350px;
+  height: 60px;
+  padding: 0 14px;
+  /* border: 1px solid #8F98A9; */
   border-radius: 12px;
   box-sizing: border-box;
   display: flex;
@@ -124,4 +153,102 @@ export const inputStyle = css`
   outline: none;
   font-size: 20px;
   line-height: 1.4;
+`;
+
+export const formInfomationTitleStyle = css`
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: left;
+  font-size: 28px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const formInformationStyle = css`
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
+export const formLabelStyle = css`
+  width: 120px;
+  margin-right: 15px;
+  word-break: keep-all;
+  white-space: normal;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #707D97;
+`;
+
+export const inputUpdateWrapperStyle = css`
+  width: 540px;
+  height: 60px;
+  padding: 0 14px;
+  line-height: 60px;
+  border: 1px solid #8F98A9;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transition: border 0.3s;
+  &:focus-within {
+    outline: none;
+    border: 3px solid #707D97;
+  }
+`;
+
+export const formSpanStyle = css`
+  width: auto;
+  margin-right: 15px;
+  word-break: keep-all;
+  white-space: normal;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3F4756;
+`;
+
+export const infoBoxStyle = css`
+  position: relative; /* ✨ 버튼 위치 기준 */
+  padding: 30px;
+  border: 1px solid #C5CEE0;
+  border-radius: 12px;
+  background-color: #ffffff;
+`;
+
+export const editButtonStyle = css`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  font-size: 20px;
+  font-weight: 500;
+  background-color: #699CE4;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #437BC0;
+  }
+`;
+
+export const editBottomButtonStyle = css`
+  width: 100%;
+  padding: 1.3rem;
+  margin-bottom: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  background-color: #699CE4;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #437BC0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
 `;
