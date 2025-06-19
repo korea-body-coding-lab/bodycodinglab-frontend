@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 
 export const postMatchWaitingListRequest = async (trainerId: number ,accessToken: string): Promise<ResponseDto<number>> => {
   try{
-    const response = await axiosInstance.post(POST_MEMBER_MATCH_WAITING_LIST_URL(trainerId), {}, bearerAuthorization(accessToken));
+    const response = await axiosInstance.post(POST_MEMBER_MATCH_WAITING_LIST_URL(trainerId), {}, bearerAuthorization(accessToken), );
 
     return responseSuccessHandler(response);
   }catch(error){

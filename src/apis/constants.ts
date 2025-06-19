@@ -36,6 +36,7 @@ export const UPDATE_TRAINER_INFO = `${TRAINER_INFO_MODULE_URL}/update`;
 
 export const POST_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career`;
 export const PUT_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career`;
+export const GET_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career`;
 export const DELETE_TRAINER_CAREER = (careerId: number) => `${TRAINER_INFO_MODULE_URL}/career/${careerId}`;
 export const DELETE_ALL_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career/all`;
 export const GET_TRAINER_CAREER_RECENT = `${TRAINER_INFO_MODULE_URL}/career/recent`;
@@ -47,7 +48,7 @@ export const DELETE_TRAINER_LICENSE = (licenseId: number) => `${TRAINER_INFO_MOD
 export const DELETE_ALL_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license/all`;
 export const GET_TRAINER_LICENSE_RECENT = `${TRAINER_INFO_MODULE_URL}/license/recent`;
 
-export const GET_TRAINER_CAREER = `${TRAINER_SEARCH_MODULE_URL}/career`;
+export const SEARCH_TRAINER_CAREER = `${TRAINER_SEARCH_MODULE_URL}/career`;
 export const SEARCH_TRAINER_LICENSE = `${TRAINER_SEARCH_MODULE_URL}/license`;
 export const GET_ALL_TRAINER_INFO = `${TRAINER_SEARCH_MODULE_URL}/trainer-list`;
 export const GET_TRAINER_INFO = (trainerId: number) => `${TRAINER_SEARCH_MODULE_URL}/${trainerId}`;
