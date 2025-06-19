@@ -5,7 +5,7 @@ import Header from '../header/Header'
 import Post from './Post'
 import {  useNavigate, useParams } from 'react-router-dom';
 import BoardCategory from './BoardCategory';
-import { getAccessTokenFromCookie } from '@/get-token';
+import { getAccessTokenFromCookie } from '@/apis/get-token';
 
 type BoardPost = {
     id: number;

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import * as s from "./NoteListStyle"
 import { useNavigate } from 'react-router-dom';
 import { NoteList } from '@/dtos/note/request/get-notelist.dto';
-import { getAccessTokenFromCookie } from '@/get-token';
+import { getAccessTokenFromCookie } from '@/apis/get-token';
 
 
 function SentNotes() {
