@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 export const body = css`
-    width: 70%;
+    width: 90%;
     margin: auto;
     display: flex;
     flex-grow: 1;
     justify-content: flex-start;
     
-`
+` 
 
 export const left = css`
     margin-top: 2%;
@@ -212,6 +212,7 @@ export const postContent = css`
     padding-bottom: 20px;
 `
 export const ContentText = css`
+margin: 10px;
     height: auto;
     min-height: 400px;
 `
