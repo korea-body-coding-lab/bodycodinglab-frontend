@@ -43,14 +43,20 @@ export const loginStyle = css`
 `;
 
 export const loginProfile = css`
-  width: 60px;
-  height: 60px;
-  background-image: url("/profileImageSample.png");
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #437BC0;
+  object-fit: cover;
+  background-color: #fff;
+  display: block;
+  margin: 0 auto;
   cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.05);
+    cursor: pointer;
+  }
 `;
 
 export const loginStyleBtn = css`

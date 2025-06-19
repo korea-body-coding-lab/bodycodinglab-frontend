@@ -6,8 +6,6 @@ export const sidebarStyle = css`
   margin-left: 150px;
   margin-right: 15px; 
   padding: 24px 16px;
-  /* background-color: #f9f9f9;
-  border-right: 1px solid #ddd; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,15 +21,6 @@ export const profileStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  img {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 12px;
-    border: 2px solid #437BC0;
-  }
 
   p {
     font-size: 24px;
@@ -58,7 +47,6 @@ export const profileStyle = css`
 
 export const menuStyle = css`
   width: 250px;
-  /* padding: 60px 16px; */
   border: 3px solid #75A7EF;
   border-radius: 28px;
   display: flex;
@@ -98,5 +86,99 @@ export const selectedStyle = css`
 
   &:hover {
     text-decoration: none;
+  }
+`;
+
+export const profileWrapper = css`
+  position: relative;
+  width: 110px;
+  height: 110px;
+  cursor: pointer;
+
+  &:hover div {
+    opacity: 1;
+  }
+`;
+
+export const loginProfile = css`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #437BC0;
+`;
+
+export const hoverText = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+`;
+
+export const profileContainer = css`
+  height: 100vh;
+  padding: 30px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const profileTitle = css`
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #3F4756;
+`;
+
+export const profileInput = css`
+  margin-bottom: 20px;
+`;
+
+export const profileButtonGroup = css`
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+`;
+
+export const profileUpload = css`
+  padding: 10px 20px;
+  background-color: #4f8ef7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #3b76d1;
+  }
+`;
+
+export const profileDelete = css`
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #c0392b;
   }
 `;

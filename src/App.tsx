@@ -34,6 +34,7 @@ import Note from './views/note/NotePage'
 import ReapplyTrainer from './views/auth/ReapplyTrainer'
 import ReadMemberMatchWatingList from './views/matchWaitingList/ReadMemberMatchWatingList'
 import ReadTrainerMatchWaitingList from './views/matchWaitingList/ReadTrainerMatchWaitingList'
+import UpdateProfileImage from './views/user/UpdateProfileImage'
 
 import ReceivedNotes from './views/note/ReceivedNotes'
 import SentNotes from './views/note/SentNotes'
@@ -76,6 +77,7 @@ function App() {
         <Route path='/users/members/me/setting' element={<UpdateMemberInformation />} />
         <Route path='/users/trainers/me' element={<GetTrainerInformation />} />
         <Route path='/users/trainers/me/setting' element={<UpdateTrainerInformation />} />
+        <Route path='/users/me/profile-image' element={<UpdateProfileImage />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/users/account-cancellation/me' element={<DeleteUser />} />
         <Route path='/users/trainers/me/information/career' element={<TrainerCareer />} />

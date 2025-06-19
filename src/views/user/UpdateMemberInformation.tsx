@@ -42,27 +42,26 @@ function UpdateMemberInformation() {
       alert(validMessage);
       return;
     }
-    const requestBody: UpdateMemberInfoRequestDto = {
-          ...form,
-    };
-    
-    const formData = new FormData();
 
-    if (form.name.trim() !== '') {
-    formData.append('name', form.name);
-    }
-    
-    if (form.memberAddress.trim() !== '') {
-      formData.append('memberAddress', form.memberAddress);
+    const { name, memberAddress } = form;
+
+    const dto: Partial<UpdateMemberInfoRequestDto> = {};
+
+    if (name.trim() !== '') {
+      dto.name = name;
     }
 
-    formData.append('dto', new Blob([
-      JSON.stringify(requestBody)
-    ], { type: 'application/json' }));
-    // if (profile) formData.append('profile', profile);
+    if (memberAddress.trim() !== '') {
+      dto.memberAddress = memberAddress;
+    }
+
+    if (Object.keys(dto).length === 0) {
+      alert('변경할 항목이 없습니다.');
+      return;
+    }
 
     try {
-      const response = await UpdateMemberInformationRequest(formData, accessToken);
+      const response = await UpdateMemberInformationRequest(dto, accessToken);
       const { code, message } = response;
 
       if (code !== 'SU') {

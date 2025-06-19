@@ -7,5 +7,5 @@ export interface SignUpMemberRequestDto {
   gender: string;
   phone: string;
   email: string;
-  address: string;
+  memberAddress: string;
 }

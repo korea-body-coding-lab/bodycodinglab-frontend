@@ -7,6 +7,6 @@ export interface GetTrainerInfoResponseDto {
   phone: string;
   email: string;
   jobAddress: string;
+  attachmentFileUrl: string;
   status: string;
-  // profileImageUrl: string;
 }
