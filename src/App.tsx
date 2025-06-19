@@ -40,6 +40,7 @@ import SentNotes from './views/note/SentNotes'
 
 import Subscription from './views/subscription/Subscription'
 
+import TrainerInfo from './views/trainer/TrainerInfo'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -77,6 +78,9 @@ function App() {
         <Route path='/users/trainers/me/setting' element={<UpdateTrainerInformation />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/users/account-cancellation/me' element={<DeleteUser />} />
+        <Route path='/users/trainers/me/information/career' element={<TrainerCareer />} />
+        <Route path='/users/trainers/me/information/license' element={<TrainerLicense />} />
+        <Route path='/users/trainers/me/information' element={<TrainerInfo />} />
         <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
         <Route path='/personal-community-boards/:categoryId/write' element={<BoardWrite />} />
         <Route path='/personal-community-boards/:categoryId/edit' element={<BoardEdit />} />
@@ -86,10 +90,14 @@ function App() {
         <Route path='/notes/*' element={<Note />} />
 
         <Route path='/users/trainers/me/career' element={<TrainerCareer />} />
+        <Route path='/notes' element={<Navigate to="/notes/allnotes" />} />
+        <Route path='/notes/allnotes' element={<Note />} />
+        <Route path='/notes/received-notes' element={<Note />} />
+        <Route path='/notes/sent-notes' element={<Note />} />
+        <Route path='/notes/write-note' element={<Note />} />
         <Route path='/users/members/me/coupons' element={<MemberCouponLIst/>}/>
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
         <Route path='/users/members/me/forms' element={<MemberFormPage/>}/>
-        <Route path='/users/trainers/me/license' element={<TrainerLicense />} />
         <Route path='/users/members/me/one-day-tickets' element={<GetMemberAllTickets />} />
         <Route path='/users/members/me/match-waiting-lists'element={<ReadMemberMatchWatingList/>} />
         <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>}/>
