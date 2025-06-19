@@ -6,8 +6,7 @@ import { NoteList } from '@/dtos/note/request/get-notelist.dto';
 import { getAccessTokenFromCookie } from '@/get-token';
 
 
-
-function ReceivedNotes() {
+function SentNotes() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [notes, setNotes] = useState<NoteList[]>([]);
@@ -21,7 +20,7 @@ function ReceivedNotes() {
               try {
                 const token = getAccessTokenFromCookie();
                   if (!token) throw new Error("토큰이 없습니다.");
-                const res = await fetch(`/api/v1/notes/received`, {
+                const res = await fetch(`/api/v1/notes/sent`, {
                   headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
@@ -42,7 +41,7 @@ function ReceivedNotes() {
   return (
     <div>
         <div css={s.titlewrap}>
-            <h3 css={s.title}>받은 쪽지함</h3>
+            <h3 css={s.title}>보낸 쪽지함</h3>
         </div>
         <div css={s.noteListWrap}>
             {loading ? (
@@ -64,4 +63,4 @@ function ReceivedNotes() {
   )
 }
 
-export default ReceivedNotes
+export default SentNotes
