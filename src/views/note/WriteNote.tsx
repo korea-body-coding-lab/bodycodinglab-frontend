@@ -66,14 +66,17 @@ function WriteNote() {
           {receiver !== null ? (
             <span css={s.profileSpan}>보낼 사람: {receiver}</span>
           ) : (
-            <input
-
-              type="text"
-              placeholder="받는 사람 ID를 입력하세요"
-              value={receiverInput}
-              onChange={(e) => setReceiverInput(e.target.value)}
-              css={s.profileSpan}
-            />
+            <div>
+              <input
+                type="text"
+                placeholder="받는 사람 ID를 입력하세요"
+                value={receiverInput}
+                onChange={(e) => setReceiverInput(e.target.value)}
+                css={s.profileSpan}
+              />
+              <button css={s.profileBtn}>ID 확인</button>
+            </div>
+            
           )}
         </div>
         <textarea

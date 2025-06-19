@@ -49,6 +49,7 @@ function ReceivedNotes() {
                 <div css={s.loading}>로딩 중...</div>
             ) : (
                 notes.map((note) => (
+                  
                 <div
                     key={note.id}
                     css={s.note}
