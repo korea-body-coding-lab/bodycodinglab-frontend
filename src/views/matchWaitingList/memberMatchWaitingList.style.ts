@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 
 
-export const TrainerMatchWaitingListContainerBox = css`
+export const MemberMatchWaitingListContainerBox = css`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,17 +11,17 @@ export const TrainerMatchWaitingListContainerBox = css`
 `
 
 
-export const TrainerMatchWaitingListContainer = css`
+export const MemberMatchWaitingListContainer = css`
   border: 1px solid black;
   width: 30vw;
 `
 
-export const TrainerMatchWaitingListTitle = css`
+export const MemberMatchWaitingListTitle = css`
   text-align: center;
 `;
 
 
-export const TrainerMatchWaitingListButtonContainer = css`
+export const MemberMatchWaitingListButtonContainer = css`
   display: flex;
   justify-content: center;
 `

@@ -19,7 +19,6 @@ export const category = css`
 export const categorys = css`
     flex-direction: column;
     display: flex; 
-    flex-direction: column; 
     gap: 20px;
 `
 export const categoryDivs = css`

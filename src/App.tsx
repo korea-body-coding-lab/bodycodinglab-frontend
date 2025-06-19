@@ -26,7 +26,14 @@ import ResetPassword from './views/auth/ResetPassword'
 import DeleteUser from './views/user/DeleteUser'
 import GetMemberAllTickets from './views/oneDayTicket/GetMemberAllTickets'
 import MemberFormPage from './views/memberForm/MemberFormPage'
+import GetMemberInfomation from './views/user/GetMemberInformation'
+import UpdateMemberInformation from './views/user/UpdateMemberInformation'
+import GetTrainerInformation from './views/user/GetTrainerInformation'
+import UpdateTrainerInformation from './views/user/UpdateTrainerInformation'
+import Note from './views/note/NotePage'
+import ReapplyTrainer from './views/auth/ReapplyTrainer'
 import ReadMemberMatchWatingList from './views/matchWaitingList/ReadMemberMatchWatingList'
+import ReadTrainerMatchWaitingList from './views/matchWaitingList/ReadTrainerMatchWaitingList'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -57,6 +64,11 @@ function App() {
         <Route path='/auth/finding-id' element={<FindUsername />} />
         <Route path='/auth/reset-password' element={<FindUserToResetPassword />} />
         <Route path='/auth/reset-password/setting' element={<ResetPassword />} />
+        <Route path='/auth/trainer-reapply' element={<ReapplyTrainer />} />
+        <Route path='/users/members/me' element={<GetMemberInfomation />} />
+        <Route path='/users/members/me/setting' element={<UpdateMemberInformation />} />
+        <Route path='/users/trainers/me' element={<GetTrainerInformation />} />
+        <Route path='/users/trainers/me/setting' element={<UpdateTrainerInformation />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/users/account-cancellation/me' element={<DeleteUser />} />
         <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
@@ -64,6 +76,11 @@ function App() {
         <Route path='/personal-community-boards/:categoryId/edit' element={<BoardEdit />} />
         <Route path="/personal-community-boards/:categoryId/:postId" element={<Post />} />
         <Route path='/personal-community-boards/:categoryId' element={<Board />} />
+        <Route path='/notes' element={<Navigate to="/notes/allnotes" />} />
+        <Route path='/notes/allnotes' element={<Note />} />
+        <Route path='/notes/received-notes' element={<Note />} />
+        <Route path='/notes/sent-notes' element={<Note />} />
+        <Route path='/notes/write-note' element={<Note />} />
         <Route path='/users/trainers/me/career' element={<TrainerCareer />} />
         <Route path='/users/members/me/coupons' element={<MemberCouponLIst/>}/>
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
@@ -71,6 +88,7 @@ function App() {
         <Route path='/users/trainers/me/license' element={<TrainerLicense />} />
         <Route path='/users/members/me/one-day-tickets' element={<GetMemberAllTickets />} />
         <Route path='/users/members/me/match-waiting-lists'element={<ReadMemberMatchWatingList/>} />
+        <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>}/>
       </Routes>
     </>
   )

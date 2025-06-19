@@ -10,9 +10,13 @@ interface User {
 interface UserState {
   user: User | null;
   setUser: (user: User) => void;
+  setName: (name: string) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
   user: null,
   setUser: (user) => set({ user }),
+  setName: (name) => set((state) =>
+      state.user ? { user: { ...state.user, name } } : {}
+  ),
 }));
