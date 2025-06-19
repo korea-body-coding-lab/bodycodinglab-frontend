@@ -35,7 +35,8 @@ export const MatchWaitingListButton = css`
   margin-right: 5px;
   border-radius: 8px;
 
-  &:hover{
-    background-color: #437BC0;
-  } 
+  &:not(:disabled):hover{
+  background-color: #437BC0;
+  color: white;
+} 
 `

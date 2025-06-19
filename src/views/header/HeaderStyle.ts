@@ -39,6 +39,7 @@ export const loginStyle = css`
   align-items: center;
   line-height: 100px;
   font-size: 16px;
+  cursor: pointer;
 `;
 
 export const loginProfile = css`
@@ -49,6 +50,7 @@ export const loginProfile = css`
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 export const loginStyleBtn = css`
