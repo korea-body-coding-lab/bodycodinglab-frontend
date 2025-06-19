@@ -19,7 +19,7 @@ function SignUpMember() {
     gender: "",
     phone: "",
     email: "",
-    address: ""
+    memberAddress: ""
   });
   const [profile, setProfile] = useState<File | null>(null);
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
@@ -231,7 +231,7 @@ function SignUpMember() {
                 <input
                   type="text"
                   name='address'
-                  value={form.address}
+                  value={form.memberAddress}
                   onChange={handleInputChange}
                   css={inputStyle}
                 />

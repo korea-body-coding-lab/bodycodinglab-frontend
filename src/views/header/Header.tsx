@@ -34,9 +34,14 @@ function Header() {
             <div>
               {isLogin ? (
                 <div css={s.loginStyle}>
-                  <div
-                    css={s.loginProfile}
+                  <img
+                    src={user?.profileImageUrl ? `http://localhost:8080${user.profileImageUrl}` : '/default-profile.png'}
+                    alt='profile'
                     onClick={handleProfileClick}
+                    onError={(e) => {
+                      e.currentTarget.src = 'default-profile.png';
+                    }}
+                    css={s.loginProfile}
                   />
                   <span>{user?.name}님</span>
                   

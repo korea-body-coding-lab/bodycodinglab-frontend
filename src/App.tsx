@@ -34,6 +34,7 @@ import Note from './views/note/NotePage'
 import ReapplyTrainer from './views/auth/ReapplyTrainer'
 import ReadMemberMatchWatingList from './views/matchWaitingList/ReadMemberMatchWatingList'
 import ReadTrainerMatchWaitingList from './views/matchWaitingList/ReadTrainerMatchWaitingList'
+import UpdateProfileImage from './views/user/UpdateProfileImage'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -69,6 +70,7 @@ function App() {
         <Route path='/users/members/me/setting' element={<UpdateMemberInformation />} />
         <Route path='/users/trainers/me' element={<GetTrainerInformation />} />
         <Route path='/users/trainers/me/setting' element={<UpdateTrainerInformation />} />
+        <Route path='/users/me/profile-image' element={<UpdateProfileImage />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/users/account-cancellation/me' element={<DeleteUser />} />
         <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
