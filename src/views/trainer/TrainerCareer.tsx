@@ -11,13 +11,17 @@ import {
   cardButtons,
   deleteAllButton,
 } from '@/views/trainer/TrainerCareerStyle';
-import { deleteAllCareer, deleteCareer, postCareer, updateCareer } from '@/apis/trainer/trainer-career.api';
+import { deleteAllCareer, deleteCareer, getCareerList, postCareer, updateCareer } from '@/apis/trainer/trainer-career.api';
 import { TrainerCareerRequestDto } from '@/dtos/trainer/request/trainer-career.request.dto';
 import { TrainerCareerResponseDto } from '@/dtos/trainer/response/trainer-career.response.dto';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 
-const TrainerCareer = () => {
+type TrainerLicenseProps = {
+  onClose: () => void;
+};
+
+const TrainerCareer = ({ onClose }: TrainerLicenseProps) => {
   const [cookies, setCookies] = useCookies(["accessToken"]);
   const accessToken = cookies.accessToken || "";
   const [careers, setCareers] = useState<TrainerCareerResponseDto[]>([]);
@@ -28,11 +32,31 @@ const TrainerCareer = () => {
   });
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
+  useEffect(() => {
+    const fetchCareers = async () => {
+      try {
+        const response = await getCareerList(accessToken);
+  
+        if (response.code === 'SU' && response.data) {
+          const careerArray = Array.isArray(response.data) ? response.data : [response.data];
+          setCareers(careerArray);
+        } else {
+          setCareers([]);
+          console.warn("자격증 목록이 없거나 오류 발생:", response);
+        }
+      } catch (error) {
+        console.error('자격증 목록 조회 실패', error);
+        setCareers([]);
+      }
+    };
+
+  fetchCareers();
+}, [accessToken]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
-
 
   const handleSubmit = async () => {
     if (!form.companyName || !form.companyJoin || !form.companyQuit) return;
@@ -133,7 +157,7 @@ const TrainerCareer = () => {
 
     <div>
       {careers.map((career, index) => (
-        <div key={career.id} css={card}>
+        <div key={career.id ?? index} css={card}>
           <div css={cardText}>
             <div><strong>회사명:</strong> {career.companyName}</div>
             <div><strong>입사일:</strong> {career.companyJoin}</div>

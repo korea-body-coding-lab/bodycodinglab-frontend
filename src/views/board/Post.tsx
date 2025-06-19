@@ -89,7 +89,7 @@ function Post() {
                                 <button css={s.closeButton} onClick={closeModal}>X</button>
                             </div>
                         </div>  
-                    )}
+                    )} 
                 </div>
                 <h3 css={s.title}>{post.title}</h3>
                 {post.writerId != userName ? (

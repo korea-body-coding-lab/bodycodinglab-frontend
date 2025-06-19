@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { deleteAllLicense, deleteLicense, getLicenseList, postLicense, updateLicense } from '@/apis/trainer/trainer-license.api';
+import { deleteAllLicense, deleteLicense, getLicenseList, getRecentLicense, postLicense, updateLicense } from '@/apis/trainer/trainer-license.api';
 import { TrainerLicenseResponseDto } from '@/dtos/trainer/response/trainer-license.response.dto';
 import { TrainerLicenseRequestDto } from '@/dtos/trainer/request/trainer-license.request.dto';
 import {
@@ -17,7 +17,11 @@ import {
   deleteAllButton,
 } from '@/views/trainer/TrainerLicenseStyle';
 
-const TrainerLicense = () => {
+type TrainerLicenseProps = {
+  onClose: () => void;
+};
+
+const TrainerLicense = ({ onClose }: TrainerLicenseProps) => {
   const [cookies, setCookies] = useCookies(['accessToken']);
   const accessToken = cookies.accessToken || '';
   const [licenses, setLicenses] = useState<TrainerLicenseResponseDto[]>([]);
@@ -29,26 +33,26 @@ const TrainerLicense = () => {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [fileInputKey, setFileInputKey] = useState(0);
 
-useEffect(() => {
-  const fetchLicenses = async () => {
-    try {
-      const response = await getLicenseList(accessToken);
+  useEffect(() => {
+    const fetchLicenses = async () => {
+      try {
+        const response = await getLicenseList(accessToken);
 
-      if (response.code === 'SU' && response.data) {
-        const licenseArray = Array.isArray(response.data) ? response.data : [response.data];
-        setLicenses(licenseArray);
-      } else {
+        if (response.code === 'SU' && response.data) {
+          const licenseArray = Array.isArray(response.data) ? response.data : [response.data];
+          setLicenses(licenseArray);
+        } else {
+          setLicenses([]);
+          console.warn("자격증 목록이 없거나 오류 발생:", response);
+        }
+      } catch (error) {
+        console.error('자격증 목록 조회 실패', error);
         setLicenses([]);
-        console.warn("자격증 목록이 없거나 오류 발생:", response);
       }
-    } catch (error) {
-      console.error('자격증 목록 조회 실패', error);
-      setLicenses([]);
-    }
-  };
+    };
 
-  fetchLicenses();
-}, [accessToken]);
+    fetchLicenses();
+  }, [accessToken]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
   const { name, value } = e.target;

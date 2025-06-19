@@ -20,6 +20,7 @@ const menuMap = {
   ],
   TRAINER: [
     { label: "개인 정보 조회 / 수정", path: "/users/trainers/me" },
+    { label: "트레이너 정보 입력", path: "/users/trainers/me/information" }, 
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
 };

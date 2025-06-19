@@ -43,7 +43,7 @@ function Header() {
                     }}
                     css={s.loginProfile}
                   />
-                  <span>{user?.name}님</span>
+                  <span onClick={handleProfileClick}  >{user?.name}님</span>
                   
                   <button
                     css={s.loginStyleBtn}
