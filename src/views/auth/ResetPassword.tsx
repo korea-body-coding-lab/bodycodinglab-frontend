@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { buttonResetPasswordStyle, containerStyle, formLabelResetPasswordStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputFindUsernameWrapperStyle, inputStyle } from './auth.style';
 import Header from '../header/Header';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { validateResetPasswordForm } from '@/utils/reset-password.valid';
 import { ResetPasswordRequestDto } from '@/dtos/auth/request/reset-password.request.dto';
 import { resetPasswordRequest } from '@/apis/auth/reset-password.api';
+import { VerifyEmailRequest } from '@/apis/auth/verify-email.api';
 
 function ResetPassword() {
   const navigate = useNavigate();
@@ -15,11 +16,32 @@ function ResetPassword() {
       confirmPassword: "",
   });
 
-  const email = searchParams.get('email');
+  const token = searchParams.get('token');
 
-  if (!email) {
-    alert('잘못된 이메일입니다.');
+  if (!token) {
+    alert('잘못된 토큰입니다.');
     return;
+  }
+
+  useEffect(() =>{
+      verifyEmail();
+    }, [token]);
+
+  const verifyEmail = async() => {
+    try {
+      const response = await VerifyEmailRequest(token);
+      const { code, message } = response;
+
+      if (code !== 'SU') {
+        alert(message);
+        return;
+      }
+      console.log('이메일 인증 성공: ' + message);
+
+    } catch (e) {
+      console.log('이메일 인증 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +61,7 @@ function ResetPassword() {
 
     try {
       const dto: ResetPasswordRequestDto = { newPassword, confirmPassword };
-      const response = await resetPasswordRequest(email, dto);
+      const response = await resetPasswordRequest(token, dto);
       const { code, message, data } = response;
 
       if (code !== 'SU' || !data) {
@@ -50,9 +72,10 @@ function ResetPassword() {
       alert('비밀번호 재설정이 완료되었습니다.');
       navigate('/auth/login');
     } catch (e) {
-    console.log('비밀번호 재설정 오류: ', e);
-    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      console.log('비밀번호 재설정 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
+
   };
 
   return (

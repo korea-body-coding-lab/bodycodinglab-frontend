@@ -17,7 +17,7 @@ export const VERIFY_EMAIL_URL = (token: string) => `${AUTH_MODULE_URL}/verify?to
 export const DELETE_USER_URL = `${USER_MODULE_URL}/account-cancellation/me`;
 export const FIND_USERNAME_URL = `${AUTH_MODULE_URL}/finding-id`;
 export const FIND_RESET_PASSWORD_USER_URL = `${AUTH_MODULE_URL}/reset-password`;
-export const RESET_PASSWORD_USER_URL = (email: string) => `${FIND_RESET_PASSWORD_USER_URL}/setting?email=${email}`;
+export const RESET_PASSWORD_USER_URL = (token: string) => `${FIND_RESET_PASSWORD_USER_URL}/setting?token=${token}`;
 export const GET_MEMBER_MY_INFO_URL = `${MEMBER_MODULE_URL}`;
 export const GET_TRAINER_MY_INFO_URL = `${TRAINER_MODULE_URL}`;
 export const UPDATE_MEMBER_MY_INFO_URL = `${MEMBER_MODULE_URL}/setting`;
