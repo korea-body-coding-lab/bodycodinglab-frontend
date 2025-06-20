@@ -42,7 +42,7 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
 
     const formData = new FormData();
     const category = {id: categoryId};
-    const json = JSON.stringify({ title, content, category });
+    const json = JSON.stringify({ title, content, category, matchId });
     formData.append('data', new Blob([json], { type: 'application/json' }));
 
     if (selectedFile) {
