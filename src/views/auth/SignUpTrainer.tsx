@@ -3,7 +3,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react'
 import Header from '../header/Header';
 import { useNavigate } from 'react-router-dom';
 import { SignUpTrainerRequestDto } from '@/dtos/auth/request/sign-up-trainer.request.dto';
-import { signUpTrainerRequest } from '@/apis/auth/sign-up.api';
+import { signUpTrainerRequest } from '@/apis/auth/sign-up-trainer.api';
 import { validateTrainerForm } from '@/utils/sign-up.valid';
 import { buttonSignUpStyle, containerStyle, formLabelStyle, formSectionStyle, formSignUpStyle, formSignUpTitleStyle, formWrapperStyle, genderButtonStyle, genderSectionStyle, genderSelectionStyle, hiddenRadioStyle, inputButtonStyle, inputSignUpWrapperStyle, inputStyle } from './auth.style';
 
