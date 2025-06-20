@@ -3,6 +3,7 @@ import { TrainerLicenseResponseDto } from "./trainer-license.response.dto";
 
 export interface TrainerDetailResponseDto {
     trainerId: number;
+    name: string;
     jobAddress: string ;
     shortIntroduce: string ;
     longIntroduce: string ;
