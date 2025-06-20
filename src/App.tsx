@@ -32,7 +32,6 @@ import GetTrainerInformation from './views/user/GetTrainerInformation'
 import UpdateTrainerInformation from './views/user/UpdateTrainerInformation'
 import Note from './views/note/NotePage'
 import ReapplyTrainer from './views/auth/ReapplyTrainer'
-import ReadMemberMatchWatingList from './views/matchWaitingList/ReadMemberMatchWatingList'
 import ReadTrainerMatchWaitingList from './views/matchWaitingList/ReadTrainerMatchWaitingList'
 import UpdateProfileImage from './views/user/UpdateProfileImage'
 
@@ -40,6 +39,7 @@ import ReceivedNotes from './views/note/ReceivedNotes'
 import SentNotes from './views/note/SentNotes'
 
 import Subscription from './views/subscription/Subscription'
+import MatchManagement from './views/memberMatchManagement/MatchManagement'
 
 import TrainerInfo from './views/trainer/TrainerInfo'
 
@@ -101,7 +101,7 @@ function App() {
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
         <Route path='/users/members/me/forms' element={<MemberFormPage/>}/>
         <Route path='/users/members/me/one-day-tickets' element={<GetMemberAllTickets />} />
-        <Route path='/users/members/me/match-waiting-lists'element={<ReadMemberMatchWatingList/>} />
+        <Route path='/users/members/me/match-lists'element={<MatchManagement/>} />
         <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>}/>
         <Route path='/users/members/me/subscriptions' element={<Subscription/>} />
       </Routes>

@@ -101,7 +101,7 @@ function ReadMemberMatchWatingList() {
           <br />
           <br />
           <div css={m.MemberMatchWaitingListButtonContainer}>
-          <button css={m.MatchWaitingListButton} onClick={matchCancelButton}>매칭 취소</button>
+          <button css={m.MatchWaitingListButton} onClick={matchCancelButton}>신청 취소</button>
           <button
           onClick={() => subscriptionButton(trainerData.matchWaitingListId)}
           css={m.MatchWaitingListButton} disabled={trainerData.approvedStatus === "NOT_APPROVED"}>구독</button>
