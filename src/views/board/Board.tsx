@@ -5,6 +5,7 @@ import Header from '../header/Header'
 import Post from './Post'
 import {  useNavigate, useParams } from 'react-router-dom';
 import BoardCategory from './BoardCategory';
+import { getAccessTokenFromCookie } from '@/apis/get-token';
 
 type BoardPost = {
     id: number;
@@ -14,21 +15,35 @@ type BoardPost = {
     createdAt: string;
 }
 
+
 function Board() {
     const navigate = useNavigate();
     const {categoryId} = useParams<{categoryId: string}>();
+
     const [posts, setPosts] = useState<BoardPost[]>([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
+
         if (!categoryId) {
           setLoading(false);
           return;
         }
         const fetchPosts = async () => {
           try {
-            const res = await fetch(`/api/v1/personal-community-boards/${categoryId}`);
+            const token = getAccessTokenFromCookie();
+            if (!token) throw new Error("로그인 토큰이 없습니다.");
+  
+            const res = await fetch(`/api/v1/personal-community-boards/${categoryId}`, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              });
             if (!res.ok) throw new Error("게시글 불러오기 실패");
             const data = await res.json();
+
             setPosts(data.data); 
           } catch (e) {
             alert("게시글을 가져오지 못했습니다.");

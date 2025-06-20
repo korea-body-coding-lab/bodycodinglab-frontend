@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 export const body = css`
-    width: 70%;
+    width: 90%;
     margin: auto;
     display: flex;
     flex-grow: 1;

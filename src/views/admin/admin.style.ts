@@ -212,3 +212,9 @@ export const rejectButtonGroupStyle = css`
   gap: 10px;
   margin-top: 12px;
 `;
+
+export const fileDownloadLink = css`
+  color: inherit;         // 텍스트 색상 그대로
+  text-decoration: underline; // 밑줄만 표시
+  cursor: pointer;        // 마우스 올리면 손가락 커서
+`;

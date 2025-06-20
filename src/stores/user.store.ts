@@ -5,6 +5,7 @@ interface User {
   role: string;
   username: string;
   name: string;
+  profileImageUrl: string | null;
 }
 
 interface UserState {

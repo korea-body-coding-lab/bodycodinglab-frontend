@@ -17,7 +17,11 @@ import { TrainerCareerResponseDto } from '@/dtos/trainer/response/trainer-career
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 
-const TrainerCareer = () => {
+type TrainerLicenseProps = {
+  onClose: () => void;
+};
+
+const TrainerCareer = ({ onClose }: TrainerLicenseProps) => {
   const [cookies, setCookies] = useCookies(["accessToken"]);
   const accessToken = cookies.accessToken || "";
   const [careers, setCareers] = useState<TrainerCareerResponseDto[]>([]);

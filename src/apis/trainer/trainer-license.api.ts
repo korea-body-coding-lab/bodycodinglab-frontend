@@ -2,9 +2,8 @@ import { TrainerLicenseRequestDto } from "@/dtos/trainer/request/trainer-license
 import ResponseDto from "@/dtos/response.dto";
 import { TrainerLicenseResponseDto } from "@/dtos/trainer/response/trainer-license.response.dto";
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
-import { DELETE_ALL_TRAINER_LICENSE, DELETE_TRAINER_LICENSE, GET_TRAINER_LICENSE, POST_TRAINER_LICENSE, PUT_TRAINER_LICENSE } from "../constants";
+import { DELETE_ALL_TRAINER_LICENSE, DELETE_TRAINER_LICENSE, GET_TRAINER_LICENSE, GET_TRAINER_LICENSE_RECENT, POST_TRAINER_LICENSE, PUT_TRAINER_LICENSE } from "../constants";
 import { AxiosError } from "axios";
-import { TrainerLicenseListResponseDto } from "@/dtos/trainer/response/trainer-licnse-list.response.dto";
 
 const convertToFormData = (dto: TrainerLicenseRequestDto): FormData => {
   const formData = new FormData();
@@ -93,6 +92,19 @@ export const deleteAllLicense = async ( accessToken: string): Promise<ResponseDt
 export const getLicenseList = async (accessToken: string): Promise<ResponseDto<TrainerLicenseResponseDto[]>> => {
   try {
     const response = await axiosInstance.get(GET_TRAINER_LICENSE, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return responseSuccessHandler(response);
+  } catch (error) {
+    return responseErrorHandler(error as AxiosError<ResponseDto>);
+  }
+};
+
+export const getRecentLicense = async (accessToken: string): Promise<ResponseDto<TrainerLicenseResponseDto>> => {
+  try {
+    const response = await axiosInstance.get(GET_TRAINER_LICENSE_RECENT, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react'
-import { approveButtonStyle, buttonContainerStyle, changeReasonBoxStyle, closeButtonStyle, fieldBoxStyle, fieldRowStyle, modalBackdropStyle, modalBoxStyle, profileBoxStyle, rejectButtonGroupStyle, RejectButtonStyle, textareaStyle, topSectionStyle } from './admin.style';
+import { approveButtonStyle, buttonContainerStyle, changeReasonBoxStyle, closeButtonStyle, fieldBoxStyle, fieldRowStyle, fileDownloadLink, modalBackdropStyle, modalBoxStyle, profileBoxStyle, rejectButtonGroupStyle, RejectButtonStyle, textareaStyle, topSectionStyle } from './admin.style';
 import { GetTrainerDetailResponseDto } from '@/dtos/admin/response/get-trainer-detail-response.dto';
 import { useCookies } from 'react-cookie';
 import { updateTrainerStatusRequest } from '@/apis/admin/update-trainer-status.api';
@@ -84,8 +84,15 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
           </div>
           <div css={profileBoxStyle}>
             <img
-              src={trainer.profileImageUrl || "/profileImageSample.png"}
-              alt="profile"
+              src={trainer?.profileImageUrl
+                    ? `http://localhost:8080${trainer.profileImageUrl}?v=${Date.now()}`
+                    : '/default-profile.png'
+                  }
+              alt='profile'
+              onError={(e) => {
+                e.currentTarget.src = '/default-profile.png';
+              }}
+              // css={loginProfile}
             />
           </div>
         </div>
@@ -97,7 +104,18 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
 
         <div css={fieldBoxStyle}>
           <div css={fieldRowStyle}><strong>첨부파일</strong></div>
-          <p>{trainer.attachmentFileUrl || "없음"}</p>
+          {trainer.attachmentFileUrl ? (
+            <a
+              href={`http://localhost:8080${trainer.attachmentFileUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              css={fileDownloadLink}
+            >
+              첨부파일 다운로드
+            </a>
+          ) : (
+            <p>첨부된 파일이 없습니다.</p>
+          )}
         </div>
 
         {isRejecting && (

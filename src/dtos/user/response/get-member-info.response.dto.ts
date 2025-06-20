@@ -6,5 +6,4 @@ export interface GetMemberInfoResponseDto {
   phone: string;
   email: string;
   memberAddress: string;
-    // profileImageUrl: string;
 }

@@ -3,18 +3,17 @@ import React from 'react'
 import Header from '../header/Header'
 import * as s from "./NotePageStyle"
 import NoteNav from './NoteNav'
-import { useLocation, useNavigate } from 'react-router-dom';
-import Allnotes from './Allnotes';
+import { Route, Routes } from 'react-router-dom';
+
 import ReceivedNotes from './ReceivedNotes';
+import SentNotes from './SentNotes';
+import WriteNote from './WriteNote';
+import Allnotes from './Allnotes';
+import NoteDetail from './NoteDetail';
 
 function Note() {
-    const location = useLocation();
-    const use = location.pathname.split('/')[2];
-    let content;
-    if (use === "allnotes") content = <Allnotes />;
-    else if (use === "received") content = <ReceivedNotes />;
-    // else if (use === "sent") content = <SentNotes />;
-    // else if (use === "write") content = <WriteNote />;
+
+
   return (
     <div>
         <Header/>
@@ -23,7 +22,14 @@ function Note() {
                 <NoteNav/>
             </div>
             <div css={s.right}>
-                {content}
+                <Routes>
+                    <Route path="allnotes" element={<Allnotes />} />
+                    <Route path="received" element={<ReceivedNotes />} />
+                    <Route path="sent" element={<SentNotes />} />
+                    <Route path="write" element={<WriteNote />} />
+                    <Route path=":noteId" element={<NoteDetail />} />
+                    <Route path="*" element={<Allnotes />} />
+                </Routes>
                 
             </div>
         </div>

@@ -22,6 +22,7 @@ export const GET_MEMBER_MY_INFO_URL = `${MEMBER_MODULE_URL}`;
 export const GET_TRAINER_MY_INFO_URL = `${TRAINER_MODULE_URL}`;
 export const UPDATE_MEMBER_MY_INFO_URL = `${MEMBER_MODULE_URL}/setting`;
 export const UPDATE_TRAINER_MY_INFO_URL = `${TRAINER_MODULE_URL}/setting`;
+export const UPDATE_PROFILE_IMAGE = `${USER_MODULE_URL}/me/profile-image`;
 export const GET_ALL_TRAINERS_URL = `${ADMIN_MODULE_URL}/trainers`;
 export const GET_TRAINER_DETAIL_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
 export const UPDATE_TRAINER_STATUS_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
@@ -31,8 +32,7 @@ export const REAPPLY_TRAINER_URL = (email: string) => `${AUTH_MODULE_URL}/traine
 const TRAINER_INFO_MODULE_URL = `${TRAINER_MODULE_URL}/information`;
 const TRAINER_SEARCH_MODULE_URL = `${API_DOMAIN}/api/v1/trainers`
 
-export const POST_TRAINER_INFO = `${TRAINER_INFO_MODULE_URL}`;
-export const UPDATE_TRAINER_INFO = `${TRAINER_INFO_MODULE_URL}/update`;
+export const PUT_TRAINER_INFO = `${TRAINER_INFO_MODULE_URL}`;
 
 export const POST_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career`;
 export const PUT_TRAINER_CAREER = `${TRAINER_INFO_MODULE_URL}/career`;
