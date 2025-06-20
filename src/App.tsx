@@ -42,6 +42,11 @@ import Subscription from './views/subscription/Subscription'
 import MatchManagement from './views/memberMatchManagement/MatchManagement'
 
 import TrainerInfo from './views/trainer/TrainerInfo'
+import { useCookies } from 'react-cookie'
+import { useUserStore } from './stores/user.store'
+import { useAuthStore } from './stores/auth.store'
+import { useEffect } from 'react'
+import { GetUserInformationRequest } from './apis/user/get-user-informaiton.api'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -60,6 +65,46 @@ import TrainerInfo from './views/trainer/TrainerInfo'
 // ts - export const tmp = '';
 // tsx - rfce(함수형 컴포넌트 생성)
 function App() {
+  const [cookies] = useCookies(["accessToken"]);
+  const setLogin = useAuthStore((state) => state.setLogin);
+  const setUser = useUserStore((state) => state.setUser);
+  const user = useUserStore((state) => state.user);
+  const accessToken = cookies.accessToken;
+
+  const fetchUser = async() => {
+    try {
+      const response = await GetUserInformationRequest(accessToken);
+      const { code, message, data } = response;
+
+      if (code !== 'SU' || !data) {
+        return;
+      }
+
+      const { id, role, username, name, profileImageUrl } = data;
+
+      setUser({
+        userId: id,
+        role,
+        username,
+        name,
+        profileImageUrl,
+      });
+    } catch (e) {
+      console.log('사용자 정보 조회 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    }
+  }
+
+useEffect(() => {
+  if (!accessToken) return;
+
+  setLogin(accessToken);
+
+  if (!user) {
+    fetchUser();
+  }
+  
+}, [accessToken]);
 
   return (
     <>
