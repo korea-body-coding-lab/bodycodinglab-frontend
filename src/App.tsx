@@ -125,8 +125,8 @@ useEffect(() => {
         <Route path='/users/me/profile-image' element={<UpdateProfileImage />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/users/account-cancellation/me' element={<DeleteUser />} />
-        {/* <Route path='/users/trainers/me/information/career' element={<TrainerCareer />} />
-        <Route path='/users/trainers/me/information/license' element={<TrainerLicense />} /> */}
+        <Route path='/users/trainers/me/information/career' element={<TrainerCareer />} />
+        <Route path='/users/trainers/me/information/license' element={<TrainerLicense />} />
         <Route path='/users/trainers/me/information' element={<TrainerInfo />} />
         <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
         <Route path='/personal-community-boards/:categoryId/write' element={<BoardWrite />} />
@@ -135,8 +135,8 @@ useEffect(() => {
         <Route path='/personal-community-boards/:categoryId' element={<Board />} />
         <Route path='/notes/' element={<Navigate to="/notes/allnotes" />} />
         <Route path='/notes/*' element={<Note />} />
-{/* 
-        <Route path='/users/trainers/me/career' element={<TrainerCareer />} /> */}
+
+        <Route path='/users/trainers/me/career' element={<TrainerCareer />} />
         <Route path='/notes' element={<Navigate to="/notes/allnotes" />} />
         <Route path='/notes/allnotes' element={<Note />} />
         <Route path='/notes/received-notes' element={<Note />} />
