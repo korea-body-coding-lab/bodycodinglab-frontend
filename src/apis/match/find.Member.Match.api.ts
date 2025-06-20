@@ -1,4 +1,4 @@
-import { trainerMatchResponseDto } from "@/dtos/match/response/trainer.Match.Response.Dto";
+import { trainerMatchResponseDto } from "@/dtos/match/response/find.trainer.Match.Response.Dto";
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { GET_MEMBER_MATCH_URL } from "../constants";
 import ResponseDto from "@/dtos/response.dto";
