@@ -39,9 +39,12 @@ import ReceivedNotes from './views/note/ReceivedNotes'
 import SentNotes from './views/note/SentNotes'
 
 import Subscription from './views/subscription/Subscription'
-import MatchManagement from './views/memberMatchManagement/MatchManagement'
+import MatchManagement from './views/MatchManagement/MatchManagement'
 
 import TrainerInfo from './views/trainer/TrainerInfo'
+import ReadTrainerMatchList from './views/match/ReadTrainerMatchList'
+
+
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -101,8 +104,9 @@ function App() {
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
         <Route path='/users/members/me/forms' element={<MemberFormPage/>}/>
         <Route path='/users/members/me/one-day-tickets' element={<GetMemberAllTickets />} />
-        <Route path='/users/members/me/match-lists'element={<MatchManagement/>} />
-        <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>}/>
+        <Route path='/users/members/me/match-lists' element={<MatchManagement/>} />
+        <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>} />
+        <Route path='/users/trainers/me/match-success-lists' element={<ReadTrainerMatchList/>}/>
         <Route path='/users/members/me/subscriptions' element={<Subscription/>} />
       </Routes>
     </>
