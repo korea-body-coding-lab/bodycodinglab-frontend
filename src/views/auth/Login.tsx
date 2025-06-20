@@ -66,7 +66,7 @@ function Login() {
         secure: true,
       });
   
-      setLogin(token, exprTime);
+      setLogin(token);
       setUser({
         userId: id,
         role,
