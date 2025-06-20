@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import * as s from "./NoteListStyle";
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { getAccessTokenFromCookie } from '@/apis/get-token';
+import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
+import { fetchUsernames } from '@/apis/get-username';
 
 function WriteNote() {
   const [searchParams] = useSearchParams();
@@ -10,7 +11,33 @@ function WriteNote() {
   const [receiverInput, setReceiverInput] = useState<string>('');
   const [noteText, setNoteText] = useState('');
   const navigate = useNavigate();
+  const [userMap, setUserMap] = useState<Record<number, string>>({});
 
+  const handleCheckId = async () => {
+    const id = Number(receiverInput);
+    if (!id || isNaN(id)) {
+      alert("올바른 숫자 ID를 입력하세요.");
+      return;
+    }
+    const currentUserId = getUserIdFromToken();
+    if (id === currentUserId) {
+      alert("자기 자신에게는 쪽지를 보낼 수 없습니다.");
+      return;
+    }
+    try {
+      const map = await fetchUsernames([id]);
+      const username = map[id];
+      if (username) {
+        setReceiver(id);
+        setUserMap(prev => ({ ...prev, [id]: username }));
+      } else {
+        alert("존재하지 않는 사용자입니다.");
+      }
+    } catch (e) {
+      alert("ID 확인 중 오류가 발생했습니다.");
+    }
+  };
+  
   useEffect(() => {
     const r = searchParams.get("receiver");
     if (r) {
@@ -64,7 +91,7 @@ function WriteNote() {
         <div css={s.profile}>
           <div css={s.profileImage}>프로필이미지</div>
           {receiver !== null ? (
-            <span css={s.profileSpan}>보낼 사람: {receiver}</span>
+            <span css={s.profileSpan}>보낼 사람: {userMap[receiver] ?? `${receiver}`}</span>
           ) : (
             <div>
               <input
@@ -74,7 +101,7 @@ function WriteNote() {
                 onChange={(e) => setReceiverInput(e.target.value)}
                 css={s.profileSpan}
               />
-              <button css={s.profileBtn}>ID 확인</button>
+              <button css={s.profileBtn} onClick={handleCheckId}>ID 확인</button>
             </div>
             
           )}
