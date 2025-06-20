@@ -62,9 +62,9 @@ function ResetPassword() {
     try {
       const dto: ResetPasswordRequestDto = { newPassword, confirmPassword };
       const response = await resetPasswordRequest(token, dto);
-      const { code, message, data } = response;
+      const { code, message } = response;
 
-      if (code !== 'SU' || !data) {
+      if (code !== 'SU') {
         alert(message);
         return;
       }

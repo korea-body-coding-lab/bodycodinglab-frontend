@@ -56,8 +56,8 @@ function FindUserToResetPassword() {
       setIsSendingEmail(true);
 
     } catch (e) {
-    console.log('비밀번호 재설정(이메일 인증) 오류: ', e);
-    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      console.log('비밀번호 재설정(이메일 인증) 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
   };
 
