@@ -4,7 +4,7 @@ import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../
 import { SEND_VERIFY_EMAIL_URL } from "../constants";
 import { AxiosError } from "axios";
 
-export const sendEmailRequest = async (dto: SendEmailRequestDto): Promise<ResponseDto<void>> => {
+export const sendEmailRequest = async (dto: SendEmailRequestDto): Promise<ResponseDto<string>> => {
   try {
     const response = await axiosInstance.post(SEND_VERIFY_EMAIL_URL, dto);
     return responseSuccessHandler(response);
