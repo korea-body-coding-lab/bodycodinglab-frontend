@@ -31,9 +31,7 @@ function TrainerCouponList() {
       console.log(response)
       if (response && response.data) {
         setCoupons(response.data);
-      } else{
-        console.log("데이터가 안 불러와짐 않음");
-      }
+      } 
     };
 
     fetchCoupons();

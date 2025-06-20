@@ -49,12 +49,19 @@ function Subscription() {
           <hr />
         <div css={m.priceBox}>
           <p>결제 금액: </p>
-          <p>{subscriptionData.price}</p>
+          <p>{subscriptionData.price}원</p>
         </div>
           <hr />
         <div css={m.paymentDateBox}>
           <p>결제 일자: </p>
-          <p>{subscriptionData.paymentDate}</p>
+          <p>{new Date(subscriptionData.paymentDate).toLocaleString("ko-kR", {
+            year: "numeric",
+            month: "long",
+            day:"numeric",
+            hour:"2-digit",
+            minute:"2-digit",
+            hour12: true
+          })}</p>
         </div>
           <hr />
         <div css={m.paymentStatusBox}>
