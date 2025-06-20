@@ -5,8 +5,13 @@ import { PostDetailData } from '@/dtos/board/request/get-post.dto';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../header/Header';
 import BoardCategory from './BoardCategory';
+import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
+import { fetchUsernames } from '@/apis/get-username';
+import { userName } from '../header/HeaderStyle';
+import { getUserMatchId } from '@/apis/get-user-matchId';
 
 function Post() {
+    const matchId = getUserMatchId();
     const {postId, categoryId} = useParams<{ postId: string; categoryId: string }>();
     const [isProfileBoxOpen, setProfileBoxOpen] = useState(false);
     const closeModal = () => setProfileBoxOpen(false);
@@ -15,9 +20,10 @@ function Post() {
     const [isDeleteBoxOpen, setDeleteBoxOpen] = useState(false);
     const [post, setPost] = useState<PostDetailData | null>(null);
     const [loading, setLoading] = useState(true);
+    const currentUserId = getUserIdFromToken();
     const handleDelete = async () => {
         try {
-            const response = await fetch(`/api/v1/personal-community-boards/${categoryId}/${Number(postId)}`, {
+            const response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${Number(postId)}`, {
               method: 'DELETE',
               headers: { 'Content-Type': 'application/json' },
             });
@@ -39,12 +45,24 @@ function Post() {
     useEffect(() => {
         const fetchPost = async () =>{
             try{
-                const response = await fetch(`/api/v1/personal-community-boards/${categoryId}/${postId}`);
+                const token = getAccessTokenFromCookie();
+                if (!token) throw new Error("로그인 토큰이 없습니다.");
+                const response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json",
+                    },
+                  });
+                
                 if (!response.ok) throw new Error("데이터 요청 실패");
 
                 const data = await response.json();
             
                 setPost(data.data);
+ 
+                
             }catch(error){
    
                 alert("게시글을 불러오는데 실패했습니다.")
@@ -55,10 +73,10 @@ function Post() {
         };
         fetchPost();
     }, [categoryId, postId]);
-
+    
     if (loading) return <div>불러오는 중...</div>;
     if (!post) return <div>게시글이 존재하지 않습니다.</div>;
-    const userName = "홍길동";// 로그인한 유저 이름/id
+    
   return (
     <div>
         <Header/>
@@ -92,7 +110,7 @@ function Post() {
                     )} 
                 </div>
                 <h3 css={s.title}>{post.title}</h3>
-                {post.writerId != userName ? (
+                {post.writerId != currentUserId ? (
                     <div></div>
                     ):(
                         <div css={s.postHeaderBtns}>
