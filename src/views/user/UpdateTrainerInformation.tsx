@@ -41,23 +41,16 @@ function UpdateTrainerInformation() {
       alert(validMessage);
       return;
     }
-    const requestBody: UpdateTrainerInfoRequestDto = {
-          ...form,
-    };
-    
-    const formData = new FormData();
 
-    if (form.name.trim() !== '') {
-    formData.append('name', form.name);
+    if (form.name.trim() === '') {
+      alert('변경할 항목이 없습니다.');
+      return;
     }
 
-    formData.append('dto', new Blob([
-      JSON.stringify(requestBody)
-    ], { type: 'application/json' }));
-    // if (profile) formData.append('profile', profile);
+    const dto: UpdateTrainerInfoRequestDto = { name: form.name };
 
     try {
-      const response = await UpdateTrainerInformationRequest(formData, accessToken);
+      const response = await UpdateTrainerInformationRequest(dto, accessToken);
       const { code, message } = response;
 
       if (code !== 'SU') {

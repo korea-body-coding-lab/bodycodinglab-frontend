@@ -2,7 +2,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import Header from '../header/Header';
 import { SignUpMemberRequestDto } from '@/dtos/auth/request/sign-up-member.request.dto';
-import { signUpMemberRequest } from '@/apis/auth/sign-up.api';
+import { signUpMemberRequest } from '@/apis/auth/sign-up-member.api';
 import { useNavigate } from 'react-router-dom';
 import { validateMemberForm } from '@/utils/sign-up.valid';
 import { buttonSignUpStyle, containerStyle, formLabelStyle, formSectionStyle, formSignUpStyle, formSignUpTitleStyle, formWrapperStyle, genderButtonStyle, genderSectionStyle, genderSelectionStyle, hiddenRadioStyle, inputButtonStyle, inputSignUpWrapperStyle, inputStyle } from './auth.style';
@@ -19,7 +19,7 @@ function SignUpMember() {
     gender: "",
     phone: "",
     email: "",
-    address: ""
+    memberAddress: ""
   });
   const [profile, setProfile] = useState<File | null>(null);
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
@@ -231,7 +231,7 @@ function SignUpMember() {
                 <input
                   type="text"
                   name='address'
-                  value={form.address}
+                  value={form.memberAddress}
                   onChange={handleInputChange}
                   css={inputStyle}
                 />

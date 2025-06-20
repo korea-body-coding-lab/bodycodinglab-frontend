@@ -45,6 +45,8 @@ import { getAccessTokenFromCookie } from '@/apis/get-token';
               <h3 css={s.title}>모든 쪽지함</h3>
           </div>
           <div css={s.noteListWrap}>
+              <div css={s.spanHead}><span css={s.noteIdSpan}>노트id</span><span css={s.noteTextHead}>노트 내용</span><span css={s.noteWriterSpan}>보낸사람</span><span css={s.noteReceiverSpan}>받은사람</span><span css={s.noteDateSpan}>작성일</span></div>
+
               {loading ? (
                   <div css={s.loading}>로딩 중...</div>
               ) : (
@@ -53,7 +55,8 @@ import { getAccessTokenFromCookie } from '@/apis/get-token';
                       key={note.id}
                       css={s.note}
                       onClick={() => navigate(`/notes/${note.id}`)}
-                  >
+                  > 
+
                       <div css={s.spans}><span css={s.noteIdSpan}>{note.id}</span><span css={s.noteTextSpan}>{note.noteText}</span><span css={s.noteWriterSpan}>{note.noteWriter}</span><span css={s.noteReceiverSpan}>{note.noteReceiver}</span><span css={s.noteDateSpan}>{new Date(note.noteCreateTime).toLocaleDateString()}</span></div>
                   </div>
                   ))

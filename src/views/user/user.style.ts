@@ -164,6 +164,15 @@ export const formInfomationTitleStyle = css`
   color: #3F4756;
 `;
 
+export const formInfomationWarningTitleStyle = css`
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  color: #f44336;
+`;
+
 export const formInformationStyle = css`
   display: flex;
   align-items: center;

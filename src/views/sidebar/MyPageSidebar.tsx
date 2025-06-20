@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import LogoutButton from '@/components/LogoutButton';
 import { useUserStore } from '@/stores/user.store';
-import { useState } from 'react'
-import { linkStyle, menuListStyle, menuStyle, profileStyle, sidebarStyle } from './sidebar.style';
+import { useMemo, useState } from 'react'
+import { hoverText, linkStyle, loginProfile, menuListStyle, menuStyle, profileStyle, profileWrapper, sidebarStyle } from './sidebar.style';
 import { Link } from 'react-router-dom';
 
 type UserRole = "ADMIN" | "MEMBER" | "TRAINER";
@@ -30,12 +30,39 @@ function MyPageSidebar() {
   const user = useUserStore((state) => state.user);
   const userRole = user?.role as UserRole | undefined;
   const menus = menuMap[userRole || "MEMBER"];
+
+  const profileImageUrl = useMemo(() => {
+  return user?.profileImageUrl
+    ? `http://localhost:8080${user.profileImageUrl}?v=${Date.now()}`
+    : '/default-profile.png';
+  }, [user?.profileImageUrl]);
   
+  const handleUpdateClick = async () => {
+    const popup = window.open(
+      '/users/me/profile-image',
+      '프로필 이미지 변경',
+      'width=500, height=300, top=250, left=250, scrollbars=no, resizable=no'
+    );
+
+    if (popup === null) {
+      alert('팝업 차단을 해제해주세요!');
+    }
+  }
 
   return (
     <aside css={sidebarStyle}>
       <div css={profileStyle}>
-        <img src="/profileImageSample.png" alt="profile" />
+        <div css={profileWrapper}>
+          <img
+            src={profileImageUrl}
+            alt='profile'
+            onError={(e) => {
+              e.currentTarget.src = '/default-profile.png';
+            }}
+            css={loginProfile}
+          />
+          <div onClick={handleUpdateClick} css={hoverText}>변경</div>
+        </div>
         <p>{user?.name}</p>
         <LogoutButton />
       </div>

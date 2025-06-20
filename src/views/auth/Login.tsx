@@ -47,7 +47,7 @@ function Login() {
         return;
       }
   
-      const { id, role, username, name, token, exprTime } = data;
+      const { id, role, username, name, profileImageUrl, token, exprTime } = data;
   
       if (!exprTime || isNaN(exprTime)) {
         console.error('Invalid exprTime:', exprTime);
@@ -66,12 +66,13 @@ function Login() {
         secure: true,
       });
   
-      setLogin(token, exprTime);
+      setLogin(token);
       setUser({
         userId: id,
         role,
         username,
         name,
+        profileImageUrl,
       });
       navigate('/');
     } catch (e) {

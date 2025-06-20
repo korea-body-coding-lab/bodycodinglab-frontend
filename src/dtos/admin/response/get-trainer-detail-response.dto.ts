@@ -8,8 +8,8 @@ export interface GetTrainerDetailResponseDto {
     phone: string;
     email: string;
     jobAddress: string;
+    attachmentFileUrl: string;
     createdAt: string;
     status: 'PENDING' | 'APPROVE' | 'REJECT';
-    attachmentFileUrl?: string;
     profileImageUrl?: string;
 }

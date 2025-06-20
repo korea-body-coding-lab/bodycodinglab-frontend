@@ -32,15 +32,21 @@ import GetTrainerInformation from './views/user/GetTrainerInformation'
 import UpdateTrainerInformation from './views/user/UpdateTrainerInformation'
 import Note from './views/note/NotePage'
 import ReapplyTrainer from './views/auth/ReapplyTrainer'
-import ReadMemberMatchWatingList from './views/matchWaitingList/ReadMemberMatchWatingList'
 import ReadTrainerMatchWaitingList from './views/matchWaitingList/ReadTrainerMatchWaitingList'
+import UpdateProfileImage from './views/user/UpdateProfileImage'
 
 import ReceivedNotes from './views/note/ReceivedNotes'
 import SentNotes from './views/note/SentNotes'
 
 import Subscription from './views/subscription/Subscription'
+import MatchManagement from './views/memberMatchManagement/MatchManagement'
 
 import TrainerInfo from './views/trainer/TrainerInfo'
+import { useCookies } from 'react-cookie'
+import { useUserStore } from './stores/user.store'
+import { useAuthStore } from './stores/auth.store'
+import { useEffect } from 'react'
+import { GetUserInformationRequest } from './apis/user/get-user-informaiton.api'
 import TrainerDetail from './views/trainer/search/TrainerDetail'
 import TrainerSearch from './views/trainer/search/TrainerSearch'
 
@@ -61,6 +67,46 @@ import TrainerSearch from './views/trainer/search/TrainerSearch'
 // ts - export const tmp = '';
 // tsx - rfce(함수형 컴포넌트 생성)
 function App() {
+  const [cookies] = useCookies(["accessToken"]);
+  const setLogin = useAuthStore((state) => state.setLogin);
+  const setUser = useUserStore((state) => state.setUser);
+  const user = useUserStore((state) => state.user);
+  const accessToken = cookies.accessToken;
+
+  const fetchUser = async() => {
+    try {
+      const response = await GetUserInformationRequest(accessToken);
+      const { code, message, data } = response;
+
+      if (code !== 'SU' || !data) {
+        return;
+      }
+
+      const { id, role, username, name, profileImageUrl } = data;
+
+      setUser({
+        userId: id,
+        role,
+        username,
+        name,
+        profileImageUrl,
+      });
+    } catch (e) {
+      console.log('사용자 정보 조회 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    }
+  }
+
+useEffect(() => {
+  if (!accessToken) return;
+
+  setLogin(accessToken);
+
+  if (!user) {
+    fetchUser();
+  }
+  
+}, [accessToken]);
 
   return (
     <>
@@ -78,6 +124,7 @@ function App() {
         <Route path='/users/members/me/setting' element={<UpdateMemberInformation />} />
         <Route path='/users/trainers/me' element={<GetTrainerInformation />} />
         <Route path='/users/trainers/me/setting' element={<UpdateTrainerInformation />} />
+        <Route path='/users/me/profile-image' element={<UpdateProfileImage />} />
         <Route path='/admin/trainers' element={<TrainerList />} />
         <Route path='/users/account-cancellation/me' element={<DeleteUser />} />
         <Route path='/users/trainers/me/information' element={<TrainerInfo />} />
@@ -99,7 +146,7 @@ function App() {
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
         <Route path='/users/members/me/forms' element={<MemberFormPage/>}/>
         <Route path='/users/members/me/one-day-tickets' element={<GetMemberAllTickets />} />
-        <Route path='/users/members/me/match-waiting-lists'element={<ReadMemberMatchWatingList/>} />
+        <Route path='/users/members/me/match-lists'element={<MatchManagement/>} />
         <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>}/>
         <Route path='/users/members/me/subscriptions' element={<Subscription/>} />
       </Routes>
