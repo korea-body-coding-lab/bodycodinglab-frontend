@@ -70,6 +70,17 @@ function App() {
   const setUser = useUserStore((state) => state.setUser);
   const user = useUserStore((state) => state.user);
   const accessToken = cookies.accessToken;
+  
+  useEffect(() => {
+    if (!accessToken) return;
+
+    setLogin(accessToken);
+
+    if (!user) {
+      fetchUser();
+    }
+    
+  }, [accessToken]);
 
   const fetchUser = async() => {
     try {
@@ -94,17 +105,6 @@ function App() {
       alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
   }
-
-useEffect(() => {
-  if (!accessToken) return;
-
-  setLogin(accessToken);
-
-  if (!user) {
-    fetchUser();
-  }
-  
-}, [accessToken]);
 
   return (
     <>
