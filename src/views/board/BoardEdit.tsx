@@ -6,6 +6,7 @@ import BoardCategory from './BoardCategory'
 import WriteOrEdit from './WriteOrEdit';
 import { useParams } from 'react-router-dom';
 import { GetPostFormData } from '@/dtos/board/request/get-post-edit.dto';
+import { getAccessTokenFromCookie } from '@/apis/get-token';
 
 
 function BoardEdit() {
@@ -15,16 +16,26 @@ function BoardEdit() {
   const parsedPostId = postId ? parseInt(postId, 10) : undefined;
   const [formData, setFormData] = useState<GetPostFormData | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const matchId = getUserMatchId();
   useEffect(() => {
     if (!categoryId || !postId) return;
 
     const fetchPost = async () => {
       try {
-        const res = await fetch(`/api/v1/personal-community-boards/${categoryId}/${postId}`);
+        const token = getAccessTokenFromCookie(); 
+        const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', 
+        });
         if (!res.ok) throw new Error('게시글 불러오기 실패');
         const data = await res.json();
         const post = data.data;
+        
+        
 
         setFormData({
           postId: parsedPostId!,

@@ -45,8 +45,16 @@ margin: auto;
     background-color: #C5CEE0;
     border-radius: 10px;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    font-size: 22px;
+    color: #3F4756;
     
+`
+export const profileDetail = css`
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
 `
 export const profileImage = css`
     margin-left: 10px;
