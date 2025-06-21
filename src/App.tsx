@@ -132,7 +132,6 @@ function App() {
         <Route path='/users/trainers/me/information' element={<TrainerInfo />} />
         <Route path='/trainers/:trainerId' element={<TrainerDetail />} />
         <Route path='/trainers/search' element={<TrainerSearch />} />
-   
 
         <Route path="/personal-community-boards" element={<RedirectToUserMatch />} />
         <Route path='/personal-community-boards/:matchId/:categoryId/write' element={<BoardWrite />} />
