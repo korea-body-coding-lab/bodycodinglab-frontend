@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../header/Header';
 import MyPageSidebar from '../sidebar/MyPageSidebar';
-import { layoutStyle, mainStyle, mainTitleStyle, tableStyle, tbodyStyle, theadStyle } from './admin.style';
+import { filterButtonContainer, filterButtonsLeft, filterButtonStyle, layoutStyle, mainStyle, mainTitleStyle, tableStyle, tbodyStyle, theadStyle } from './admin.style';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getMenuTitleByPath } from '@/utils/menu.util';
 import { GetAllTrainersResponseDto } from '@/dtos/admin/response/get-all-trainers.response.dto';
@@ -16,12 +16,17 @@ import { getTrainerDetailRequest } from '@/apis/admin/get-trainer-detail.api';
 function TrainerList() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [trainerList, setTrainerList] = useState<GetAllTrainersResponseDto[]>([]);
+  const [trainers, setTrainers] = useState<GetAllTrainersResponseDto[]>([]);
   const [selectedTrainer, setSelectedTrainer] = useState<GetTrainerDetailResponseDto | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState('전체');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cookies] = useCookies(['accessToken']);
   const path = location.pathname;
   const menuTitle = getMenuTitleByPath(path);
-  const [cookies] = useCookies(['accessToken']);
+
+  useEffect(() => {
+    fetchTrainers();
+  }, []);
 
   const fetchTrainers = async () => {
     const accessToken = cookies.accessToken;
@@ -33,7 +38,7 @@ function TrainerList() {
       const { code, message, data } = response;
 
       if (code === 'SU' && data) {
-        setTrainerList(data);
+        setTrainers(data);
       } else {
         console.error('트레이너 목록 불러오기 실패: ', message);
         alert('트레이너 목록 불러오기 실패');
@@ -68,11 +73,13 @@ function TrainerList() {
       console.error('상세 조회 실패:', error);
       alert('상세 조회 실패');
     }
+    
   };
 
-  useEffect(() => {
-    fetchTrainers();
-  }, []);
+  const filteredTrainers = selectedStatus === '전체'
+  ? trainers
+  : trainers.filter((trainer) => trainerStatusMap[trainer.status] === selectedStatus);
+  
 
   return (
     <>
@@ -83,6 +90,19 @@ function TrainerList() {
         <MyPageSidebar />
         <div css={mainStyle}>
           <h2 css={mainTitleStyle}>{menuTitle}</h2>
+          <div css={filterButtonContainer}>
+            <div css={filterButtonsLeft}>
+              {['전체', '대기', '승인', '거부'].map((label) => (
+                <button
+                  key={label}
+                  css={filterButtonStyle(selectedStatus === label)}
+                  onClick={() => setSelectedStatus(label)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
           <table css={tableStyle}>
             <thead css={theadStyle}>
               <tr>
@@ -97,7 +117,7 @@ function TrainerList() {
               </tr>
             </thead>
             <tbody css={tbodyStyle}>
-              {trainerList.map((trainer, index) => (
+              {trainers.map((trainer, index) => (
                 <tr key={trainer.trainerId}>
                   <td>{index + 1}</td>
                   <td>{trainer.username}</td>

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react'
-import { approveButtonStyle, buttonContainerStyle, changeReasonBoxStyle, closeButtonStyle, fieldBoxStyle, fieldRowStyle, fileDownloadLink, modalBackdropStyle, modalBoxStyle, profileBoxStyle, rejectButtonGroupStyle, RejectButtonStyle, textareaStyle, topSectionStyle } from './admin.style';
+import { approveButtonStyle, buttonContainerStyle, changeReasonBoxStyle, closeButtonStyle, fieldBoxStyle, fieldRowStyle, fileDownloadLink, modalBackdropStyle, modalBoxStyle, profileBoxStyle, rejectButtonGroupStyle, rejectButtonStyle, textareaStyle, topSectionStyle } from './admin.style';
 import { GetTrainerDetailResponseDto } from '@/dtos/admin/response/get-trainer-detail-response.dto';
 import { useCookies } from 'react-cookie';
 import { updateTrainerStatusRequest } from '@/apis/admin/update-trainer-status.api';
@@ -134,7 +134,7 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
               onChange={(e) => setChangeReason(e.target.value)}
             />
             <div css={rejectButtonGroupStyle}>
-              <button css={RejectButtonStyle} onClick={handleRejectConfirm}>거부 확정</button>
+              <button css={rejectButtonStyle} onClick={handleRejectConfirm}>거부 확정</button>
               <button css={closeButtonStyle} onClick={() => setIsRejecting(false)}>취소</button>
             </div>
           </div>
@@ -147,7 +147,7 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
             {trainer.status === 'PENDING' && (
               <>
                 <button css={approveButtonStyle} onClick={handleApprove}>승인</button>
-                <button css={RejectButtonStyle} onClick={() => setIsRejecting(true)}>거부</button>
+                <button css={rejectButtonStyle} onClick={() => setIsRejecting(true)}>거부</button>
               </>
             )}
           </div>

@@ -67,6 +67,31 @@ export const ticketCard = css`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 `;
 
+export const issuedCardStyle = css`
+  background-color: #F2F9FF;
+`;
+
+export const usedCardStyle = css`
+  background-color: #F3FBF2;
+`;
+
+export const canceledCardStyle = css`
+  background-color: #FFF5F5;
+`;
+
+export const getCardStyleByStatus = (status: string) => {
+  switch (status) {
+    case 'ISSUANCE':
+      return issuedCardStyle;
+    case 'USED':
+      return usedCardStyle;
+    case 'CANCEL':
+      return canceledCardStyle;
+    default:
+      return issuedCardStyle;
+  }
+};
+
 export const ticketHeader = css`
   display: flex;
   justify-content: space-between;
@@ -118,4 +143,17 @@ export const ticketBottom = css`
   gap: 24px;
   font-size: 14px;
   color: #555;
+`;
+
+export const usedButtonStyle = css`
+  color: #4caf50;
+`;
+
+export const cancelButtonStyle = css`
+  color: #f44336;
+`;
+
+export const sectionDivider = css`
+  border-top: 1px solid #ddd;
+  margin: 24px 0;
 `;
