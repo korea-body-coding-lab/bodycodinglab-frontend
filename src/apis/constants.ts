@@ -12,7 +12,7 @@ export const SIGN_UP_MEMBER_URL = `${SIGN_UP_URL}/member`;
 export const SIGN_UP_TRAINER_URL = `${SIGN_UP_URL}/trainer`;
 export const LOGIN_URL = `${AUTH_MODULE_URL}/login`;
 export const LOGOUT_URL = `${AUTH_MODULE_URL}/logout`;
-export const SEND_VERIFY_EMAIL_URL = `${AUTH_MODULE_URL}/send-email`;
+export const SEND_RESET_PASSWORD_EMAIL_URL = `${AUTH_MODULE_URL}/send-reset-password-email`;
 export const VERIFY_EMAIL_URL = (token: string) => `${AUTH_MODULE_URL}/verify?token=${token}`;
 export const DELETE_USER_URL = `${USER_MODULE_URL}/account-cancellation/me`;
 export const FIND_USERNAME_URL = `${AUTH_MODULE_URL}/finding-id`;
