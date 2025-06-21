@@ -155,6 +155,10 @@ export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_
 export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;
 
 
+
+// 쿠폰 생성 
+export const POST_COUPON = `${API_DOMAIN}/api/v1/coupons`;
+
 // 회원의 사용하지 않은 혹은 기간이 만료된 쿠폰 조회
 export const GET_MEMBER_COUPON_URL = (status: string) => `${MEMBER_MODULE_URL}/coupons?status=${status}`;
 
