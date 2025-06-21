@@ -112,7 +112,7 @@ export const profileBoxStyle = css`
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
-  /* border: 3px solid #75A7EF; */
+  border: 3px solid #75A7EF;
 
   img {
     width: 120px;
