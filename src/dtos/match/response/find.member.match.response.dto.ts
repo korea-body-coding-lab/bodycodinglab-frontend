@@ -18,6 +18,7 @@ type InvestableTime = "MIN30" | "MIN40" | "HOUR1" | "FREEDOM";
 
 
 export interface memberMatchResponseDto{
+  profileImageUrl: string | null;
   memberName: string;
   memberAge: number;
   memberGender: Gender
