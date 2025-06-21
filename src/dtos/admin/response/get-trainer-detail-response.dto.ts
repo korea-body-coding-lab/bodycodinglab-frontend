@@ -1,5 +1,4 @@
 export interface GetTrainerDetailResponseDto {
-    userId: number;
     trainerId: number;
     username: string;
     name: string;

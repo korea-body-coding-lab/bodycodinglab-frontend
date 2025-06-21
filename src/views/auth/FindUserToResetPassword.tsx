@@ -5,8 +5,8 @@ import Header from "../header/Header";
 import { findUserToResetPasswordRequest } from "@/apis/auth/find-user-to-reset-password.api";
 import { GetUserInformationToResetPasswordRequestDto } from "@/dtos/auth/request/get-user-information-to-reset-password.request.dto";
 import { validateGetUserInformationToResetPasswordForm } from "@/utils/get-user-informaiton-to-reset-password.valid";
-import { sendEmailRequest } from "@/apis/auth/send-email.api";
-import { SendEmailRequestDto } from "@/dtos/auth/request/send-email.request.dto";
+import { sendResetPasswordEmailRequest } from "@/apis/auth/send-email.api";
+import { SendResetPasswordEmailRequestDto } from "@/dtos/auth/request/send-reset-password-email.request.dto";
 
 function FindUserToResetPassword() {
   const [verifyEmail, setVerifyEmail] = useState('');
@@ -45,8 +45,8 @@ function FindUserToResetPassword() {
 
       const { email: verifyEmail } = data;
       setVerifyEmail(verifyEmail);
-      const sendEmailRequestdto: SendEmailRequestDto = { email: verifyEmail };
-      const sendEmailResponse = await sendEmailRequest(sendEmailRequestdto);
+      const sendEmailRequestdto: SendResetPasswordEmailRequestDto = { email: verifyEmail };
+      const sendEmailResponse = await sendResetPasswordEmailRequest(sendEmailRequestdto);
       const { code: seCode, message: seMessage } = sendEmailResponse;
 
       if (seCode !== 'SU') {
