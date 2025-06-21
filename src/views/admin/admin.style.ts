@@ -244,3 +244,25 @@ export const filterButtonStyle = (active: boolean) => css`
     background-color: ${active ? '#5C8DFF' : '#EDF3FF'};
   }
 `;
+
+export const paginationWrapper = css`
+  text-align: center;
+  margin-top: 20px;
+`;
+
+export const paginationButtonStyle = (active: boolean) => css`
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: 1px solid ${active ? '#699CE4' : '#ccc'};
+  background-color: ${active ? '#699CE4' : '#fff'};
+  color: ${active ? '#fff' : '#3F4756'};
+  border-radius: 4px;
+  cursor: ${active ? 'default' : 'pointer'};
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: ${active ? '#5C8DFF' : '#EDF3FF'};
+  }
+`;
