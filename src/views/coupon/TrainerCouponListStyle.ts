@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 
 export const trainerCouponContainer=css`
- margin-left: 10px;
+  margin-left: 15px;
 `
 
 // 전체 컨테이너
@@ -10,7 +10,7 @@ export const trainerCouponContainerBox = css`
   display: flex;
   flex-direction: row;
   justify-content:center;
-  width: 100%;
+  width: 60vw;
   height: 100%;
   font-family: 'Pretendard', sans-serif;
 `;
@@ -95,14 +95,15 @@ export const couponFilterTab = css`
   margin-bottom: 20px;
 
   button {
-    background-color: #fff;
+    background-color: #699CE4;
     border: 1px solid #aaa;
     padding: 8px 16px;
     border-radius: 6px;
+    color: white;
     cursor: pointer;
 
     &:hover {
-      background-color: #eee;
+      background-color: #437BC0;
     }
   }
 `;
@@ -112,7 +113,7 @@ export const trainerCouponListBox = css`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 30%;
+  width: 50%;
 `;
 
 // 쿠폰 개별 카드
@@ -138,12 +139,12 @@ export const trainerCouponSectionLeft = css`
     font-size: 14px;
     border-radius: 6px;
     border: none;
-    background-color: #666;
+    background-color: #699CE4;
     color: white;
     cursor: pointer;
 
     &:hover {
-      background-color: #444;
+      background-color: #437BC0;
     }
   }
 `;
@@ -178,3 +179,6 @@ export const trainerCouponSectionRight = css`
 `;
 
 
+export const couponContainerBox = css`
+  display: flex;
+` 

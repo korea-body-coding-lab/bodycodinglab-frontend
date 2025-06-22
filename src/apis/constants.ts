@@ -146,10 +146,12 @@ export const GET_FIND_ID_FORM = `${MEMBER_MODULE_URL}/forms`;
 
 
 
+// 결제 생성
+export const POST_PAYMENT = `${MEMBER_MODULE_URL}/match-waiting-list/payments`;
 
 
 // 구독 기록 생성
-export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/subscriptions`;
+export const POST_SUBSCRIPTIONS = `${GET_MEMBER_MATCH_WAITING_LIST_URL}/subscriptions`;
 
 // 구독 기록 조회
 export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;

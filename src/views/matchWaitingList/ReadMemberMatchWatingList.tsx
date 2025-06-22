@@ -7,6 +7,9 @@ import * as m from "./memberMatchWaitingList.style";
 import { memberCancelRequest } from "@/apis/MatchWaitingList/put.MatchCancel.api";
 import { useNavigate } from "react-router-dom";
 import { postSubscriptionRequest } from "@/apis/subscription/post.subscription.api";
+import { confirmPaymentRequestDto } from "@/dtos/payment/reqeust/Confirm.Payment.Request.Dto";
+import { postPaymentRequestDto } from "@/dtos/payment/reqeust/post.Payment.Request.Dto";
+import { postPaymentRequeust } from "@/apis/payment/post.payment.api";
 
 function ReadMemberMatchWatingList() {
   const [cookies, setCookies] = useCookies(["accessToken"]);
@@ -50,13 +53,37 @@ function ReadMemberMatchWatingList() {
     }
   };
 
-  const subscriptionButton = async (matchWaitingListId: number) => {
+  
+
+
+
+  const subscriptionButton = async () => {
     const token = cookies.accessToken;
     if (!token) {
       alert("구독 신청을 할 권한이 존재하지 않습니다.");
     }
 
-    const response = await postSubscriptionRequest(matchWaitingListId, token);
+    const paymentRequestDto: postPaymentRequestDto = {
+    amount: 149000,
+  };
+
+  
+  const paymentResponse = await postPaymentRequeust(paymentRequestDto, token);
+  if (!paymentResponse.data) {
+    alert("결제 생성에 실패하였습니다.");
+    return;
+  }
+
+  const { orderId } = paymentResponse.data;
+
+
+  const subscriptionRequestDto: confirmPaymentRequestDto = {
+    orderId,
+    provider: "KAKAO",
+    matchWaitingListId: trainerData?.matchWaitingListId
+  };
+
+    const response = await postSubscriptionRequest(subscriptionRequestDto, token);
     if (response.data) {
       alert("구독 신청 완료");
       navigate("/");
@@ -73,7 +100,7 @@ function ReadMemberMatchWatingList() {
         <h2 css={m.MemberMatchWaitingListTitle}>매칭 신청한 트레이너</h2>
         <br />
         <br />
-        <p>트레이너 프로필 이미지 자리</p>
+        <img src={trainerData.profileImageUrl ? `http://localhost:8080${trainerData.profileImageUrl}` : '/default-profile.png'} alt="트레이너 이미지" css={m.trainerProfile} />
         <br />
         <br />
         <div>
@@ -108,7 +135,7 @@ function ReadMemberMatchWatingList() {
             신청 취소
           </button>
           <button
-            onClick={() => subscriptionButton(trainerData.matchWaitingListId)}
+            onClick={() => subscriptionButton()}
             css={m.MatchWaitingListButton}
             disabled={trainerData.approvedStatus === "NOT_APPROVED"}
           >

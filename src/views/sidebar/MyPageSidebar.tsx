@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/user.store';
 import { useMemo, useState } from 'react'
 import { hoverText, linkStyle, loginProfile, menuListStyle, menuStyle, profileStyle, profileWrapper, sidebarStyle } from './sidebar.style';
 import { Link } from 'react-router-dom';
+import path from 'path';
 
 type UserRole = "ADMIN" | "MEMBER" | "TRAINER";
 
@@ -16,11 +17,15 @@ const menuMap = {
   MEMBER: [
     { label: "개인 정보 조회 / 수정", path: "/users/members/me" },
     { label: "체험권", path: "/users/members/me/one-day-tickets" },
+    { label: "쿠폰", path: "/users/members/me/coupons"},
+    { label: "폼 작성 / 조회", path: "/users/members/me/forms"},
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
   TRAINER: [
     { label: "개인 정보 조회 / 수정", path: "/users/trainers/me" },
     { label: "트레이너 정보 입력", path: "/users/trainers/me/information" }, 
+    { label: "쿠폰", path: "/users/trainers/me/coupons"},
+    { label: "매칭 대기 관리", path: "/users/trainers/me/match-waiting-lists"},
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
 };
