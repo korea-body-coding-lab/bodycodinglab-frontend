@@ -8,11 +8,12 @@ import { useCookies } from 'react-cookie';
 import { GetMemberAllTicketsResponseDto } from '@/dtos/oneDayTicket/response/get-member-all-tickets.response.dto';
 import { getMemberAllTicketsRequest } from '@/apis/oneDayTicket/get-member-all-tickets.api';
 import { oneDayTicketStatusMap } from '@/utils/one-day-ticket-status.map';
-import { cancelButtonStyle, filterButtonContainer, getCardStyleByStatus, layoutStyle, mainStyle, mainTitleStyle, sectionDivider, statusBadge, ticketBottom, ticketCard, ticketCardContainer, ticketCountText, ticketHeader, ticketMeta, trainerId, trainerImage, trainerInfo, trainerName, usedButtonStyle } from './ticket.style';
+import { cancelButtonStyle, emptyTicketMessageStyle, filterButtonContainer, getCardStyleByStatus, layoutStyle, mainStyle, mainTitleStyle, sectionDivider, statusBadge, ticketBottom, ticketCard, ticketCardContainer, ticketCountText, ticketHeader, ticketMeta, trainerId, trainerImage, trainerInfo, trainerName, usedButtonStyle } from './ticket.style';
 
 function GetMemberAllTickets() {
   const [cookies] = useCookies(['accessToken']);
   const [tickets, setTickets] = useState<GetMemberAllTicketsResponseDto[]>([]);
+  const [count, setCount] = useState<number>(3);
   const location = useLocation();
   const path = location.pathname;
   const menuTitle = getMenuTitleByPath(path);
@@ -34,7 +35,8 @@ function GetMemberAllTickets() {
       const { code, message, data } = response;
 
       if (code === 'SU' && data) {
-        setTickets(data);
+        setTickets(data.tickets);
+        setCount(data.count);
       } else {
         console.error('체험권 목록 불러오기 실패: ', message);
         alert('체험권 목록 불러오기 실패');
@@ -56,10 +58,17 @@ function GetMemberAllTickets() {
           <h2 css={mainTitleStyle}>{menuTitle}</h2>
           <div css={filterButtonContainer}>
             <div css={ticketCountText}>
-              남은 체험권: {tickets[0]?.count ?? 0}회
+              남은 체험권: {count}회
             </div>
           </div>
           <section css={ticketCardContainer}>
+            {issuedTickets.length === 0 &&
+              usedTickets.length === 0 &&
+              canceledTickets.length === 0 && (
+                <p css={emptyTicketMessageStyle}>
+                  발급된 체험권이 없습니다.
+                </p>
+            )}
             {issuedTickets.length > 0 && (
               <>
                 <h3>발급 티켓</h3>
@@ -74,15 +83,23 @@ function GetMemberAllTickets() {
                         <p>{ticket.jobAddress}</p>
                       </div>
                       <div css={trainerInfo}>
-                        <div css={trainerImage} />
+                        <img
+                          src={ticket.trainerProfileImageUrl
+                                ? `http://localhost:8080${ticket.trainerProfileImageUrl}?v=${Date.now()}`
+                                : '/default-profile.png'
+                              }
+                          alt='profile'
+                          onError={(e) => {
+                            e.currentTarget.src = '/default-profile.png';
+                          }}
+                          css={trainerImage}
+                        />
                         <p css={trainerName}>{ticket.trainerName}</p>
                         <p css={trainerId}>({ticket.trainerId})</p>
                       </div>
                     </div>
                     <div css={ticketBottom}>
                       <div>발급일자: {ticket.issuedAt}</div>
-                      {ticket.usedAt && <div css={usedButtonStyle}>사용일자: {ticket.usedAt}</div>}
-                      {ticket.canceledAt && <div css={cancelButtonStyle}>취소일자: {ticket.canceledAt}</div>}
                     </div>
                   </article>
                 ))}
@@ -106,15 +123,24 @@ function GetMemberAllTickets() {
                         <p>{ticket.jobAddress}</p>
                       </div>
                       <div css={trainerInfo}>
-                        <div css={trainerImage} />
+                        <img
+                          src={ticket.trainerProfileImageUrl
+                                ? `http://localhost:8080${ticket.trainerProfileImageUrl}?v=${Date.now()}`
+                                : '/default-profile.png'
+                              }
+                          alt='profile'
+                          onError={(e) => {
+                            e.currentTarget.src = '/default-profile.png';
+                          }}
+                          css={trainerImage}
+                        />
                         <p css={trainerName}>{ticket.trainerName}</p>
                         <p css={trainerId}>({ticket.trainerId})</p>
                       </div>
                     </div>
                     <div css={ticketBottom}>
                       <div>발급일자: {ticket.issuedAt}</div>
-                      {ticket.usedAt && <div css={usedButtonStyle}>사용일자: {ticket.usedAt}</div>}
-                      {ticket.canceledAt && <div css={cancelButtonStyle}>취소일자: {ticket.canceledAt}</div>}
+                      {ticket.usedAt && <div css={usedButtonStyle}><b>사용일자: {ticket.usedAt}</b></div>}
                     </div>
                   </article>
                 ))}
@@ -136,15 +162,25 @@ function GetMemberAllTickets() {
                         <p>{ticket.jobAddress}</p>
                       </div>
                       <div css={trainerInfo}>
-                        <div css={trainerImage} />
+                        <img
+                          src={ticket.trainerProfileImageUrl
+                                ? `http://localhost:8080${ticket.trainerProfileImageUrl}?v=${Date.now()}`
+                                : '/default-profile.png'
+                              }
+                          alt='profile'
+                          onError={(e) => {
+                            e.currentTarget.src = '/default-profile.png';
+                          }}
+                          css={trainerImage}
+                        />
                         <p css={trainerName}>{ticket.trainerName}</p>
                         <p css={trainerId}>({ticket.trainerId})</p>
                       </div>
                     </div>
                     <div css={ticketBottom}>
                       <div>발급일자: {ticket.issuedAt}</div>
-                      {ticket.usedAt && <div css={usedButtonStyle}>사용일자: {ticket.usedAt}</div>}
-                      {ticket.canceledAt && <div css={cancelButtonStyle}>취소일자: {ticket.canceledAt}</div>}
+                      {ticket.canceledAt && <div css={cancelButtonStyle}><b>취소일자: {ticket.canceledAt}</b></div>}
+                      {ticket.cancelReason && <div css={cancelButtonStyle}><b>취소사유: {ticket.cancelReason}</b></div>}
                     </div>
                   </article>
                 ))}

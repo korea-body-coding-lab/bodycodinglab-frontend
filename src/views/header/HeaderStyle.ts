@@ -10,8 +10,6 @@ export const headerStyle = css`
   box-sizing: border-box;
 `;
 
-
-
 export const headerUpSet = css`
   width: 60%;
   margin: auto;
@@ -48,7 +46,6 @@ export const loginProfile = css`
   border-radius: 50%;
   border: 2px solid #437BC0;
   object-fit: cover;
-  background-color: #fff;
   display: block;
   margin: 0 auto;
   cursor: pointer;
