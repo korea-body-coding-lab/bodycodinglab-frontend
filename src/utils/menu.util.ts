@@ -8,6 +8,7 @@ export const getMenuTitleByPath = (path: string): string => {
   '/users/trainers/me': '개인 정보 조회 / 수정',
   '/users/trainers/me/information': '상세정보 조회 / 수정',
   '/users/trainers/me/setting': '개인 정보 조회 / 수정',
+  '/users/trainers/me/one-day-tickets': '체험권 관리',
 };
 
   return menuMap[path] || '';
