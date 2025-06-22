@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import LogoutButton from '@/components/LogoutButton';
 import { useUserStore } from '@/stores/user.store';
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { hoverText, linkStyle, loginProfile, menuListStyle, menuStyle, profileStyle, profileWrapper, sidebarStyle } from './sidebar.style';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { getMenuTitleByPath } from '@/utils/menu.util';
 import path from 'path';
 
 type UserRole = "ADMIN" | "MEMBER" | "TRAINER";
 
-// 마이페이지 메뉴 추가하면, /src/util/menu.util.ts 에도 추가
+// 마이페이지 메뉴 추가하면, /src/util/menu.util.ts 에도 추가 (경로와 라벨 맞춰야 함)
 const menuMap = {
   ADMIN: [
     { label: "트레이너 관리", path: "/admin/trainers" },
-    { label: "1:1 문의", path: "/member/inquiry" },
   ],
   MEMBER: [
     { label: "개인 정보 조회 / 수정", path: "/users/members/me" },
@@ -31,10 +31,14 @@ const menuMap = {
 };
 
 function MyPageSidebar() {
-  const [selectedMenu, setSelectedMenu] = useState("")
+  const location = useLocation();
   const user = useUserStore((state) => state.user);
   const userRole = user?.role as UserRole | undefined;
   const menus = menuMap[userRole || "MEMBER"];
+
+  const currentMenuLabel = useMemo(() => {
+    return getMenuTitleByPath(location.pathname);
+  }, [location.pathname]);
 
   const profileImageUrl = useMemo(() => {
   return user?.profileImageUrl
@@ -75,12 +79,11 @@ function MyPageSidebar() {
         <ul css={menuListStyle}>
           {menus.map((menu) => (
             <li
-              key={menu.label}
+              key={`${menu.label}-${menu.path}`}
             >
               <Link
                 to={menu.path}
-                onClick={() => setSelectedMenu(menu.label)}
-                css={linkStyle(selectedMenu === menu.label)}
+                css={linkStyle(currentMenuLabel === menu.label)}
               >
                 {menu.label}
               </Link>

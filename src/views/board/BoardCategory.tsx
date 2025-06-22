@@ -1,14 +1,25 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import * as s from "./BoardCategoryStyle"
 import { useNavigate } from 'react-router-dom';
+import { getUserMatchId } from '@/apis/get-user-matchId';
 
 function BoardCategory({categoryId}: {categoryId: Number}) {
+  const [matchId, setMatchId] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const handleNavigate = (id: number) => {
-    navigate(`/personal-community-boards/${id}`);
-  }
+
+  useEffect(() => {
+    async function fetchMatchId() {
+      const id = await getUserMatchId();
+      setMatchId(id);
+    }
+    fetchMatchId();
+  }, []);
+  const handleNavigate = (categoryId: number) => {
+    if (!matchId) return;
+    navigate(`/personal-community-boards/${matchId}/${categoryId}`);
+  };
   return (
     <div>
         <div>
@@ -16,9 +27,9 @@ function BoardCategory({categoryId}: {categoryId: Number}) {
         </div>
         <nav css={s.category}>
             <div css={s.categorys}>
-                <div css={(categoryId === 1 ? s.useCategoryDivs : s.categoryDivs)} onClick={() => navigate(`/personal-community-boards/${1}`)}><span>식단</span></div>
-                <div css={(categoryId === 2 ? s.useCategoryDivs : s.categoryDivs)} onClick={() => navigate(`/personal-community-boards/${2}`)}><span>루틴</span></div>
-                <div css={(categoryId === 3 ? s.useCategoryDivs : s.categoryDivs)} onClick={() => navigate(`/personal-community-boards/${3}`)}><span>커뮤니티</span></div>
+                <div css={(categoryId === 1 ? s.useCategoryDivs : s.categoryDivs)} onClick={() => handleNavigate(1)}><span>식단</span></div>
+                <div css={(categoryId === 2 ? s.useCategoryDivs : s.categoryDivs)} onClick={() => handleNavigate(2)}><span>루틴</span></div>
+                <div css={(categoryId === 3 ? s.useCategoryDivs : s.categoryDivs)} onClick={() => handleNavigate(3)}><span>커뮤니티</span></div>
             </div>
             
         </nav>

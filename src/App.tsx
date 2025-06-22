@@ -40,11 +40,8 @@ import SentNotes from './views/note/SentNotes'
 
 import Subscription from './views/subscription/Subscription'
 import MatchManagement from './views/MatchManagement/MatchManagement'
-
 import TrainerInfo from './views/trainer/TrainerInfo'
 import ReadTrainerMatchList from './views/match/ReadTrainerMatchList'
-
-
 import { useCookies } from 'react-cookie'
 import { useUserStore } from './stores/user.store'
 import { useAuthStore } from './stores/auth.store'
@@ -52,6 +49,8 @@ import { useEffect } from 'react'
 import { GetUserInformationRequest } from './apis/user/get-user-informaiton.api'
 import TrainerDetail from './views/trainer/search/TrainerDetail'
 import TrainerSearch from './views/trainer/search/TrainerSearch'
+import RedirectToUserMatch from './views/board/RedirectToMatch'
+
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -75,6 +74,17 @@ function App() {
   const setUser = useUserStore((state) => state.setUser);
   const user = useUserStore((state) => state.user);
   const accessToken = cookies.accessToken;
+  
+  useEffect(() => {
+    if (!accessToken) return;
+
+    setLogin(accessToken);
+
+    if (!user) {
+      fetchUser();
+    }
+    
+  }, [accessToken]);
 
   const fetchUser = async() => {
     try {
@@ -100,17 +110,6 @@ function App() {
     }
   }
 
-useEffect(() => {
-  if (!accessToken) return;
-
-  setLogin(accessToken);
-
-  if (!user) {
-    fetchUser();
-  }
-  
-}, [accessToken]);
-
   return (
     <>
       <Routes>
@@ -133,11 +132,13 @@ useEffect(() => {
         <Route path='/users/trainers/me/information' element={<TrainerInfo />} />
         <Route path='/trainers/:trainerId' element={<TrainerDetail />} />
         <Route path='/trainers/search' element={<TrainerSearch />} />
-        <Route path="/personal-community-boards" element={<Navigate to="/personal-community-boards/1" />} />
-        <Route path='/personal-community-boards/:categoryId/write' element={<BoardWrite />} />
-        <Route path='/personal-community-boards/:categoryId/edit' element={<BoardEdit />} />
-        <Route path="/personal-community-boards/:categoryId/:postId" element={<Post />} />
-        <Route path='/personal-community-boards/:categoryId' element={<Board />} />
+
+        <Route path="/personal-community-boards" element={<RedirectToUserMatch />} />
+        <Route path='/personal-community-boards/:matchId/:categoryId/write' element={<BoardWrite />} />
+        <Route path='/personal-community-boards/:matchId/:categoryId/:postId/edit' element={<BoardEdit />} />
+        <Route path="/personal-community-boards/:matchId/:categoryId/:postId" element={<Post />} />
+        <Route path='/personal-community-boards/:matchId/:categoryId' element={<Board />} />
+
         <Route path='/notes/' element={<Navigate to="/notes/allnotes" />} />
         <Route path='/notes/*' element={<Note />} />
         <Route path='/notes' element={<Navigate to="/notes/allnotes" />} />

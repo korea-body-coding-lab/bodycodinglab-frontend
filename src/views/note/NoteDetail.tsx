@@ -3,15 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import * as s from "./NoteListStyle";
 import { NoteType } from '@/dtos/note/request/get-note.dto';
-import { getAccessTokenFromCookie } from '@/apis/get-token';
+import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
+import { fetchUsernames } from '@/apis/get-username';
+import { NoteList } from '@/dtos/note/request/get-notelist.dto';
 
 function NoteDetail() {
   const navigate = useNavigate();
   const { noteId } = useParams<{ noteId: string }>();
   const [note, setNote] = useState<NoteType | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userMap, setUserMap] = useState<Record<number, string>>({});
 
-  const userId = Number(localStorage.getItem("userId"));
+  const userId = getUserIdFromToken();
+  console.log("userId:", userId);
 
   useEffect(() => {
     if (!noteId) return;
@@ -31,7 +35,12 @@ function NoteDetail() {
         if (!res.ok) throw new Error("쪽지 불러오기 실패");
         const data = await res.json();
         setNote(data.data);
+         const userIds: number[] = [data.data.noteWriter, data.data.noteReceiver];
+        
+        const userMapData = await fetchUsernames(userIds);
+        setUserMap(userMapData)
       } catch (e) {
+        console.error('쪽지 불러오기 에러:', e);
         alert("쪽지를 불러오지 못했습니다.");
       } finally {
         setLoading(false);
@@ -55,17 +64,17 @@ function NoteDetail() {
             <div css={s.noteWriteWrap}>
                 <div css={s.profile}>
                   {isWriter ? (
-                    <div>
+                    <div css={s.profileDetail}>
                       <div css={s.profileImage}>프로필이미지</div>
-                      <span css={s.profileSpan}>받는 사람: {note.noteReceiver}</span>
+                      <span css={s.profileSpan}>받은 사람: {userMap[note.noteReceiver]}</span>
                     </div>
                   ) : (
-                    <div>
+                    <div css={s.profileDetail}>
                       <div css={s.profileImage}>프로필이미지</div>
-                      <span css={s.profileSpan}>보낸 사람: {note.noteWriter}</span>
+                      <span css={s.profileSpan}>보낸 사람: {userMap[note.noteWriter]}</span>
                     </div>
                   )}
-                  <div>{new Date(note.createdAt).toLocaleString()}</div>
+                  <div>{new Date(note.noteCreateTime).toLocaleString()}</div>
                 </div>
                 <div css={s.noteText} >{note.noteText}</div>
                 {isWriter ? <div></div> : <button css={s.sendBtn} onClick={() => navigate(`/notes/write?receiver=${note.noteWriter}`)}>답장하기</button>}

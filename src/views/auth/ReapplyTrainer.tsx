@@ -1,25 +1,47 @@
 /** @jsxImportSource @emotion/react */
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import Header from '../header/Header';
 import { buttonResetPasswordStyle, containerStyle, formLabelResetPasswordStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputButtonStyle, inputFindUsernameWrapperStyle, inputStyle } from './auth.style';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ReapplyTrainerRequestDto } from '@/dtos/auth/request/reapply-trainer.request.dto';
 import { ReapplyTrainerRequest } from '@/apis/auth/reapply-trainer.api';
+import { VerifyEmailRequest } from '@/apis/auth/verify-email.api';
 
 function ReapplyTrainer() {
-    const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const [attachmentFile, setAttachmentFile] = useState<File | null>(null);
-    const [form, setForm] = useState({
-      jobAddress: ""
-    });
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [attachmentFile, setAttachmentFile] = useState<File | null>(null);
+  const [form, setForm] = useState({
+    jobAddress: ""
+  });
 
-    const email = searchParams.get('email');
+  const token = searchParams.get('token');
 
-    if (!email) {
-      alert('잘못된 이메일입니다.');
-      return;
+  if (!token) {
+    alert('잘못된 토큰입니다.');
+    return;
+  }
+  
+  useEffect(() =>{
+    verifyEmail();
+  }, [token]);
+
+  const verifyEmail = async() => {
+    try {
+      const response = await VerifyEmailRequest(token);
+      const { code, message } = response;
+
+      if (code !== 'SU') {
+        alert(message);
+        return;
+      }
+      console.log('이메일 인증 성공: ' + message);
+
+    } catch (e) {
+      console.log('이메일 인증 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,10 +59,10 @@ function ReapplyTrainer() {
       return "근무지 주소는 필수 항목입니다.";
     }
 
-    // if (!attachmentFile) {
-    //   alert('첨부 파일은 필수 항목입니다.');
-    //   return;
-    // }
+    if (!attachmentFile) {
+      alert('첨부 파일은 필수 항목입니다.');
+      return;
+    }
 
     const requestBody: ReapplyTrainerRequestDto = {
           ...form,
@@ -48,13 +70,14 @@ function ReapplyTrainer() {
     
     const formData = new FormData();
 
+    formData.append('token', token);
     formData.append('dto', new Blob([
       JSON.stringify(requestBody)
     ], { type: 'application/json' }));
-    // formData.append('attachmentFile', attachmentFile);
+    formData.append('attachmentFile', attachmentFile);
 
     try {
-      const response = await ReapplyTrainerRequest(email, formData);
+      const response = await ReapplyTrainerRequest(token, formData);
       const { code, message } = response;
 
       if (code !== 'SU') {
@@ -70,7 +93,6 @@ function ReapplyTrainer() {
     }
 
   }
-
 
   return (
     <>

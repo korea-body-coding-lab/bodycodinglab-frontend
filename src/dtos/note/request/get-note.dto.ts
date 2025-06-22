@@ -4,5 +4,5 @@ export type NoteType={
     noteWriter: number;
     noteReceiver: number;
     isRead: boolean;
-    createdAt: string;
+    noteCreateTime: string;
   }
