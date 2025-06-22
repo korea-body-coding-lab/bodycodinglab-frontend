@@ -11,7 +11,7 @@ export const getMenuTitleByPath = (path: string): string => {
   '/users/members/me/forms': '폼 작성 / 조회',
   '/users/members/me/coupons': '쿠폰',
   '/users/trainers/me/coupons': '쿠폰',
-  '/users/trainers/me/match-waiting-lists' :"매칭 대기 관리"
+  '/users/trainers/me/match-waiting-lists' :"매칭 대기 관리",
   '/users/trainers/me/one-day-tickets': '체험권 관리',
 };
 

@@ -6,6 +6,7 @@ export interface GetMemberAllTicketsResponseDto {
   issuedAt: string;
   usedAt: string;
   canceledAt: string;
+  cancelReason: string;
   status: 'ISSUANCE' | 'USED' | 'CANCEL';
-  count: number;
+  trainerProfileImageUrl: string;
 }
