@@ -3,4 +3,5 @@ export interface TrainerListResponseDto {
   name: string;
   shortIntroduce: string ;
   jobAddress: string ;
+  profileImage: string;
 }

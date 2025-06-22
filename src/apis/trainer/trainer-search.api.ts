@@ -1,6 +1,6 @@
 import ResponseDto from "@/dtos/response.dto";
 import { TrainerCareerResponseDto } from "@/dtos/trainer/response/trainer-career.response.dto";
-import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
+import { axiosInstance,  responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { GET_ALL_TRAINER_INFO, GET_TRAINER_BY_ADDRESS, GET_TRAINER_BY_NAME, GET_TRAINER_INFO, SEARCH_TRAINER_CAREER, SEARCH_TRAINER_LICENSE } from "../constants";
 import { AxiosError } from "axios";
 import { TrainerLicenseResponseDto } from "@/dtos/trainer/response/trainer-license.response.dto";

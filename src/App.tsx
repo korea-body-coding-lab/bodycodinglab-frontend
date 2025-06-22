@@ -5,7 +5,6 @@ import SignUp from './views/auth/SignUp'
 import Index from '.'
 import SignUpMember from './views/auth/SignUpMember'
 import SignUpTrainer from './views/auth/SignUpTrainer'
-import TrainerCareer from './views/trainer/TrainerCareer'
 import Login from './views/auth/Login'
 
 import TrainerCouponList from './views/coupon/TrainerCouponList'
@@ -20,8 +19,6 @@ import BoardEdit from './views/board/BoardEdit'
 import Post from './views/board/Post'
 import Board from './views/board/Board'
 
-
-import TrainerLicense from './views/trainer/TrainerLicense'
 import ResetPassword from './views/auth/ResetPassword'
 import DeleteUser from './views/user/DeleteUser'
 import GetMemberAllTickets from './views/oneDayTicket/GetMemberAllTickets'
@@ -51,6 +48,7 @@ import TrainerDetail from './views/trainer/search/TrainerDetail'
 import TrainerSearch from './views/trainer/search/TrainerSearch'
 import RedirectToUserMatch from './views/board/RedirectToMatch'
 
+import TrainerOneDayTicket from './views/oneDayTicket/TrainerOneDayTicket'
 
 //! 프로젝트 기초 환경 설정
 // 1. 외부 라이브러리 설치(의존성 설치)
@@ -154,6 +152,7 @@ function App() {
         <Route path='/users/trainers/me/match-waiting-lists' element={<ReadTrainerMatchWaitingList/>} />
         <Route path='/users/trainers/me/match-success-lists' element={<ReadTrainerMatchList/>}/>
         <Route path='/users/members/me/subscriptions' element={<Subscription/>} />
+        <Route path='/users/trainers/me/one-day-tickets' element={<TrainerOneDayTicket />} />
       </Routes>
     </>
   )

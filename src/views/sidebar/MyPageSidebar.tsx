@@ -23,9 +23,10 @@ const menuMap = {
   ],
   TRAINER: [
     { label: "개인 정보 조회 / 수정", path: "/users/trainers/me" },
-    { label: "트레이너 정보 입력", path: "/users/trainers/me/information" }, 
-    { label: "쿠폰", path: "/users/trainers/me/coupons"},
+    { label: "트레이너 정보 입력", path: "/users/trainers/me/information" },
     { label: "매칭 대기 관리", path: "/users/trainers/me/match-waiting-lists"},
+    { label: "체험권 관리", path: "/users/trainers/me/one-day-tickets" }, 
+    { label: "쿠폰", path: "/users/trainers/me/coupons"},
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
 };
