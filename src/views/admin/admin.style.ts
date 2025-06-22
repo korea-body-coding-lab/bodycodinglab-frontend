@@ -31,7 +31,7 @@ export const theadStyle = css`
   th {
     padding: 14px 12px;
     font-weight: bold;
-    color: #3f4756;
+    color: #3F4756;
     border-bottom: 1px solid #cfd9e0;
     text-align: center;
   }
@@ -47,7 +47,7 @@ export const tbodyStyle = css`
   td {
     padding: 12px 10px;
     border-bottom: 1px solid #e0e6ed;
-    color: #3f4756;
+    color: #3F4756;
     text-align: center;
     font-size: 15px;
   }
@@ -265,4 +265,20 @@ export const paginationButtonStyle = (active: boolean) => css`
   &:hover {
     background-color: ${active ? '#5C8DFF' : '#EDF3FF'};
   }
+`;
+
+export const fullPageLoaderStyle = css`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(30, 30, 30, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #FFF;
+  z-index: 9999;
 `;

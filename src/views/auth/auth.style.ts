@@ -412,3 +412,19 @@ export const linkGroupStyle = css`
     margin-top: 0;
   }
 `;
+
+export const fullPageLoaderStyle = css`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(30, 30, 30, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #FFF;
+  z-index: 9999;
+`;

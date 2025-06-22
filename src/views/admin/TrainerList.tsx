@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../header/Header';
 import MyPageSidebar from '../sidebar/MyPageSidebar';
-import { filterButtonContainer, filterButtonsLeft, filterButtonStyle, layoutStyle, mainStyle, mainTitleStyle, paginationButtonStyle, paginationWrapper, tableStyle, tbodyStyle, theadStyle } from './admin.style';
+import { filterButtonContainer, filterButtonsLeft, filterButtonStyle, fullPageLoaderStyle, layoutStyle, mainStyle, mainTitleStyle, paginationButtonStyle, paginationWrapper, tableStyle, tbodyStyle, theadStyle } from './admin.style';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getMenuTitleByPath } from '@/utils/menu.util';
 import { GetAllTrainersResponseDto } from '@/dtos/admin/response/get-all-trainers.response.dto';
@@ -85,7 +85,6 @@ function TrainerList() {
       console.error('상세 조회 실패:', error);
       alert('상세 조회 실패');
     }
-    
   };
   
 
