@@ -112,7 +112,7 @@ export const profileBoxStyle = css`
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
-  /* border: 3px solid #75A7EF; */
+  border: 3px solid #75A7EF;
 
   img {
     width: 120px;
@@ -177,7 +177,7 @@ export const approveButtonStyle = css`
   }
 `;
 
-export const RejectButtonStyle = css`
+export const rejectButtonStyle = css`
   width: 155px;
   height: 55px;
   background-color: #f44336;
@@ -214,7 +214,55 @@ export const rejectButtonGroupStyle = css`
 `;
 
 export const fileDownloadLink = css`
-  color: inherit;         // 텍스트 색상 그대로
-  text-decoration: underline; // 밑줄만 표시
-  cursor: pointer;        // 마우스 올리면 손가락 커서
+  color: inherit; 
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
+export const filterButtonContainer = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+`;
+
+export const filterButtonsLeft = css`
+  display: flex;
+  gap: 12px;
+`;
+
+export const filterButtonStyle = (active: boolean) => css`
+  padding: 6px 18px;
+  border: 2px solid #699CE4;
+  background-color: ${active ? '#699CE4' : '#fff'};
+  color: ${active ? '#fff' : '#3F4756'};
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+  &:hover {
+    background-color: ${active ? '#5C8DFF' : '#EDF3FF'};
+  }
+`;
+
+export const paginationWrapper = css`
+  text-align: center;
+  margin-top: 20px;
+`;
+
+export const paginationButtonStyle = (active: boolean) => css`
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: 1px solid ${active ? '#699CE4' : '#ccc'};
+  background-color: ${active ? '#699CE4' : '#fff'};
+  color: ${active ? '#fff' : '#3F4756'};
+  border-radius: 4px;
+  cursor: ${active ? 'default' : 'pointer'};
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: ${active ? '#5C8DFF' : '#EDF3FF'};
+  }
 `;

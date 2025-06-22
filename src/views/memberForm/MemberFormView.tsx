@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import * as m from "./memberFrom.writer.style";
+import { MemberFormDto } from "@/dtos/match/response/find.member.match.response.dto";
 import { memberFormResponseDto } from "@/dtos/memberForm/response/get.memberForm.response.dto";
 
 const FormViewer = ({ data }: { data: memberFormResponseDto }) => {

@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react'
-import { approveButtonStyle, buttonContainerStyle, changeReasonBoxStyle, closeButtonStyle, fieldBoxStyle, fieldRowStyle, fileDownloadLink, modalBackdropStyle, modalBoxStyle, profileBoxStyle, rejectButtonGroupStyle, RejectButtonStyle, textareaStyle, topSectionStyle } from './admin.style';
+import { approveButtonStyle, buttonContainerStyle, changeReasonBoxStyle, closeButtonStyle, fieldBoxStyle, fieldRowStyle, fileDownloadLink, modalBackdropStyle, modalBoxStyle, profileBoxStyle, rejectButtonGroupStyle, rejectButtonStyle, textareaStyle, topSectionStyle } from './admin.style';
 import { GetTrainerDetailResponseDto } from '@/dtos/admin/response/get-trainer-detail-response.dto';
 import { useCookies } from 'react-cookie';
 import { updateTrainerStatusRequest } from '@/apis/admin/update-trainer-status.api';
+import { genderToKr } from '@/utils/gender.map';
 
 interface Props {
   trainer: GetTrainerDetailResponseDto;
@@ -31,21 +32,28 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
     );
     if (!ok) return;
 
-    const dto = { newStatus, changeReason };
-    const { code, message } = await updateTrainerStatusRequest(
-      trainer.trainerId,
-      dto,
-      accessToken
-    );
+    try {
+      const dto = { newStatus, changeReason };
+      const { code, message } = await updateTrainerStatusRequest(
+        trainer.trainerId,
+        dto,
+        accessToken
+      );
 
-    if (code !== 'SU') {
-      alert(`상태 변경 실패: ${message}`);
-      return;
+      console.log(code + " : " + message);
+  
+      if (code !== 'SU') {
+        alert(`상태 변경 실패: ${message}`);
+        return;
+      }
+  
+      alert(newStatus === 'APPROVE' ? '승인 처리 완료' : '거부 처리 완료');
+      onStatusUpdated();
+      onClose();
+    } catch (e) {
+      console.log('트레이너 상태 변경 오류: ', e);
+      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     }
-
-    alert(newStatus === 'APPROVE' ? '승인 처리 완료' : '거부 처리 완료');
-    onStatusUpdated();
-    onClose();
   };
 
   const handleApprove = () => updateStatus('APPROVE', '승인');
@@ -64,8 +72,6 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
         <div css={topSectionStyle}>
           <div>
             <div css={fieldBoxStyle}>
-              <div css={fieldRowStyle}><strong>회원 번호</strong></div>
-              <p>{trainer.userId}</p>
               <div css={fieldRowStyle}><strong>트레이너 번호</strong></div>
               <p>{trainer.trainerId}</p>
               <div css={fieldRowStyle}><strong>아이디</strong></div>
@@ -75,7 +81,7 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
               <div css={fieldRowStyle}><strong>생년월일</strong></div>
               <p>{trainer.birthdate}</p>
               <div css={fieldRowStyle}><strong>성별</strong></div>
-              <p>{trainer.gender}</p>
+              <p>{genderToKr[trainer.gender]}</p>
               <div css={fieldRowStyle}><strong>휴대폰번호</strong></div>
               <p>{trainer.phone}</p>
               <div css={fieldRowStyle}><strong>이메일</strong></div>
@@ -92,7 +98,6 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
               onError={(e) => {
                 e.currentTarget.src = '/default-profile.png';
               }}
-              // css={loginProfile}
             />
           </div>
         </div>
@@ -129,7 +134,7 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
               onChange={(e) => setChangeReason(e.target.value)}
             />
             <div css={rejectButtonGroupStyle}>
-              <button css={RejectButtonStyle} onClick={handleRejectConfirm}>거부 확정</button>
+              <button css={rejectButtonStyle} onClick={handleRejectConfirm}>거부 확정</button>
               <button css={closeButtonStyle} onClick={() => setIsRejecting(false)}>취소</button>
             </div>
           </div>
@@ -142,7 +147,7 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
             {trainer.status === 'PENDING' && (
               <>
                 <button css={approveButtonStyle} onClick={handleApprove}>승인</button>
-                <button css={RejectButtonStyle} onClick={() => setIsRejecting(true)}>거부</button>
+                <button css={rejectButtonStyle} onClick={() => setIsRejecting(true)}>거부</button>
               </>
             )}
           </div>
