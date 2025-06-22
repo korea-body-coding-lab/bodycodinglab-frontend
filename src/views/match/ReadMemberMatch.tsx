@@ -62,7 +62,7 @@ function ReadMemberMatch() {
         <br />
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <p>이미지 데이터</p>
+          <img src={trainerData.profileImageUrl ? `http://localhost:8080${trainerData.profileImageUrl}` : '/default-profile.png'} alt="트레이너 이미지"  css={m.trainerProfile}/>
         </div>
         <br />
         <br />

@@ -2,8 +2,12 @@
 import { css } from "@emotion/react";
 
 
+export const couponContainerBox = css`
+  display: flex;
+`
+
 export const memberCouponContainer = css`
-  margin-left: 10px;
+  margin-left: 15px;
 ` 
 
 // 전체 컨테이너
@@ -11,7 +15,7 @@ export const memberCouponContainerBox = css`
   display: flex;
   flex-direction: row;
   justify-content:center;
-  width: 100%;
+  width: 60vw;
   height: 100%;
   font-family: 'Pretendard', sans-serif;
 `;
@@ -96,14 +100,15 @@ export const memberCouponFilterTab = css`
   margin-bottom: 20px;
 
   button {
-    background-color: #fff;
+    background-color: #699CE4;
+    color: white;
     border: 1px solid #aaa;
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
 
     &:hover {
-      background-color: #eee;
+      background-color: #437BC0;
     }
   }
 `;
@@ -113,7 +118,8 @@ export const memberCouponListBox = css`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 30%;
+  width: 50%;
+
 `;
 
 // 쿠폰 개별 카드
@@ -139,12 +145,12 @@ export const memberCouponSectionLeft = css`
     font-size: 14px;
     border-radius: 6px;
     border: none;
-    background-color: #666;
+    background-color: #699CE4;
     color: white;
     cursor: pointer;
 
     &:hover {
-      background-color: #444;
+      background-color: #437BC0;
     }
   }
 `;
@@ -179,3 +185,10 @@ export const memberCouponSectionRight = css`
 `;
 
 
+export const coupnoStatusButton = css`
+color: white;
+background-color: #699CE4;
+&:hover{
+  background-color: #437BC0;
+}
+`

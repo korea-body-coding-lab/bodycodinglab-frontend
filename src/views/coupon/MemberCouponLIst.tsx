@@ -5,6 +5,10 @@ import * as m from "./MemberCouponListStyle"
 import { TrainerCouponResponseDto } from "@/dtos/coupon/response/trainer.coupon.response.dto";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import Header from "../header/Header";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
+import { getMenuTitleByPath } from "@/utils/menu.util";
+import couponIcon from "@/assets/free-icon-coupon-6737610.png"
 
 type CouponStatus = "NOT_USED" | "APPLICATION" | "COMPLETE" | "EXPIRED";
 
@@ -14,6 +18,9 @@ function MemberCouponLIst() {
   const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
   const [coupons, setCoupons] = useState<TrainerCouponResponseDto[]>([]);
   // const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
+
+  const path = location.pathname;
+    const menuTitle = getMenuTitleByPath(path);
   useEffect(() => {
     const fetchCoupons = async () => {
 
@@ -59,11 +66,19 @@ function MemberCouponLIst() {
   };
   return (
     <div>
+  
+      <div>
+      <Header />
+      </div>
+
+
+      <div css={m.couponContainerBox}>
+      <MyPageSidebar/>
       <div css={m.memberCouponContainer}>
         <br />
-        <p>쿠폰함</p>
+        <h2 style={{color: "#3F4756"}}>{menuTitle}</h2>
         <br />
-        <div css={m.memberCouponFilterTab} className="membercouponFilterTab">
+        <div css={m.memberCouponFilterTab} >
           <button onClick={() => handleStatusChange("NOT_USED")}>
             사용하지 않은 쿠폰
           </button>
@@ -89,7 +104,7 @@ function MemberCouponLIst() {
                   <h4>진행단계: {coupon.status === "NOT_USED" ? "사용 가능" : "기만 만료"}</h4>
                 </div>
                 <div css={m.memberCouponSectionRight}>
-                  <p>이미지</p>
+                  <img src={couponIcon} alt="쿠폰 이미지"/>
                   <h4>{coupon.trainerName}</h4>
                 </div>
               </div>
@@ -97,6 +112,8 @@ function MemberCouponLIst() {
           )}
         </div>
       </div>
+      </div>
+
       </div>
     </div>
   );

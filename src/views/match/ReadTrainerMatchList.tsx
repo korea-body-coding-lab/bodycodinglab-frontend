@@ -6,7 +6,7 @@ import { memberFormResponseDto } from "@/dtos/memberForm/response/get.memberForm
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import FormModal from "../matchWaitingList/FormModal";
+import FormModal from "./FormModal";
 
 function ReadTrainerMatchList() {
   const [cookies, setCookies] = useCookies(["accessToken"]);
@@ -14,8 +14,11 @@ function ReadTrainerMatchList() {
     memberMatchListResponseDto[] | undefined
   >(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-  const [modalData, setModalData] = useState<memberMatchResponseDto | null>(null); 
-  const [modalFormData, setModalFormData] = useState<memberFormResponseDto  | null>(null);
+  const [modalData, setModalData] = useState<memberMatchResponseDto | null>(
+    null
+  );
+  const [modalFormData, setModalFormData] =
+    useState<memberFormResponseDto | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -44,27 +47,25 @@ function ReadTrainerMatchList() {
     loadingMemberData();
   }, []);
 
-
-
   const getMemberData = async (matchId: number) => {
-      const token = cookies.accessToken;
-      if (!token) {
-        setLoading(false);
-        alert("접근 권한이 존재하지 않습니다.");
-        navigate("/");
-      }
+    const token = cookies.accessToken;
+    if (!token) {
+      setLoading(false);
+      alert("접근 권한이 존재하지 않습니다.");
+      navigate("/");
+    }
 
-      const response = await findTrainerMatchRequest(matchId, token);
-      if(response.data){
-        setModalData(response.data)
-        setModalFormData(response.data.memberFormResponseDto || null);
-        setIsModalOpen(true);
-      }
-  } 
-
+    const response = await findTrainerMatchRequest(matchId, token);
+    if (response.data) {
+      setModalData(response.data);
+      setModalFormData(response.data.memberFormResponseDto || null);
+      setIsModalOpen(true);
+    }
+  };
 
   if (loading) return <p>로딩중입니다.......</p>;
-  if (!memberDatas || memberDatas.length === 0) return <p>매칭된 회원이 존재하지 않습니다.</p>;
+  if (!memberDatas || memberDatas.length === 0)
+    return <p>매칭된 회원이 존재하지 않습니다.</p>;
   return (
     <div>
       <p>매칭 관리</p>
@@ -84,22 +85,22 @@ function ReadTrainerMatchList() {
             </div>
 
             <div>
-              <button onClick={() => getMemberData(memberData.matchId)}>조회하기</button>
-            </div> 
+              <button onClick={() => getMemberData(memberData.matchId)}>
+                조회하기
+              </button>
+            </div>
           </div>
         ))}
       </div>
-      
-        {isModalOpen && modalData &&(
-      <FormModal
+
+      {isModalOpen && modalData && (
+        <FormModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          formData={modalFormData} 
+          formData={modalFormData}
           data={modalData}
-          
-          />
+        />
       )}
-
     </div>
   );
 }

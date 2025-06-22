@@ -7,6 +7,10 @@ import React, { useEffect, useState } from "react";
 import * as s from "./TrainerCouponModalStyle";
 import * as t from "./TrainerCouponListStyle"
 import { useCookies } from "react-cookie";
+import Header from "../header/Header";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
+import { getMenuTitleByPath } from "@/utils/menu.util";
+import couponIcon from "@/assets/free-icon-coupon-6737610.png"
 
 type CouponStatus = "NOT_USED" | "APPLICATION" | "COMPLETE" | "EXPIRED";
 
@@ -17,6 +21,9 @@ function TrainerCouponList() {
   const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
   const [usedDate, setUsedDate] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
+
+  const path = location.pathname;
+      const menuTitle = getMenuTitleByPath(path);
 
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -74,9 +81,16 @@ function TrainerCouponList() {
 
   return (
     <div>
+
+    <div>
+      <Header/>
+    </div>
+
+    <div css={t.couponContainerBox}>
+      <MyPageSidebar/>
       <div css={t.trainerCouponContainer}>
         <br />
-        <p>쿠폰함</p>
+        <h2 style={{color: "#3F4756"}}>{menuTitle}</h2>
         <br />
         <div css={t.couponFilterTab}>
           <button onClick={() => handleStatusChange("APPLICATION")}>
@@ -108,17 +122,25 @@ function TrainerCouponList() {
                 </div>
                 <div css={t.trainerCouponSectionMiddle}>
                   <h4>유효기간: {coupon.expirationPeriod}</h4>
-                  <h4>사용기간: {coupon.usedDate ?? "미사용"}</h4>
+                  <h4>사용기간: {coupon.usedDate ? new Date(coupon.usedDate).toLocaleString("ko-kR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  }) : "미사용"}</h4>
                   <h4>진행 단계: {coupon.status ==="APPLICATION" ? "신청 대기" : "사용 완료"}</h4>
                 </div>
                 <div css={t.trainerCouponSectionRight}>
-                  <p>이미지</p>
+                  <img src={couponIcon} alt="쿠폰 이미지" />
                   <h4>{coupon.memberName}</h4>
                 </div>
               </div>
             ))
           )}
         </div>
+      </div>
       </div>
       </div>
 

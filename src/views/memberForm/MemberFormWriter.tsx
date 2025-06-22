@@ -12,22 +12,22 @@ const FormWriter = () => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState<memberFormRequestDto>({
-    bodyForm: "SLIM",
-    goal: "DIET",
-    bmi: "LESS_18",
-    improvedPart: "CHEST",
-    preferredDiet: "VEGETARIAN",
-    sugarIntake: "DONT_OFTEN",
-    waterIntake: "COFFEE_TEA",
+    bodyForm: null,
+    goal: null,
+    bmi: null,
+    improvedPart: null,
+    preferredDiet: null,
+    sugarIntake: null,
+    waterIntake: null,
     height: "",
     weight: "",
     weightGoal: "",
     physicalLevel: 0,
-    exercisingProblem: "MOTIVATION",
-    pushupLevel: "LESS_5",
-    pullupLevel: "LESS_5",
-    exerciseFrequency: "NEVER",
-    investableTime: "MIN30"
+    exercisingProblem: null,
+    pushupLevel: null,
+    pullupLevel: null,
+    exerciseFrequency: null,
+    investableTime: null
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -56,7 +56,7 @@ const FormWriter = () => {
       navigate("/");
       console.log("제출된 폼:", form);
     } else {
-      alert("제출 실패");
+      alert("제출 실패 누락된 항목을 확인해주세요");
     }
   };
 
@@ -111,7 +111,7 @@ const FormWriter = () => {
           ["ARM", "팔"],
           ["STOMACH", "복부"],
           ["LEG", "다리"],
-          ["NOT_APPLICATION", "선택 안 함"],
+          ["NOT_APPLICABLE", "선택 안 함"],
         ])}
 
         {renderRadioGroup("식이 선호", "preferredDiet", [
