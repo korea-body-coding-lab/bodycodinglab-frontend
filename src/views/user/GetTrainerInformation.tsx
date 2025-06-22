@@ -9,7 +9,7 @@ import { getMenuTitleByPath } from '@/utils/menu.util';
 import { genderToKr } from '@/utils/gender.map';
 import { GetTrainerInfoResponseDto } from '@/dtos/user/response/get-trainer-info.response.dto';
 import { GetTrainerInformationRequest } from '@/apis/user/get-trainer-information.api';
-import { trainerStatusMap } from '@/utils/trainer-status.map';
+import { trainerStatusToKr } from '@/utils/trainer-status.map';
 
 function GetTrainerInformation() {
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ function GetTrainerInformation() {
               </div>
               <div css={formInformationStyle}>
                 <label css={formLabelStyle}>승인/거부</label>
-                <span css={formSpanStyle}>{trainerStatusMap[trainer.status]}</span>
+                <span css={formSpanStyle}>{trainerStatusToKr[trainer.status]}</span>
               </div>
             </div>
             <div css={formSectionInformationStyle}>
