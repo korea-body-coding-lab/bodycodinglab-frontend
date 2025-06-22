@@ -40,3 +40,20 @@ export const MatchWaitingListButton = css`
   color: white;
 } 
 `
+
+export const trainerProfile = css`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #437BC0;
+  object-fit: cover;
+  background-color: #fff;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.05);
+    cursor: pointer;
+  }
+`;

@@ -8,6 +8,9 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import * as t from "./trainerMatchWaitingList.style";
+import Header from "../header/Header";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
+import { getMenuTitleByPath } from "@/utils/menu.util";
 
 function ReadTrainerMatchWaitingList() {
   const [cookies, setCookies] = useCookies(["accessToken"]);
@@ -16,6 +19,9 @@ function ReadTrainerMatchWaitingList() {
   >(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+
+    const path = location.pathname;
+    const menuTitle = getMenuTitleByPath(path);
 
   const loadingMemberData = async () => {
     setLoading(true);
@@ -90,14 +96,44 @@ function ReadTrainerMatchWaitingList() {
   };
 
   if (loading) return <p>로딩 중입니다.....</p>;
-  if (!memberDatas || memberDatas.length === 0)
-    return <p>매칭 신청 대기 중인 회원이 존재하지 않습니다.</p>;
+  if (!memberDatas || memberDatas.length === 0){
+
+    return (
+    <div>
+
+      <div>
+        <Header/>
+      </div>
+
+      <div style={{display: "flex"}}>
+      <MyPageSidebar/>
+      <div style={{marginTop: "25px"}}>
+      <h2 style={{color: "#3F4756"}}>매칭 대기 관리 </h2>
+      <p style={{marginTop: "25px"}}>매칭 신청 대기 중인 회원이 존재하지 않습니다.</p>
+      </div>
+      </div>
+
+    </div>
+    
+
+    );
+  }
   return (
+  <div>
+
+    <div>
+      <Header />
+    </div>
+
+    <div css={t.trainerMatchWaitingListContainerLayout}>
+    <MyPageSidebar/>
+    
+    <div style={{marginLeft: "15px", marginTop: "20px"}}>
+      <h2 style={{color: "#3F4756"}}>매칭 대기 관리</h2>
     <div css={t.trainerMatchWaitingListContainerBox}>
       <div css={t.trainerMatchWaitingListContainer}>
         <table css={t.trainerMatchWaitingListBox}>
-          <caption>매칭 대기 리스트</caption>
-          <br />
+          <caption style={{color: "#3F4756", fontSize: "24px"}}>매칭 대기 리스트</caption>
           <br />
           <tr css={t.trainerMatchWatingListTableTitle}>
             <td>회원번호</td>
@@ -110,7 +146,9 @@ function ReadTrainerMatchWaitingList() {
             <td></td>
           </tr>
           {memberDatas.map((memberData) => (
-            <tr key={memberData.matchWaitingListId}>
+            <tr key={memberData.matchWaitingListId}
+            css={t.trainerMatchWatingListContext}
+            >
               <td scope="col">{memberData.memberId}</td>
               <td scope="col">{memberData.memberName}</td>
               <td scope="col">{memberData.memberAge}</td>
@@ -150,7 +188,7 @@ function ReadTrainerMatchWaitingList() {
                     matchRejectBoutton(memberData.matchWaitingListId)
                   }
                   disabled={memberData.approvedStatus === "APPROVED"}
-                >
+                  >
                   매칭거부
                 </button>
               </td>
@@ -159,6 +197,9 @@ function ReadTrainerMatchWaitingList() {
         </table>
       </div>
     </div>
+    </div>
+  </div>
+  </div>
   );
 }
 

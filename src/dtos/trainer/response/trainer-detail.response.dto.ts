@@ -12,4 +12,5 @@ export interface TrainerDetailResponseDto {
     educationGraduate: string;
     careers: TrainerCareerResponseDto[];
     licenses: TrainerLicenseResponseDto[];
+    profileImage: string;
 }

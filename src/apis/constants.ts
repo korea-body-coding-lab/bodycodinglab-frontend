@@ -28,6 +28,8 @@ export const GET_ALL_TRAINERS_URL = `${ADMIN_MODULE_URL}/trainers`;
 export const GET_TRAINER_DETAIL_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
 export const UPDATE_TRAINER_STATUS_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
 export const REAPPLY_TRAINER_URL = (email: string) => `${AUTH_MODULE_URL}/trainer-reapply?email=${email}`;
+export const GET_MEMBER_USERNAME_AND_NAME = (username: string, name: string) =>
+  `${API_DOMAIN}/api/v1/members/username-and-name?username=${encodeURIComponent(username)}&name=${encodeURIComponent(name)}`;
 
 //# 트레이너 관련 URL
 const TRAINER_INFO_MODULE_URL = `${TRAINER_MODULE_URL}/information`;
@@ -98,7 +100,7 @@ export const GET_ALL_NOTE_URL = `${NOTE_URL}`;
 export const GET_NOTE_URL = (noteId: number | string) => `${NOTE_URL}/${noteId}`;
 // 받은 쪽지 조회 
 export const GET_RECEIVED_NOTE_URL = `${NOTE_URL}/receivednotes`;
-// 보낸 쪽지 조회 
+// 보낸 쪽지 조회 `
 export const GET_SENDED_NOTE_URL = `${NOTE_URL}/sendednotes`;
 // 쪽지 검색(보류) searches
 export const SEARCH_SENDED_NOTE_URL = (searchWord: string) => `${NOTE_URL}/search?searchWord=${encodeURIComponent(searchWord)}`;
@@ -113,8 +115,8 @@ export const GET_MEMBER_ALL_TICKETS_URL = `${MEMBER_ONE_DAY_TICKET_MODULE_URL}`;
 export const GET_TRAINER_ALL_TICKETS_URL = `${TRAINER_ONE_DAY_TICKET_MODULE_URL}`;
 export const GET_MEMBER_TICKETS_BY_STATUS_TICKET_URL = (status: string) => `$GET_MEMBER_ALL_TICKETS_ONE_DAY_TICKET_URL}/status?status=${status}`;
 export const GET_TRAINER_TICKETS_BY_STATUS_TICKET_URL = (status: string) => `${GET_TRAINER_ALL_TICKETS_URL}/?status=${status}`;
-export const PUT_USE_ONE_DAY_TICKET_URL = `${GET_TRAINER_ALL_TICKETS_URL}/used-date`;
-export const PUT_CANCEL_ONE_DAY_TICKET_URL = `${GET_TRAINER_ALL_TICKETS_URL}/canceled-date`;
+export const USE_ONE_DAY_TICKET_URL = (ticketId: number) => `${GET_TRAINER_ALL_TICKETS_URL}/${ticketId}/used`;
+export const CANCEL_ONE_DAY_TICKET_URL = (ticketId: number) => `${GET_TRAINER_ALL_TICKETS_URL}/${ticketId}/canceled`;
 
 
 
@@ -146,10 +148,12 @@ export const GET_FIND_ID_FORM = `${MEMBER_MODULE_URL}/forms`;
 
 
 
+// 결제 생성
+export const POST_PAYMENT = `${MEMBER_MODULE_URL}/match-waiting-list/payments`;
 
 
 // 구독 기록 생성
-export const POST_SUBSCRIPTIONS = (matchWaitingListId: number) => `${GET_MEMBER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/subscriptions`;
+export const POST_SUBSCRIPTIONS = `${GET_MEMBER_MATCH_WAITING_LIST_URL}/subscriptions`;
 
 // 구독 기록 조회
 export const GET_SUBSCRIPTIONS = `${MEMBER_MODULE_URL}/subscriptions`;

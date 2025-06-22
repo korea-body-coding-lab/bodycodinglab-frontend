@@ -13,20 +13,20 @@ type ExerciseFrequency = "NEVER"| "WEEK_1TO2" | "WEEK_3" | "MORE_WEEK_3";
 type InvestableTime = "MIN30" | "MIN40" | "HOUR1" | "FREEDOM";
 
 export interface memberFormRequestDto {
-  bodyForm : BodyForm; 
-  goal: Goal;
-  bmi: Bmi;
-  improvedPart :Improved_part;
-  preferredDiet : PreferredDiet;
-  sugarIntake : SugarIntake;
-  waterIntake : WaterIntake
-  height : number | string;
-  weight : number | string;
+  bodyForm : BodyForm | null; 
+  goal: Goal | null;
+  bmi: Bmi | null;
+  improvedPart :Improved_part | null;
+  preferredDiet : PreferredDiet | null;
+  sugarIntake : SugarIntake | null;
+  waterIntake : WaterIntake | null;
+  height : number | string ;
+  weight : number | string ;
   weightGoal: number | string;
   physicalLevel: number;
-  exercisingProblem: ExercisingProblem;
-  pushupLevel : PushupLevel
-  pullupLevel :PullupLevel;
-  exerciseFrequency : ExerciseFrequency;
-  investableTime : InvestableTime
+  exercisingProblem: ExercisingProblem | null;
+  pushupLevel : PushupLevel | null;
+  pullupLevel :PullupLevel | null;
+  exerciseFrequency : ExerciseFrequency | null;
+  investableTime : InvestableTime | null
 } 
