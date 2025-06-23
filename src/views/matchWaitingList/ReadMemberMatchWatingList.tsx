@@ -4,12 +4,12 @@ import { trainerMatchWaitingListResponseDto } from "@/dtos/matchWaitingList/resp
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import * as m from "./memberMatchWaitingList.style";
-import { memberCancelRequest } from "@/apis/MatchWaitingList/put.MatchCancel.api";
 import { useNavigate } from "react-router-dom";
 import { postSubscriptionRequest } from "@/apis/subscription/post.subscription.api";
 import { confirmPaymentRequestDto } from "@/dtos/payment/reqeust/Confirm.Payment.Request.Dto";
 import { postPaymentRequestDto } from "@/dtos/payment/reqeust/post.Payment.Request.Dto";
 import { postPaymentRequeust } from "@/apis/payment/post.payment.api";
+import { memberCancelRequest } from "@/apis/MatchWaitingList/delete.MatchCancel.api";
 
 function ReadMemberMatchWatingList() {
   const [cookies, setCookies] = useCookies(["accessToken"]);
@@ -44,7 +44,6 @@ function ReadMemberMatchWatingList() {
     }
 
     const response = await memberCancelRequest(
-      { approvedStatus: "REJECT" },
       token
     );
     if (response.code === "SU") {
@@ -128,6 +127,26 @@ function ReadMemberMatchWatingList() {
             })}
           </p>
         </div>
+        {trainerData.approvedStatus === "REJECT" ?  <>
+        <hr />
+        <br />
+        <br />
+        <div>
+          <div style={{textAlign: "center"}}>
+          <strong style={{ color: "red"}}>매칭 거절 됨</strong>
+          </div>
+          <br />
+          <strong  style={{ color:"#3F4756"}}>거절 사유:</strong>{" "}
+          <p>
+            {trainerData.rejectResponse}
+          </p>
+        </div>
+        </> : 
+          <div>
+            <br />
+            <p>신청 대기 중</p>
+          </div>
+         } 
         <br />
         <br />
         <div css={m.MemberMatchWaitingListButtonContainer}>
@@ -137,7 +156,7 @@ function ReadMemberMatchWatingList() {
           <button
             onClick={() => subscriptionButton()}
             css={m.MatchWaitingListButton}
-            disabled={trainerData.approvedStatus === "NOT_APPROVED"}
+            disabled={trainerData.approvedStatus === "REJECT" || trainerData.approvedStatus === "NOT_APPROVED"}
           >
             구독
           </button>

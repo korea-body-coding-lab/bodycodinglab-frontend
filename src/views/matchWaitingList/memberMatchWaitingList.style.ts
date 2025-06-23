@@ -15,9 +15,10 @@ export const MemberMatchWaitingListContainerBox = css`
 
 
 export const MemberMatchWaitingListContainer = css`
- 
+  overflow: hidden;
   border-radius: 8% ;
   width: 30vw;
+  height: 100vh;
   background-color: #F1FAFF;
 `
 
