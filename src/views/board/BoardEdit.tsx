@@ -7,6 +7,7 @@ import WriteOrEdit from './WriteOrEdit';
 import { useParams } from 'react-router-dom';
 import { GetPostFormData } from '@/dtos/board/request/get-post-edit.dto';
 import { getAccessTokenFromCookie } from '@/apis/get-token';
+import { getUserMatchId } from '@/apis/get-user-matchId';
 
 
 function BoardEdit() {
@@ -16,9 +17,20 @@ function BoardEdit() {
   const parsedPostId = postId ? parseInt(postId, 10) : undefined;
   const [formData, setFormData] = useState<GetPostFormData | null>(null);
   const [loading, setLoading] = useState(true);
-  const matchId = getUserMatchId();
+  const [matchId, setMatchId] = useState<number | null>(null);
+ 
   useEffect(() => {
-    if (!categoryId || !postId) return;
+    async function fetchMatchId() {
+      const id = await getUserMatchId();
+      setMatchId(id);
+    }
+    fetchMatchId();
+  }, []);
+  useEffect(() => {
+    if (!categoryId || !postId || matchId === null) {
+      setLoading(true); 
+      return;
+    }
 
     const fetchPost = async () => {
       try {
@@ -50,7 +62,7 @@ function BoardEdit() {
     };
 
     fetchPost();
-  }, [categoryId, postId]);
+  }, [categoryId, postId, matchId]);
 
   if (loading) return <div>불러오는 중...</div>;
   if (!formData) return <div>존재하지 않는 게시글입니다.</div>;

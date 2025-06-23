@@ -11,6 +11,7 @@ import { getUserMatchId } from '@/apis/get-user-matchId';
 type BoardPost = {
     id: number;
     writerId: string | null;
+    writerName: string;
     title: string;
     content: string;
     createdAt: string;
@@ -25,20 +26,17 @@ function Board() {
   const navigate = useNavigate();
   const { categoryId } = useParams<{ categoryId: string }>();
 
-  // 1) matchId를 비동기로 가져오는 effect
   useEffect(() => {
     async function fetchMatchId() {
       const id = await getUserMatchId();
-      console.log("fetchMatchId:", id); 
       setMatchId(id);
     }
     fetchMatchId();
   }, []);
 
-  // 2) matchId와 categoryId가 준비되면 게시글 fetch
   useEffect(() => {
     if (!categoryId || matchId === null) {
-      setLoading(true); // 아직 준비 안 됐으면 로딩중
+      setLoading(true); 
       return;
     }
     const fetchPosts = async () => {
@@ -59,7 +57,6 @@ function Board() {
         if (!res.ok) throw new Error("게시글 불러오기 실패");
 
         const data = await res.json();
-        console.log("게시글 데이터", data);
         setPosts(data.data);
       } catch (e) {
         alert("게시글을 가져오지 못했습니다.");
@@ -111,7 +108,7 @@ function Board() {
                   onClick={() => navigate(`/personal-community-boards/${matchId}/${categoryId}/${post.id}`)}
                 >
                   <span css={s.postIdSpan}>{post.id}</span> | <span css={s.postTitleSpan}>{post.title}</span> |{' '}
-                  <span css={s.postWriterSpan}>{post.writerId}</span> |{' '}
+                  <span css={s.postWriterSpan}>{post.writerName}</span> |{' '}
                   <span css={s.postDateSpan}>{new Date(post.createdAt).toLocaleDateString()}</span>
                 </div>
               ))
