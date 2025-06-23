@@ -85,7 +85,6 @@ function TrainerList() {
       console.error('상세 조회 실패:', error);
       alert('상세 조회 실패');
     }
-    
   };
   
 

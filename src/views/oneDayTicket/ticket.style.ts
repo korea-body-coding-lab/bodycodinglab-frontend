@@ -125,7 +125,7 @@ export const trainerImage = css`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #9BB7E1;
+  object-fit: cover;
   margin-bottom: 6px;
 `;
 
@@ -156,4 +156,11 @@ export const cancelButtonStyle = css`
 export const sectionDivider = css`
   border-top: 1px solid #ddd;
   margin: 24px 0;
+`;
+
+export const emptyTicketMessageStyle = css`
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  color: #666;
 `;

@@ -1,11 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import LogoutButton from '@/components/LogoutButton';
 import { useUserStore } from '@/stores/user.store';
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { hoverText, linkStyle, loginProfile, menuListStyle, menuStyle, profileStyle, profileWrapper, sidebarStyle } from './sidebar.style';
 import { Link, useLocation } from 'react-router-dom';
 import { getMenuTitleByPath } from '@/utils/menu.util';
-import path from 'path';
 
 type UserRole = "ADMIN" | "MEMBER" | "TRAINER";
 
