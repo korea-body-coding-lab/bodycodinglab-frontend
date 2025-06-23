@@ -6,12 +6,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../header/Header';
 import BoardCategory from './BoardCategory';
 import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
-import { fetchUsernames } from '@/apis/get-username';
-import { userName } from '../header/HeaderStyle';
 import { getUserMatchId } from '@/apis/get-user-matchId';
+import { fetchUsernames } from '@/apis/get-username';
+import Comment from './comment/Comment';
 
 function Post() {
-    const matchId = getUserMatchId();
+    const [matchId, setMatchId] = useState<number | null>(null);
     const {postId, categoryId} = useParams<{ postId: string; categoryId: string }>();
     const [isProfileBoxOpen, setProfileBoxOpen] = useState(false);
     const closeModal = () => setProfileBoxOpen(false);
@@ -20,19 +20,37 @@ function Post() {
     const [isDeleteBoxOpen, setDeleteBoxOpen] = useState(false);
     const [post, setPost] = useState<PostDetailData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [usernameMap, setUsernameMap] = useState<Record<string, string>>({});
     const currentUserId = getUserIdFromToken();
+    
+    useEffect(() => {
+        async function fetchMatchId() {
+          const id = await getUserMatchId();
+          setMatchId(id); 
+        }
+        fetchMatchId();
+      }, []);
     const handleDelete = async () => {
         try {
+            const token = getAccessTokenFromCookie();
+                if (!token) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
             const response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${Number(postId)}`, {
               method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
+              headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+              
             });
-        
+            
             if (!response.ok) throw new Error("삭제 실패");
         
             alert("게시글이 삭제되었습니다.");
-            setDeleteBoxOpen(false);  // 모달 닫기
-            navigate(-1); // 뒤로가기 혹은 목록 페이지 이동
+            setDeleteBoxOpen(false); 
+            navigate(-1); 
           } catch (error) {
             alert("삭제 중 오류가 발생했습니다.");
           }
@@ -43,6 +61,10 @@ function Post() {
         setProfileModalPosition({ x: e.clientX, y: e.clientY });
     };
     useEffect(() => {
+        if (!categoryId || !postId || matchId === null) {
+            setLoading(true); 
+            return;
+          }
         const fetchPost = async () =>{
             try{
                 const token = getAccessTokenFromCookie();
@@ -72,8 +94,23 @@ function Post() {
             }
         };
         fetchPost();
-    }, [categoryId, postId]);
-    
+    }, [matchId, categoryId, postId]);
+    useEffect(() => {
+        if (!post || !post?.writerId) return;  // null 체크 필수
+        
+        async function loadUsername() {
+          try {
+            const writerId = post!.writerId as string;
+            const data = await fetchUsernames([writerId]);
+            setUsernameMap(data);
+          } catch (err) {
+            console.error("사용자 이름 불러오기 실패", err);
+          }
+        }
+      
+        loadUsername();
+      }, [post]);
+
     if (loading) return <div>불러오는 중...</div>;
     if (!post) return <div>게시글이 존재하지 않습니다.</div>;
     
@@ -90,7 +127,7 @@ function Post() {
         
                     <div css={s.profileImage}>프로필이미지</div>
                     <div css={s.profileSub}>
-                        <span>{post.writerId}</span>
+                        <span>{post.writerId ? usernameMap[post.writerId] ?? post.writerId : "알 수 없음"}</span>
                         <span>{post.createdAt}</span>
                     </div>
                 </div>
@@ -100,7 +137,7 @@ function Post() {
                             <div css={s.profileModal(modalProfilePosition.x, modalProfilePosition.y)} onClick={(e) => e.stopPropagation()}>
                                 <div css={s.modalProfileImage}></div>
                                 <div css={s.profileMiddle}>
-                                    <div css={s.profileUser}>{post.writerId}</div>
+                                    <div css={s.profileUser}>{post.writerId ? usernameMap[post.writerId] ?? post.writerId : "알 수 없음"}</div>
                                     <button css={s.modalNoteBtn}>쪽지</button>
                                 </div>
                                 <div css={s.searchWriter}>작성글검색</div>
@@ -151,8 +188,8 @@ function Post() {
                 </div>
             </div>
             <div css={s.comment}>
-                {/* <Comment/> */}
-                댓글(Comment 구현 예정)
+                <Comment/>
+                
             </div>
             <div css={s.commentWrite}>
                 <textarea rows={2} css={s.commentWriteInput} placeholder='내용을 입력해주세요.' />

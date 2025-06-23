@@ -5,22 +5,45 @@ import { useNavigate } from 'react-router-dom';
 import { GetPostFormData } from '@/dtos/board/request/get-post-edit.dto';
 import { getAccessTokenFromCookie } from '@/apis/get-token';
 import { getUserMatchId } from '@/apis/get-user-matchId';
+import { jwtDecode } from 'jwt-decode';
+
 
 
 function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:GetPostFormData, categoryId:number, postId?:number}){
   const navigate = useNavigate();
   const [title, setTitle] = useState(data?.title || '');
   const [content, setContent] = useState(data?.content || '');
+  const [writerId, setWriterId] = useState<number | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [matchId, setMatchId] = useState<number | null>(null);
+  const [viewCount, setViewCount] = useState(0);
+
+  const categoryMap: Record<number, string> = {
+    1: "MEAL",
+    2: "EVENT",
+    3: "NOTICE"
+  };
 
   useEffect(() => {
     async function fetchMatchId() {
       const id = await getUserMatchId();
+      console.log("matchId:", id);  
       setMatchId(id);
     }
     fetchMatchId();
   }, []);
+  useEffect(() => {
+    const token = getAccessTokenFromCookie();
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      setWriterId(decoded.userId);
+    }
+  }, []);
+
+  const category = {
+    id: categoryId,
+    categoryName: categoryMap[categoryId]
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -30,8 +53,8 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!matchId) {
-      alert('매치 아이디를 가져오는 중입니다. 잠시만 기다려주세요.');
+      if (!matchId || !writerId) {
+        alert('매치 ID 또는 작성자 ID가 누락되었습니다.');
       return;
     }
     const token = getAccessTokenFromCookie();
@@ -40,9 +63,10 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
       return;
     }
 
-    const formData = new FormData();
     const category = {id: categoryId};
-    const json = JSON.stringify({ title, content, category, matchId });
+    const json = JSON.stringify({ title, content, category, matchId, writerId, viewCount });
+    console.log(title);
+    const formData = new FormData();
     formData.append('data', new Blob([json], { type: 'application/json' }));
 
     if (selectedFile) {
@@ -54,10 +78,10 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
       if (isEdit) {
         if (!postId) throw new Error("postId가 필요합니다");
         response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
+          method: 'PUT',            
           headers: {
             Authorization: `Bearer ${token}`, 
           },
-          method: 'PUT',            
           body: formData,
         });
       } else {
