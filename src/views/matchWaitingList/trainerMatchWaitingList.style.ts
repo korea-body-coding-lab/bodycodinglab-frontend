@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 
 export const trainerMatchWaitingListContainerBox = css`
-margin-top: 100px;
 padding-top: 30px ;
 display: flex;
 justify-content: center;

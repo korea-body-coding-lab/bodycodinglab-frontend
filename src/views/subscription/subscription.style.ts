@@ -3,12 +3,16 @@ import { css } from "@emotion/react";
 
 export const subscriptionContainer = css`
 display: flex;
-justify-content: center;
-align-content: center;
+
 `
 
 
+export const subscriptionContainerBox = css`
+margin-top: 20%;
+margin-left: 40%;
+width: 35vw;
 
+`
 
 export const mypageCategory = css`
 margin-top: 15px;
@@ -17,14 +21,11 @@ margin-bottom: 15px;
 `
 
 export const subscriptionTitle = css`
-font-size: 24px;
-margin-left: 30px;
+text-align: center;
 `
 
 export const subscriptionLogBox = css`
-  border: 1px solid black;
-  margin-top: 150px;
-  margin-left: 15px;
+  margin-top: 30px;
   width: 35vw;
   height: 35vw;
   display: flex;

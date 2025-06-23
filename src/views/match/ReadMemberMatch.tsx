@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import * as m from "./memberMatch.style";
 import { deleteMemberMatchRequest } from "@/apis/match/delete.Member.Match.api";
 
+
 function ReadMemberMatch() {
   const [cookies, setCookies] = useCookies(["accessToken"]);
   const [trainerData, setTrainerData] = useState<
@@ -52,8 +53,10 @@ function ReadMemberMatch() {
   };
 
   if (loading) return <p>로딩 중입니다....</p>;
-  if (!trainerData) return <p></p>;
+  if (!trainerData) return <p>매칭신청이 거절되었거나 신청한 트레이너가 존재하지 않습니다.</p>;
   return (
+    <div>
+    
     <div css={m.MemberMatchContainerBox}>
       <h2 css={m.MemberMatchTitle}>매칭된 트레이너</h2>
       <br />
@@ -67,21 +70,21 @@ function ReadMemberMatch() {
         <br />
         <br />
         <div>
-          <strong>트레이너 이름 </strong>
+          <strong style={{color: "#3F4756"}}>트레이너 이름 </strong>
           <p>{trainerData.trainerName}</p>
         </div>
         <hr />
         <br />
         <br />
         <div>
-          <strong>근무지 </strong>
+          <strong style={{color: "#3F4756"}}>근무지 </strong>
           <p>{trainerData.trainerJobAddress}</p>
         </div>
         <hr />
         <br />
         <br />
         <div>
-          <strong>매칭일 </strong>
+          <strong style={{color: "#3F4756"}}>매칭일 </strong>
           <p>
             {new Date(trainerData.matchedAt).toLocaleString("ko-kR", {
               year: "numeric",
@@ -105,6 +108,9 @@ function ReadMemberMatch() {
         </div>
       </div>
     </div>
+
+      </div>
+    
   );
 }
 export default ReadMemberMatch;
