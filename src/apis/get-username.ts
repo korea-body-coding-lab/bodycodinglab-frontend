@@ -1,6 +1,6 @@
 import { getAccessTokenFromCookie } from '@/apis/get-token';
 
-export async function fetchUsernames(userIds: number[]): Promise<Record<number, string>> {
+export async function fetchUsernames(userIds: (string | number)[]): Promise<Record<string, string>> {
   if (userIds.length === 0) return {};
 
   const token = getAccessTokenFromCookie();

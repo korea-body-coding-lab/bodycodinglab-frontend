@@ -238,6 +238,9 @@ export const postFooter = css`
     background-color: #699CE4;
     display: flex;
     justify-content: space-around;
+    border: 2px solid #C5CEE0;
+    border-top: none;
+    border-bottom: none;
 `
 export const Footer = css`
     margin-right: auto;
@@ -283,7 +286,10 @@ export const viewImage = css`
     margin-right: 5px;
 `
 export const comment = css`
+    width: 90%;
     background-color: #F1FAFF;
+    border: 2px solid #C5CEE0;
+    border-bottom: none;
 `
 export const commentWrite = css`
     width: 90%;
