@@ -14,7 +14,8 @@ export const getMenuTitleByPath = (path: string): string => {
   '/users/trainers/me/match-waiting-lists' :"매칭 대기 관리",
   '/users/members/me/match-lists' : "매칭 조회",
   '/users/members/me/subscriptions': "구독 관리",
-  '/users/trainers/me/match-success-lists': "매칭 관리"
+  '/users/trainers/me/match-success-lists': "매칭 관리",
+  '/users/trainers/me/one-day-tickets': '체험권 관리',
 };
 
   return menuMap[path] || '';
