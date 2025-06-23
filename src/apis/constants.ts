@@ -129,7 +129,7 @@ export const GET_TRAINER_MATCH_WAITING_LIST_URL = `${TRAINER_MODULE_URL}/match-w
 export const GET_MEMBER_MATCH_WAITING_LIST_URL = `${MEMBER_MODULE_URL}/match-waiting-lists`;
 export const PUT_TRAINER_MATCH_WAITING_LIST_APPROVE_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/approves`;
 export const PUT_TRAINER_MATCH_WAITING_LIST_REJECT_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/rejects`;
-export const PUT_MEMBER_MATCH_WAITIMG_LIST_CENCEL_URL = `${GET_MEMBER_MATCH_WAITING_LIST_URL}/cancels`
+export const DELETE_MEMBER_MATCH_WAITIMG_LIST_CENCEL_URL = `${GET_MEMBER_MATCH_WAITING_LIST_URL}/cancels`
 
 //# 매칭 관련 URL 
 export const GET_MEMBER_MATCH_URL = `${MEMBER_MODULE_URL}/match-success-lists`;

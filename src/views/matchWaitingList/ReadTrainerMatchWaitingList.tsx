@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import * as t from "./trainerMatchWaitingList.style";
+import * as m from "./trainerModalStyle"
 import Header from "../header/Header";
 import MyPageSidebar from "../sidebar/MyPageSidebar";
 import { getMenuTitleByPath } from "@/utils/menu.util";
@@ -18,10 +19,13 @@ function ReadTrainerMatchWaitingList() {
     memberMatchWaitingListResponseDto[] | undefined
   >(undefined);
   const [loading, setLoading] = useState<boolean>(false);
+  const [rejectResponse, setRejectResponse] = useState<string>("");
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [selectedMatchId, setSelectedMatchId] = useState<number | null>(null); 
   const navigate = useNavigate();
 
     const path = location.pathname;
-    const menuTitle = getMenuTitleByPath(path);
+  
 
   const loadingMemberData = async () => {
     setLoading(true);
@@ -71,27 +75,34 @@ function ReadTrainerMatchWaitingList() {
     }
   };
 
-  const matchRejectBoutton = async (matchWaitingListId: number) => {
+  const handleOpenRejectModal = (matchWaitingListId: number) => {
+  setSelectedMatchId(matchWaitingListId);
+  setShowRejectModal(true);
+};
+
+
+   const handleRejectConfirm = async (matchWaitingListId: number) => {
     const token = cookies.accessToken;
     if (!token) {
-      alert("매칭을 취소할 권한이 존재하지 않습니다.");
+      alert("매칭을 거절할 권한이 없습니다.");
+      return;
     }
 
     const response = await trainerMatchRejectRequest(
       matchWaitingListId,
-      { approvedStatus: "REJECT" },
+      {
+        approvedStatus: "REJECT",
+        rejectResponse: rejectResponse,
+      },
       token
     );
+
     if (response.code === "SU") {
-      alert("매칭이 거부처리되었습니다.");
+      alert("매칭이 거절되었습니다.");
+      setShowRejectModal(false);
+      setSelectedMatchId(null);
+      setRejectResponse("");
       await loadingMemberData();
-      setMemberDatas((prevDatas) =>
-        prevDatas?.map((data) =>
-          data.matchWaitingListId === matchWaitingListId
-            ? { ...data, approvedStatus: "REJECT" }
-            : data
-        )
-      );
     }
   };
 
@@ -163,15 +174,17 @@ function ReadTrainerMatchWaitingList() {
                   hour12: true,
                 })}
               </td>
-              {memberData.approvedStatus === "NOT_APPROVED" ? (
-                <td scope="col">승인 대기</td>
-              ) : (
-                <td scope="col">승인</td>
-              )}
+              {memberData.approvedStatus === "NOT_APPROVED"
+                ? "승인 대기"
+                : memberData.approvedStatus === "APPROVED"
+                ? "승인"
+                : memberData.approvedStatus === "REJECT"
+                ? "거절"
+                : "알 수 없음"}
 
               <td>
                 <button
-                  css={t.trainerMatchWatingListTableButton}
+                  css={t.trainerMatchWatingListTableButton(memberData.approvedStatus)}
                   onClick={() =>
                     matchApproveButton(memberData.matchWaitingListId)
                   }
@@ -183,10 +196,8 @@ function ReadTrainerMatchWaitingList() {
 
               <td>
                 <button
-                  css={t.trainerMatchWatingListTableButton}
-                  onClick={() =>
-                    matchRejectBoutton(memberData.matchWaitingListId)
-                  }
+                  css={t.trainerMatchWatingListTableButton(memberData.approvedStatus)}
+                  onClick={() => handleOpenRejectModal(memberData.matchWaitingListId)}
                   disabled={memberData.approvedStatus === "APPROVED"}
                   >
                   매칭거부
@@ -199,7 +210,42 @@ function ReadTrainerMatchWaitingList() {
     </div>
     </div>
   </div>
+
+
+        {showRejectModal && selectedMatchId !== null && (
+        <div css={m.trainerRejectModalOverlay}>
+          <div css={m.trainerRejectModalContent}>
+            <h3>거절 사유 입력</h3>
+            <textarea
+              rows={5}
+              placeholder="거절 사유를 입력해주세요"
+              value={rejectResponse}
+              onChange={(e) => setRejectResponse(e.target.value)}
+            />
+            <div css={m.trainerRejectModalButtons}>
+              <button
+                onClick={() => handleRejectConfirm(selectedMatchId)}
+                disabled={!rejectResponse.trim()}
+              >
+                확인
+              </button>
+              <button
+                onClick={() => {
+                  setShowRejectModal(false);
+                  setRejectResponse("");
+                }}
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
   </div>
+
+
+
   );
 }
 
