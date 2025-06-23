@@ -7,6 +7,8 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import ReadMemberMatch from "../match/ReadMemberMatch";
 import ReadMemberMatchWatingList from "../matchWaitingList/ReadMemberMatchWatingList";
+import Header from "../header/Header";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
 
 function MatchManagement() {
   const [cookies] = useCookies(["accessToken"]);
@@ -49,10 +51,56 @@ function MatchManagement() {
     loadingTrainerData();
   }, []);
 
+  
   if (loading) return <p>로딩 중입니다...</p>;
-  if (matchData) return <ReadMemberMatch />;
-  if (waitingData) return <ReadMemberMatchWatingList />;
-  return <div>매칭 신청 기록이 존재하지 않습니다.</div>;
+  if (matchData) return (
+    <div>
+      <div>
+        <Header/>
+      </div>
+
+      <div style={{display: "flex"}}>
+      <MyPageSidebar/> 
+      <div style={{marginTop: "25px"}}>
+      <h2 style={{color: "#3F4756"}}>매칭 조회</h2>
+      <ReadMemberMatch />
+      </div>
+      </div>
+
+    </div>
+  );
+  if (waitingData) return (
+  <div>
+    <div>
+      <Header/>
+    </div>
+
+    <div style={{display: "flex"}}>
+    <MyPageSidebar/>
+    <div style={{marginTop: "25px"}}>
+    <h2 style={{color: "#3F4756"}}>매칭 조회</h2> 
+    <ReadMemberMatchWatingList />
+    </div>
+    </div>
+  </div>
+
+);
+  return (
+  <div>
+
+    <div>
+        <Header/>
+    </div>
+
+    <div style={{display: "flex"}}>
+      <MyPageSidebar/> 
+      <div  style={{marginTop: "25px"}}>
+        <h2  style={{color: "#3F4756"}}>매칭 조회</h2>
+        <br />
+        <p>매칭 신청 기록이 존재하지 않습니다.</p>
+      </div>
+    </div>
+  </div>);
 }
 
 export default MatchManagement;

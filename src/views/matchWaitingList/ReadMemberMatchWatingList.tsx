@@ -104,19 +104,19 @@ function ReadMemberMatchWatingList() {
         <br />
         <br />
         <div>
-          <strong>트레이너 이름:</strong> <p>{trainerData.trainerName}</p>
+          <strong style={{ color:"#3F4756"}}>트레이너 이름:</strong> <p>{trainerData.trainerName}</p>
         </div>
         <hr />
         <br />
         <br />
         <div>
-          <strong>근무지:</strong> <p>{trainerData.trainerJobAddress}</p>
+          <strong  style={{ color:"#3F4756"}}>근무지:</strong> <p>{trainerData.trainerJobAddress}</p>
         </div>
         <hr />
         <br />
         <br />
         <div>
-          <strong>신청일:</strong>{" "}
+          <strong  style={{ color:"#3F4756"}}>신청일:</strong>{" "}
           <p>
             {new Date(trainerData.appliedAt).toLocaleString("ko-kR", {
               year: "numeric",

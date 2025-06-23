@@ -23,7 +23,7 @@ export interface memberMatchResponseDto{
   memberAge: number;
   memberGender: Gender
   memberPhone: string;
-  memberAddresss: string;
+  memberAddress: string;
   memberFormResponseDto: memberFormResponseDto | null | undefined;
 }
 

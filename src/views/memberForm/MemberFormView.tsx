@@ -4,14 +4,64 @@ import * as m from "./memberFrom.writer.style";
 import { MemberFormDto } from "@/dtos/match/response/find.member.match.response.dto";
 import { memberFormResponseDto } from "@/dtos/memberForm/response/get.memberForm.response.dto";
 
+const LABEL_MAP: Record<string, string> = {
+  SLIM: "마름",
+  NORMAL: "보통",
+  FAT: "뚱뚱",
+  DIET: "다이어트",
+  IMPROVEMENT_OF_MUSCLE: "근육 향상",
+  PERFORMANCE: "퍼포먼스",
+  LESS_18: "18 미만",
+  BETWEEN_18TO23: "18 ~ 23",
+  BETWEEN_23TO25: "23 ~ 25",
+  MORE_25: "25 초과",
+  CHEST: "가슴",
+  ARM: "팔",
+  STOMACH: "복부",
+  LEG: "다리",
+  NOT_APPLICABLE: "선택 안 함",
+  VEGETARIAN: "채식",
+  VEGAN: "비건",
+  KITO: "키토",
+  MEDITERRANEAN: "지중해식",
+  CANIBORE: "육식",
+  DONT_OFTEN: "거의 안 먹음",
+  WEEK_3TO5: "주 3~5회",
+  EVERYDAY: "매일",
+  COFFEE_TEA: "커피/차 위주",
+  LESS_2: "하루 2잔 이하",
+  BETWEEN_2TO6: "2~6잔",
+  BETWEEN_7TO10: "7~10잔",
+  MORE_10: "10 이상",
+  MOTIVATION: "동기 부족",
+  EFFECT: "효과 부족",
+  HARD: "너무 힘듦",
+  PLAN: "계획 없음",
+  COACHING: "코칭 필요",
+  LESS_5: "5개 이하",
+  BETWEEN_5TO10: "5~10개",
+  NEVER: "안 함",
+  WEEK_1TO2: "주 1~2회",
+  WEEK_3: "주 3회",
+  MORE_WEEK_3: "주 3회 이상",
+  MIN30: "30분",
+  MIN40: "40분",
+  HOUR1: "1시간",
+  FREEDOM: "자유롭게"
+};
+
+
 const FormViewer = ({ data }: { data: memberFormResponseDto }) => {
+
+  
+
    const renderRadioGroup = (
     label: string,
     name: string,
     options: string[],
     selectedValue: string
   ) => (
-    <div css={m.formRow} key={name}>
+     <div css={m.formRow} key={name}>
       <label css={m.formLabel}>{label}</label>
       <div css={m.formOptions}>
         {options.map((option) => (
@@ -22,9 +72,8 @@ const FormViewer = ({ data }: { data: memberFormResponseDto }) => {
               value={option}
               checked={selectedValue === option}
               readOnly
-          
             />
-            {option}
+            {LABEL_MAP[option] || option}
           </label>
         ))}
       </div>

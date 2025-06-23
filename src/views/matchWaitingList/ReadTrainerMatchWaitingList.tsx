@@ -107,7 +107,7 @@ function ReadTrainerMatchWaitingList() {
 
       <div style={{display: "flex"}}>
       <MyPageSidebar/>
-      <div style={{marginTop: "25px"}}>
+      <div style={{marginTop: "25px", marginLeft: "15px"}}>
       <h2 style={{color: "#3F4756"}}>매칭 대기 관리 </h2>
       <p style={{marginTop: "25px"}}>매칭 신청 대기 중인 회원이 존재하지 않습니다.</p>
       </div>

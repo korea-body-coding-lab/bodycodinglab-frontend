@@ -9,7 +9,9 @@ export const MemberMatchContainerBox = css`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  
+  width: 30vw;
+  margin-left:55%;
+
 `
 
 
@@ -17,13 +19,13 @@ export const MemberMatchContainer = css`
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  border: 1px solid black;
   width: 30vw;
   background-color: #F1FAFF;
 `
 
 export const MemberMatchTitle = css`
   text-align: center;
+  color: #3F4756
 `;
 
 
@@ -37,6 +39,7 @@ export const MatchButton = css`
   height: 6vh;
   background-color: #699CE4;
   color: white;
+  border: 1px solid white;
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 8px;

@@ -19,6 +19,8 @@ const menuMap = {
     { label: "체험권", path: "/users/members/me/one-day-tickets" },
     { label: "쿠폰", path: "/users/members/me/coupons"},
     { label: "폼 작성 / 조회", path: "/users/members/me/forms"},
+    { label: "매칭 조회", path: "/users/members/me/match-lists"},
+    { label: "구독 관리", path: "/users/members/me/subscriptions"},
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
   TRAINER: [
@@ -26,6 +28,7 @@ const menuMap = {
     { label: "트레이너 정보 입력", path: "/users/trainers/me/information" }, 
     { label: "쿠폰", path: "/users/trainers/me/coupons"},
     { label: "매칭 대기 관리", path: "/users/trainers/me/match-waiting-lists"},
+    { label: "매칭 관리", path: "/users/trainers/me/match-success-lists"},
     { label: "회원 탈퇴", path: "/users/account-cancellation/me" },
   ],
 };
