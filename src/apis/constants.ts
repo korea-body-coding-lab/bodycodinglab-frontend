@@ -149,7 +149,7 @@ export const GET_FIND_ID_FORM = `${MEMBER_MODULE_URL}/forms`;
 
 
 // 결제 생성
-export const POST_PAYMENT = `${MEMBER_MODULE_URL}/match-waiting-list/payments`;
+export const POST_PAYMENT = `${MEMBER_MODULE_URL}/match-waiting-lists/payments`;
 
 
 // 구독 기록 생성
