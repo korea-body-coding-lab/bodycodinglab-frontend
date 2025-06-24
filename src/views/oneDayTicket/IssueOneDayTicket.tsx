@@ -1,83 +1,86 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { input, submitButton, container, heading } from '@/views/trainer/TrainerCareerStyle';
-import { issueOneDayTicket } from '@/apis/oneDayTicket/issue-oneday-ticket.api';
 import { TicketIssueRequestDto } from '@/dtos/oneDayTicket/request/ticket-issue.request.dto';
-import { getMemberByUsernameAndName } from '@/apis/user/get-member-by-username-and-name.api';
+import {
+  ticketCard,
+  mainTitleStyle,
+  formField,
+  inputStyle,
+  buttonStyle,
+} from './ticket.style';
+import { issueOneDayTicket } from '@/apis/oneDayTicket/issue-oneday-ticket.api';
 
-const IssueTicket = () => {
+const IssueOneDayTicket = () => {
   const [cookies] = useCookies(['accessToken']);
-  const accessToken = cookies.accessToken || '';
-
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleIssue = async () => {
-    if (!username.trim() || !name.trim()) {
-      alert('아이디와 이름을 모두 입력해주세요.');
+    const accessToken = cookies.accessToken;
+    if (!accessToken) {
+      alert('로그인 후 사용해주세요.');
       return;
     }
 
-    setIsLoading(true);
+    const dto: TicketIssueRequestDto = {
+      username: username.trim(),
+      name: name.trim(),
+    };
 
     try {
-      const memberRes = await getMemberByUsernameAndName(username.trim(), name.trim());
+      const response = await issueOneDayTicket(dto, accessToken);
+      const { code, message } = response;
 
-      console.log('username:', `"${username.trim()}"`, 'name:', `"${name.trim()}"`);
-
-      if (!memberRes.data) {
-        alert('❌ 해당 회원을 찾을 수 없습니다.');
-        return;
-      }
-
-      const memberId = memberRes.data.memberId;
-      console.log(memberId);
-
-      const dto: TicketIssueRequestDto = { memberId };
-      const res = await issueOneDayTicket(dto, accessToken);
-
-      if (res.code === 'SU') {
-        alert('✅ 체험권 발급 성공!');
+      if (code === 'SU') {
+        alert('체험권이 성공적으로 발급되었습니다!');
         setUsername('');
         setName('');
       } else {
-        alert('❌ 발급 실패: ' + res.message);
+        alert(`${message}`);
       }
     } catch (error) {
-      alert('❌ 오류 발생');
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+      alert('체험권 발급 중 오류가 발생했습니다.');
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleIssue();
+  };
+
   return (
-    <div css={container}>
-      <h2 css={heading}>🎟 체험권 발급</h2>
-
-      <input
-        type="text"
-        placeholder="회원 아이디 (username)"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        css={input}
-      />
-
-      <input
-        type="text"
-        placeholder="회원 이름"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        css={input}
-      />
-
-      <button onClick={handleIssue} css={submitButton} disabled={isLoading}>
-        {isLoading ? '발급 중...' : '➕ 발급'}
-      </button>
-    </div>
+    <section css={ticketCard}>
+      <h2 css={mainTitleStyle}>회원 체험권 발급</h2>
+      <form onSubmit={handleSubmit}>
+        <div css={formField}>
+          <label htmlFor="username">회원 아이디 (username)</label>
+          <input
+            id="username"
+            css={inputStyle}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div css={formField}>
+          <label htmlFor="name">회원 이름</label>
+          <input
+            id="name"
+            css={inputStyle}
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <button css={buttonStyle(true)} type="submit">
+          체험권 발급
+        </button>
+      </form>
+    </section>
   );
 };
 
-export default IssueTicket;
+export default IssueOneDayTicket;
