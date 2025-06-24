@@ -9,6 +9,7 @@ import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
 import { getUserMatchId } from '@/apis/get-user-matchId';
 import { fetchUsernames } from '@/apis/get-username';
 import Comment from './comment/Comment';
+import { CommentDetailData } from '@/dtos/board/comment/request/get-comment.dto';
 
 function Post() {
     const [matchId, setMatchId] = useState<number | null>(null);
@@ -22,7 +23,9 @@ function Post() {
     const [loading, setLoading] = useState(true);
     const [usernameMap, setUsernameMap] = useState<Record<string, string>>({});
     const currentUserId = getUserIdFromToken();
-    
+    const [comments, setComments] = useState<CommentDetailData[]>([]);
+    const [newComment, setNewComment] = useState("");
+
     useEffect(() => {
         async function fetchMatchId() {
           const id = await getUserMatchId();
@@ -111,9 +114,75 @@ function Post() {
         loadUsername();
       }, [post]);
 
-    if (loading) return <div>불러오는 중...</div>;
-    if (!post) return <div>게시글이 존재하지 않습니다.</div>;
-    
+   
+    useEffect(() => {
+        async function fetchComments() {
+          const token = getAccessTokenFromCookie();
+          const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}/comments`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (!res.ok) throw new Error('댓글 불러오기 실패');
+          const data = await res.json();
+          setComments(data.data);
+        }
+      
+        fetchComments();
+      }, [postId]);
+      useEffect(() => {
+        async function loadCommentUsernames() {
+          if (comments.length === 0) return;
+      
+          const uniqueCommenterIds = [...new Set(comments.map(c => c.commenterId.toString()))];
+      
+          try {
+            const data = await fetchUsernames(uniqueCommenterIds); 
+            setUsernameMap(prev => ({ ...prev, ...data })); 
+          } catch (error) {
+            console.error("댓글 작성자 이름 불러오기 실패", error);
+          }
+        }
+      
+        loadCommentUsernames();
+      }, [comments]);
+      const handleCommentSubmit = async () => {
+        if (!newComment.trim()) {
+          alert("댓글을 입력해주세요.");
+          return;
+        }
+      
+        try {
+          const token = getAccessTokenFromCookie();
+          if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+          }
+      
+          const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}/comments`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              commentContent: newComment,
+            }),
+          });
+          window.location.reload();
+          if (!res.ok) throw new Error("댓글 작성 실패");
+      
+          const result = await res.json();
+          setComments(prev => [...prev, result.data]); 
+          setNewComment(""); 
+        } catch (error) {
+          alert("댓글 작성 중 오류가 발생했습니다.");
+        }
+      };
+      
+      if (loading) return <div>불러오는 중...</div>;
+      if (!post) return <div>게시글이 존재하지 않습니다.</div>;
   return (
     <div>
         <Header/>
@@ -188,12 +257,17 @@ function Post() {
                 </div>
             </div>
             <div css={s.comment}>
-                <Comment/>
-                
+                {comments && comments.length > 0 ? (
+                comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} username={usernameMap[comment.commenterId.toString()]}/>
+                ))
+                ) : (
+                <div css={s.noComment}>댓글이 없습니다.</div>
+                )}
             </div>
             <div css={s.commentWrite}>
-                <textarea rows={2} css={s.commentWriteInput} placeholder='내용을 입력해주세요.' />
-                <button css={s.commentWriteBtn}>작성</button>
+                <textarea rows={2} css={s.commentWriteInput} placeholder='내용을 입력해주세요.' value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                <button css={s.commentWriteBtn} onClick={handleCommentSubmit}>작성</button>
             </div>
         </div>
         </div>

@@ -11,12 +11,13 @@ import {
 } from './ticket.style';
 import Header from '../header/Header';
 import MyPageSidebar from '../sidebar/MyPageSidebar';
-import IssueOneDayTicket from './IssueOnedayTicket';
+import IssueOneDayTicket from './IssueOneDayTicket';
 import UseOneDayTicket from './UseOneDayTicekt';
 import CancelOneDayTicket from './CancelOneDayTicket';
+import GetTrainerAllTickets from './GetTrainerAllTickets';
 
 const TrainerOneDayTicket = () => {
-  const [tab, setTab] = useState<'issue' | 'use' | 'cancel'>('issue');
+  const [tab, setTab] = useState<'all' | 'issue' | 'use' | 'cancel'>('all');
   const [cookies] = useCookies(['accessToken']);
   const accessToken = cookies.accessToken || '';
 
@@ -30,6 +31,9 @@ const TrainerOneDayTicket = () => {
 
           <div css={filterButtonContainer}>
             <div css={filterButtonsLeft}>
+              <button css={filterButtonStyle(tab === 'all')} onClick={() => setTab('all')}>
+                전체 목록
+              </button>
               <button css={filterButtonStyle(tab === 'issue')} onClick={() => setTab('issue')}>
                 체험권 발급
               </button>
@@ -42,6 +46,7 @@ const TrainerOneDayTicket = () => {
             </div>
           </div>
 
+          {tab === 'all' && <GetTrainerAllTickets />}
           {tab === 'issue' && <IssueOneDayTicket />}
           {tab === 'use' && <UseOneDayTicket />}
           {tab === 'cancel' && <CancelOneDayTicket />}
