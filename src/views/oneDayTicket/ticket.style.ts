@@ -164,3 +164,62 @@ export const emptyTicketMessageStyle = css`
   font-size: 1.2rem;
   color: #666;
 `;
+
+export const paginationWrapper = css`
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  gap: 8px;
+`;
+
+export const paginationButton = css`
+  padding: 6px 12px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  &:hover {
+    background-color: #dcdcdc;
+  }
+`;
+
+export const activePaginationButton = css`
+  padding: 6px 12px;
+  background-color: #2f80ed;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: default;
+`;
+
+export const formField = css`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+`;
+
+export const inputStyle = css`
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+`;
+
+export const buttonStyle = (active: boolean) => css`
+  padding: 10px;
+  font-size: 16px;
+  background-color: ${active ? '#437BC0' : '#ccc'};
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: ${active ? '#3369a8' : '#aaa'};
+  }
+`;
