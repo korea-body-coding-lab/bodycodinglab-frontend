@@ -91,6 +91,7 @@ function FindUsername() {
                   type="email"
                   name="email"
                   value={form.email}
+                  placeholder='example@example.com'
                   onChange={handleInputChange}
                   css={inputStyle}
                 />

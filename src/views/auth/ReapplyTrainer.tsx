@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ReapplyTrainerRequestDto } from '@/dtos/auth/request/reapply-trainer.request.dto';
 import { ReapplyTrainerRequest } from '@/apis/auth/reapply-trainer.api';
 import { VerifyEmailRequest } from '@/apis/auth/verify-email.api';
+import AddressModal from './AddressModal';
 
 function ReapplyTrainer() {
   const navigate = useNavigate();
@@ -14,17 +15,40 @@ function ReapplyTrainer() {
   const [form, setForm] = useState({
     jobAddress: ""
   });
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zonecode, setZonecode] = useState<string>("");
+  const [jobAddress, setJobAddress] = useState<string>("");
+  const [detailedAddress, setDetailedAddress] = useState<string>("");
+  const fullAddress = `${jobAddress} ${detailedAddress}`.trim();
   const token = searchParams.get('token');
-
+  
+  useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      jobAddress: `${jobAddress} ${detailedAddress}`.trim()
+    }));
+  }, [jobAddress, detailedAddress]);
+  
+    
+  useEffect(() =>{
+    verifyEmail();
+  }, [token]);
+  
+  
   if (!token) {
     alert('잘못된 토큰입니다.');
     return;
   }
   
-  useEffect(() =>{
-    verifyEmail();
-  }, [token]);
+  const handleAddressComplete = (jobAddress: string, zonecode: string) => {
+    setJobAddress(jobAddress);
+    setZonecode(zonecode);
+  };
+  
+  const handleDetailedAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDetailedAddress(event.target.value);
+  };
+
 
   const verifyEmail = async() => {
     try {
@@ -65,7 +89,8 @@ function ReapplyTrainer() {
     }
 
     const requestBody: ReapplyTrainerRequestDto = {
-          ...form,
+      ...form,
+      jobAddress: fullAddress
     };
     
     const formData = new FormData();
@@ -109,11 +134,34 @@ function ReapplyTrainer() {
                 <input
                   type="text"
                   name="jobAddress"
-                  value={form.jobAddress}
-                  onChange={handleInputChange}
+                  value={jobAddress}
+                  readOnly
                   css={inputStyle}
                 />
-                <button css={inputButtonStyle}>찾아보기</button>
+                <button 
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                  css={inputButtonStyle}
+                >
+                  주소 찾기
+                </button>
+              </div>
+              {isModalOpen && (
+                <AddressModal
+                  onClose={() => setIsModalOpen(false)}
+                  onComplete={handleAddressComplete}
+                />
+              )}
+            </div>
+            <div css={formStyle}>
+              <label css={formLabelResetPasswordStyle}>상세 주소</label>
+              <div css={inputFindUsernameWrapperStyle}>
+                <input
+                  type="text"
+                  value={detailedAddress}
+                  onChange={handleDetailedAddressChange}
+                  css={inputStyle}
+                />
               </div>
             </div>
             <div css={formStyle}>

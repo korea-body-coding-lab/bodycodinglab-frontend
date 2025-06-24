@@ -1,39 +1,63 @@
 /** @jsxImportSource @emotion/react */
-import React, { FormEvent, useState } from 'react'
-import Header from '../header/Header';
-import { editBottomButtonStyle, editButtonStyle, formInfomationTitleStyle, formInformationStyle, formLabelStyle, formSectionInformationStyle, formSpanStyle, inputStyle, inputUpdateWrapperStyle, layoutStyle, mainStyle, mainTitleStyle } from './user.style';
-import MyPageSidebar from '../sidebar/MyPageSidebar';
-import { useCookies } from 'react-cookie';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getMenuTitleByPath } from '@/utils/menu.util';
-import { genderToKr } from '@/utils/gender.map';
-import { validateUpdateMemberInfoForm } from '@/utils/update-user-information.valid';
-import { UpdateMemberInfoRequestDto } from '@/dtos/user/request/update-member-info.request.dto';
-import { UpdateMemberInformationRequest } from '@/apis/user/update-member-information.api';
-import { useUserStore } from '@/stores/user.store';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import Header from "../header/Header";
+import { editBottomButtonStyle, editButtonStyle, formInfomationTitleStyle, formInformationStyle, formLabelStyle, formSectionInformationStyle, formSpanStyle, inputStyle, inputUpdateWrapperStyle, layoutStyle, mainStyle, mainTitleStyle } from "./user.style";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
+import { useCookies } from "react-cookie";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getMenuTitleByPath } from "@/utils/menu.util";
+import { genderToKr } from "@/utils/gender.map";
+import { validateUpdateMemberInfoForm } from "@/utils/update-user-information.valid";
+import { UpdateMemberInfoRequestDto } from "@/dtos/user/request/update-member-info.request.dto";
+import { UpdateMemberInformationRequest } from "@/apis/user/update-member-information.api";
+import { useUserStore } from "@/stores/user.store";
+import { inputButtonStyle } from "../auth/auth.style";
+import AddressModal from "../auth/AddressModal";
 
 function UpdateMemberInformation() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['accessToken']);
+  const [cookies] = useCookies(["accessToken"]);
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zonecode, setZonecode] = useState<string>("");
+  const [memberAddress, setMemberAddress] = useState<string>("");
+  const [detailedAddress, setDetailedAddress] = useState<string>("");
   const [form, setForm] = useState({
     name: "",
-    memberAddress: ""
   });
   const path = location.pathname;
   const member = location.state?.member;
   const menuTitle = getMenuTitleByPath(path);
   const accessToken = cookies.accessToken;
   const setName = useUserStore((state) => state.setName);
+  const fullAddress = `${memberAddress} ${detailedAddress}`.trim();
   
+  useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      memberAddress: `${memberAddress} ${detailedAddress}`.trim(),
+    }));
+  }, [memberAddress, detailedAddress]);
+
   if (!member) return <div>잘못된 접근입니다</div>;
+
+  const handleAddressComplete = (address: string, zonecode: string) => {
+    setMemberAddress(address);
+    setZonecode(zonecode);
+  };
+
+  const handleDetailedAddressChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setDetailedAddress(event.target.value);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleEditClick = async(e: FormEvent) => {
+  const handleEditClick = async (e: FormEvent) => {
     e.preventDefault();
 
     const validMessage = validateUpdateMemberInfoForm(form);
@@ -43,20 +67,20 @@ function UpdateMemberInformation() {
       return;
     }
 
-    const { name, memberAddress } = form;
+    const { name } = form;
 
     const dto: Partial<UpdateMemberInfoRequestDto> = {};
 
-    if (name.trim() !== '') {
+    if (name.trim() !== "") {
       dto.name = name;
     }
 
-    if (memberAddress.trim() !== '') {
-      dto.memberAddress = memberAddress;
+    if (memberAddress.trim() !== "") {
+      dto.memberAddress = fullAddress;
     }
 
     if (Object.keys(dto).length === 0) {
-      alert('변경할 항목이 없습니다.');
+      alert("변경할 항목이 없습니다.");
       return;
     }
 
@@ -64,23 +88,22 @@ function UpdateMemberInformation() {
       const response = await UpdateMemberInformationRequest(dto, accessToken);
       const { code, message } = response;
 
-      if (code !== 'SU') {
+      if (code !== "SU") {
         alert(message);
         return;
       }
 
-      if (form.name.trim() !== '') {
+      if (form.name.trim() !== "") {
         setName(form.name);
       }
 
-      alert('회원 정보 수정이 완료되었습니다.');
-      navigate('/users/members/me');
-    } catch(e) {
-      console.log('회원 정보 수정 오류: ', e);
-      alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      alert("회원 정보 수정이 완료되었습니다.");
+      navigate("/users/members/me");
+    } catch (e) {
+      console.log("회원 정보 수정 오류: ", e);
+      alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
-
-  }
+  };
 
   return (
     <>
@@ -91,72 +114,87 @@ function UpdateMemberInformation() {
         <MyPageSidebar />
         <div css={mainStyle}>
           <h2 css={mainTitleStyle}>{menuTitle}</h2>
-            <div css={formSectionInformationStyle}>
-              <button css={editButtonStyle} onClick={handleEditClick}>수정 완료</button>
-              <h2 css={formInfomationTitleStyle}>기본 정보</h2>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>아이디</label>
-                <span css={formSpanStyle}>{member.username}</span>
-              </div>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>성명</label>
-                <div css={inputUpdateWrapperStyle}>
-                  <input
-                    type="text"
-                    name='name'
-                    value={form.name}
-                    onChange={handleInputChange}
-                    css={inputStyle}
-                  />
-                </div>
-              </div>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>생년월일</label>
-                <span css={formSpanStyle}>{member.birthdate}</span>
-              </div>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>성별</label>
-                <span css={formSpanStyle}>{genderToKr[member.gender]}</span>
-              </div>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>휴대폰번호</label>
-                <span css={formSpanStyle}>{member.phone}</span>
-              </div>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>이메일</label>
-                <span css={formSpanStyle}>{member.email}</span>
+          <div css={formSectionInformationStyle}>
+            <button css={editButtonStyle} onClick={handleEditClick}>
+              수정 완료
+            </button>
+            <h2 css={formInfomationTitleStyle}>기본 정보</h2>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>아이디</label>
+              <span css={formSpanStyle}>{member.username}</span>
+            </div>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>성명</label>
+              <div css={inputUpdateWrapperStyle}>
+                <input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleInputChange}
+                  css={inputStyle}
+                />
               </div>
             </div>
-            <div css={formSectionInformationStyle}>
-              <h2 css={formInfomationTitleStyle}>추가 정보</h2>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>주소</label>
-                <div css={inputUpdateWrapperStyle}>
-                  <input
-                    type="text"
-                    name='memberAddress'
-                    value={form.memberAddress}
-                    onChange={handleInputChange}
-                    css={inputStyle}
-                  />
-                </div>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>생년월일</label>
+              <span css={formSpanStyle}>{member.birthdate}</span>
+            </div>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>성별</label>
+              <span css={formSpanStyle}>{genderToKr[member.gender]}</span>
+            </div>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>휴대폰번호</label>
+              <span css={formSpanStyle}>{member.phone}</span>
+            </div>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>이메일</label>
+              <span css={formSpanStyle}>{member.email}</span>
+            </div>
+          </div>
+          <div css={formSectionInformationStyle}>
+            <h2 css={formInfomationTitleStyle}>추가 정보</h2>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>주소</label>
+              <div css={inputUpdateWrapperStyle}>
+                <input
+                  type="text"
+                  name="memberAddress"
+                  value={memberAddress}
+                  readOnly
+                  css={inputStyle}
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                  css={inputButtonStyle}
+                >
+                  주소 찾기
+                </button>
+              </div>
+              {isModalOpen && (
+                <AddressModal
+                  onClose={() => setIsModalOpen(false)}
+                  onComplete={handleAddressComplete}
+                />
+              )}
+            </div>
+            <div css={formInformationStyle}>
+              <label css={formLabelStyle}>상세 주소</label>
+              <div css={inputUpdateWrapperStyle}>
+                <input
+                  type="text"
+                  placeholder="상세 주소 입력"
+                  value={detailedAddress}
+                  onChange={handleDetailedAddressChange}
+                  css={inputStyle}
+                />
               </div>
             </div>
-        {/* <div css={formSectionInformationStyle}>
-              <h2 css={formInfomationTitleStyle}>선택 정보</h2>
-              <div css={formInformationStyle}>
-                <label css={formLabelStyle}>프로필 사진</label>
-                <div css={inputUpdateWrapperStyle}>
-                  <input
-                    type="file"
-                    name='profile'
-                    onChange={handleProfileChange}
-                    css={inputStyle}
-                  />
-                </div>
-              </div>
-            </div> */}
-            <button css={editBottomButtonStyle} onClick={handleEditClick}>수정 완료</button>
+          </div>
+          <button css={editBottomButtonStyle} onClick={handleEditClick}>
+            수정 완료
+          </button>
         </div>
       </div>
     </>

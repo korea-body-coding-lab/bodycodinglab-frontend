@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import Header from '../header/Header';
 import { useNavigate } from 'react-router-dom';
 import { SignUpTrainerRequestDto } from '@/dtos/auth/request/sign-up-trainer.request.dto';
 import { signUpTrainerRequest } from '@/apis/auth/sign-up-trainer.api';
 import { validateTrainerForm } from '@/utils/sign-up.valid';
 import { buttonSignUpStyle, containerStyle, formLabelStyle, formSectionStyle, formSignUpStyle, formSignUpTitleStyle, formWrapperStyle, genderButtonStyle, genderSectionStyle, genderSelectionStyle, hiddenRadioStyle, inputButtonStyle, inputSignUpWrapperStyle, inputStyle } from './auth.style';
+import AddressModal from './AddressModal';
 
 function SignUpTrainer() {
   const navigate = useNavigate();
@@ -18,11 +19,31 @@ function SignUpTrainer() {
     gender: "",
     phone: "",
     email: "",
-    jobAddress: ""
   });
   const [attachmentFile, setAttachmentFile] = useState<File | null>(null);
   const [profile, setProfile] = useState<File | null>(null);
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zonecode, setZonecode] = useState<string>("");
+  const [jobAddress, setJobAddress] = useState<string>("");
+  const [detailedAddress, setDetailedAddress] = useState<string>("");
+  const fullAddress = `${jobAddress} ${detailedAddress}`.trim();
+  
+  useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      jobAddress: `${jobAddress} ${detailedAddress}`.trim()
+    }));
+  }, [jobAddress, detailedAddress]);
+  
+  const handleAddressComplete = (jobAddress: string, zonecode: string) => {
+    setJobAddress(jobAddress);
+    setZonecode(zonecode);
+  };
+  
+  const handleDetailedAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDetailedAddress(event.target.value);
+  };
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,7 +93,8 @@ function SignUpTrainer() {
 
     const requestBody: SignUpTrainerRequestDto = {
       ...form,
-      gender: form.gender.toUpperCase()
+      gender: form.gender.toUpperCase(),
+      jobAddress: fullAddress
     };
 
     const formData = new FormData();
@@ -216,6 +238,7 @@ function SignUpTrainer() {
                   type="text"
                   name='phone'
                   value={form.phone}
+                  placeholder='010-0000-0000'
                   onChange={handleInputChange}
                   css={inputStyle}
                 />
@@ -228,6 +251,7 @@ function SignUpTrainer() {
                   type="email"
                   name='email'
                   value={form.email}
+                  placeholder='example@example.com'
                   onChange={handleInputChange}
                   css={inputStyle}
                 />
@@ -242,11 +266,35 @@ function SignUpTrainer() {
                 <input
                   type="text"
                   name='jobAddress'
-                  value={form.jobAddress}
-                  onChange={handleInputChange}
+                  value={jobAddress}
+                  readOnly
                   css={inputStyle}
                 />
-                <button css={inputButtonStyle}>찾아보기</button>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                  css={inputButtonStyle}
+                >
+                  주소 찾기
+                </button>
+              </div>
+              {isModalOpen && (
+                <AddressModal
+                  onClose={() => setIsModalOpen(false)}
+                  onComplete={handleAddressComplete}
+                />
+              )}
+            </div>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>상세 주소</label>
+              <div css={inputSignUpWrapperStyle}>
+                <input
+                  type="text"
+                  placeholder="상세 주소 입력"
+                  value={detailedAddress}
+                  onChange={handleDetailedAddressChange}
+                  css={inputStyle}
+                />
               </div>
             </div>
             <div css={formSignUpStyle}>
