@@ -90,7 +90,7 @@ function Subscription() {
           <hr />
         <div css={m.paymentStatusBox}>
           <p  style={{color: "#3F4756"}}>구독 상태: </p>
-          <p>{subscriptionData.status}</p>
+          <p>{subscriptionData.status === "PAYMENT" ? "구독 승인" : subscriptionData.status === "NOT_PAYMENT" ? "결제 진행 안 됨" : "결제 취소"}</p>
         </div>
       
       </div>

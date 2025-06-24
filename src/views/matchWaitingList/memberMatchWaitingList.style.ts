@@ -16,7 +16,8 @@ export const MemberMatchWaitingListContainerBox = css`
 
 export const MemberMatchWaitingListContainer = css`
   overflow: hidden;
-  border-radius: 8% ;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 30vw;
   height: 100vh;
   background-color: #F1FAFF;
@@ -49,6 +50,7 @@ export const MatchWaitingListButton = css`
 
   &:not(:disabled):hover{
   background-color: #437BC0;
+  transform: scale(1.05); 
   color: white;
 } 
 `

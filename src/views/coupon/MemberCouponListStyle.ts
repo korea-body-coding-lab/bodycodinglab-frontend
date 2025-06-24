@@ -10,7 +10,7 @@ export const memberCouponContainer = css`
   margin-left: 15px;
 ` 
 
-// 전체 컨테이너
+
 export const memberCouponContainerBox = css`
   display: flex;
   flex-direction: row;
@@ -20,7 +20,7 @@ export const memberCouponContainerBox = css`
   font-family: 'Pretendard', sans-serif;
 `;
 
-// 왼쪽 사이드바
+
 export const sideBar = css`
   width: 250px;
   background-color: #f5f5f5;
@@ -66,7 +66,7 @@ export const menuItem = css`
   }
 `;
 
-// 본문 영역
+
 export const contentArea = css`
   flex: 1;
   padding: 30px 40px;
@@ -92,7 +92,7 @@ export const tabHeader = css`
   }
 `;
 
-// 쿠폰 리스트 필터 탭
+
 export const memberCouponFilterTab = css`
   display: flex;
   justify-content: flex-start;
@@ -106,14 +106,19 @@ export const memberCouponFilterTab = css`
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
+    transition: all 0.2s ease;
 
     &:hover {
-      background-color: #437BC0;
+      transform: scale(1.05); 
+    }
+
+    &.active {
+      background-color: #437BC0; 
     }
   }
 `;
 
-// 쿠폰 카드 전체 리스트 박스
+
 export const memberCouponListBox = css`
   display: flex;
   flex-direction: column;
@@ -122,7 +127,7 @@ export const memberCouponListBox = css`
 
 `;
 
-// 쿠폰 개별 카드
+
 export const memberCouponBox = css`
   display: flex;
   justify-content: space-between;
@@ -133,7 +138,7 @@ export const memberCouponBox = css`
   background-color:  #F1FAFF;;
 `;
 
-// 좌측 쿠폰 번호 + 버튼
+
 export const memberCouponSectionLeft = css`
   display: flex;
   flex-direction: column;
@@ -155,7 +160,7 @@ export const memberCouponSectionLeft = css`
   }
 `;
 
-// 중앙 쿠폰 정보
+
 export const memberCouponSectionMiddle = css`
   display: flex;
   flex-direction: column;
@@ -164,7 +169,7 @@ export const memberCouponSectionMiddle = css`
   background-color: #F1FAFF;
 `;
 
-// 우측 이미지 + 트레이너 이름
+
 export const memberCouponSectionRight = css`
   display: flex;
   flex-direction: column;

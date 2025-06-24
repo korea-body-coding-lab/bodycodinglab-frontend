@@ -93,10 +93,10 @@ function TrainerCouponList() {
         <h2 style={{color: "#3F4756"}}>{menuTitle}</h2>
         <br />
         <div css={t.couponFilterTab}>
-          <button onClick={() => handleStatusChange("APPLICATION")}>
+          <button onClick={() => handleStatusChange("APPLICATION")} className={status === "APPLICATION" ? "active" : ""}>
             신청 대기 쿠폰
           </button>
-          <button onClick={() => handleStatusChange("COMPLETE")}>
+          <button onClick={() => handleStatusChange("COMPLETE")} className={status === "COMPLETE" ? "active" : ""}>
             사용 완료 쿠폰
           </button>
         </div>

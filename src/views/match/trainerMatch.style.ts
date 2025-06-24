@@ -58,6 +58,7 @@ export const matchCardRight = css`
 
     &:hover {
       background-color: #437BC0;
+      transform: scale(1.05); 
     }
   }
 `;

@@ -121,16 +121,16 @@ function ReadTrainerMatchList() {
           <div key={memberData.matchId} css={t.matchCardBox}>
             <div css={t.matchCardLeft}>
               <div style={{display: "flex" }}>
-              <strong style={{color: "#3F4756"}}>회원 번호: </strong> <p> {memberData.memberId}</p>
+              <strong style={{color: "#3F4756"}}>회원 번호:</strong><span>&nbsp;{memberData.memberId}</span>
               </div>
               <div style={{display: "flex"}}>
-              <strong style={{color: "#3F4756"}}>회원 성별: </strong> <p> {memberData.memberGender}</p>
+              <strong style={{color: "#3F4756"}}>회원 성별:</strong><span>&nbsp;{memberData.memberGender}</span>
               </div>
             </div>
 
             <div css={t.matchCardMiddle}>
               <div style={{display: "flex"}}>
-                <strong style={{color: "#3F4756"}}>회원 이름: </strong> <p> {memberData.memberName}</p>
+                <strong style={{color: "#3F4756"}}>회원 이름: </strong> <span>&nbsp;{memberData.memberName}</span>
               </div>
             </div>
 
