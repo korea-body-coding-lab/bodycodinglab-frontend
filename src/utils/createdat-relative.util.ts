@@ -1,4 +1,5 @@
 function getRelativeTime(createdAt: string): string {
+    if (!createdAt) return "알 수 없음";
     const now = new Date();
     const created = new Date(createdAt.replace(" ", "T"));
     const diffMs = now.getTime() - created.getTime();

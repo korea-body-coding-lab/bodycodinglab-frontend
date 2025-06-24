@@ -139,7 +139,7 @@ export const note = css`
 `
 export const spanHead = css`
     color: #3F4756;;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 2px solid #C5CEE0;
 `
 export const noteTextHead = css`
     margin-left: 10px;
