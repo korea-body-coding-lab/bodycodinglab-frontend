@@ -57,6 +57,7 @@ export const GET_ALL_TRAINER_INFO = `${TRAINER_SEARCH_MODULE_URL}/trainer-list`;
 export const GET_TRAINER_INFO = (trainerId: number) => `${TRAINER_SEARCH_MODULE_URL}/${trainerId}`;
 export const GET_TRAINER_BY_NAME = `${TRAINER_SEARCH_MODULE_URL}/search-name`;
 export const GET_TRAINER_BY_ADDRESS = `${TRAINER_SEARCH_MODULE_URL}/search-address`;
+export const UPDATE_INFO_IMAGES = `${TRAINER_INFO_MODULE_URL}/infos`;
 
 
 

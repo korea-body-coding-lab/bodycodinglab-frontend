@@ -1,9 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
-import { css } from "@emotion/react";
-import { getAllTrainers, searchTrainerByName, searchTrainerByAddress } from "@/apis/trainer/trainer-search.api";
+import { useNavigate } from "react-router-dom";
+import {
+  getAllTrainers,
+  searchTrainerByName,
+  searchTrainerByAddress,
+} from "@/apis/trainer/trainer-search.api";
 import { TrainerListResponseDto } from "@/dtos/trainer/response/trainer-list.response.dto";
-import { useCookies } from "react-cookie";
+import TrainerSearchCard from "@/views/trainer/modal/TrainerSearchCard";
 
 import {
   container,
@@ -12,14 +16,13 @@ import {
   searchButton,
   trainerList,
   trainerCard,
-  trainerName,
-  trainerInfo,
 } from "./TrainerSearchStyle";
 
 const TrainerSearch = () => {
   const [trainers, setTrainers] = useState<TrainerListResponseDto[]>([]);
   const [searchText, setSearchText] = useState("");
   const [searchType, setSearchType] = useState<"name" | "jobAddress">("name");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAllTrainers();
@@ -37,20 +40,24 @@ const TrainerSearch = () => {
       fetchAllTrainers();
       return;
     }
-    let res;
-    if (searchType === "name") {
-      res = await searchTrainerByName(searchText);
-    } else {
-      res = await searchTrainerByAddress(searchText);
-    }
+
+    const res =
+      searchType === "name"
+        ? await searchTrainerByName(searchText)
+        : await searchTrainerByAddress(searchText);
 
     if (res.code === "SU" && res.data) {
       setTrainers(res.data);
     }
   };
 
+  const handleCardClick = (trainerId: number) => {
+    navigate(`/trainers/${trainerId}`);
+  };
+
   return (
     <div css={container}>
+
       <div css={searchBar}>
         <select
           value={searchType}
@@ -79,17 +86,18 @@ const TrainerSearch = () => {
         {trainers.length > 0 ? (
           trainers.map((trainer) => (
             <div key={trainer.trainerId} css={trainerCard}>
-              <h3 css={trainerName}>{trainer.name}</h3>
-              <div css={trainerInfo}>
-                <p>근무지: {trainer.jobAddress}</p>
-                <p>한줄소개: {trainer.shortIntroduce}</p>
-              </div>
+              <TrainerSearchCard
+                trainer={trainer}
+                onClick={() => handleCardClick(trainer.trainerId)}
+              />
             </div>
           ))
         ) : (
           <p>검색 결과가 없습니다.</p>
         )}
       </div>
-        </div>
-    )}
+    </div>
+  );
+};
+
 export default TrainerSearch;

@@ -10,8 +10,6 @@ import {
   row,
   label,
   text,
-  fileGrid,
-  fileCard,
   flexContainer,
   mainContent,
   sidebar
