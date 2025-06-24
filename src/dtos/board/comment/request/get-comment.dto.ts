@@ -1,4 +1,4 @@
-export type CommentDetailData = {
+export interface CommentDetailData {
     id: number;
     postId: number;
     commentContent: string;

@@ -2,7 +2,7 @@
 import React from 'react';
 import * as s from './CommentStyle';
 import { CommentDetailData } from '@/dtos/board/comment/request/get-comment.dto';
-import getRelativeTime from './CommentTime';
+import getRelativeTime from '../../../utils/createdat-relative.util';
 
 function Comment({ comment, username }: { comment: CommentDetailData; username?: string }) {
   return (

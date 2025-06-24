@@ -1,4 +1,4 @@
-export type PostDetailData = {
+export interface PostDetailData {
     id: number;
     writerId: string | null;
     title: string;

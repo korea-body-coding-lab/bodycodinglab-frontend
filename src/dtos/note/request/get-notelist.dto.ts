@@ -1,4 +1,4 @@
-export type NoteList={
+export interface NoteList{
     id: number;
     noteText: string;
     noteWriter: number ;

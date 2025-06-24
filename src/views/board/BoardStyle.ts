@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 
 
-export const body = css`
+export const body = css` 
     width: 90%;
     margin: auto;
     display: flex;
@@ -107,26 +107,45 @@ export const board = css`
     border-radius: 10px 10px 0 0;
     
 `
+export const spanHead = css`
+    color: #3F4756;;
+    border-bottom: 2px solid #C5CEE0;
+`
 export const post = css`
-    margin-left: 10px;
-    margin-top: 5px;
     cursor: pointer;
 `
+export const spans = css`
+    color: #3F4756;;
+    border-bottom: 1px solid #ccc;
+    
+    :hover{
+        background-color: #ccc;
+        color: white;
+    }
+    
+`
 export const postIdSpan = css`
+    margin-left: 10px;
     display: inline-block;
-    min-width: 50px;
+    border-right: 1px solid #ccc;
+    width: 10%;
 `
 export const postTitleSpan = css`
+    margin-left: 10px;
     display: inline-block;
-    min-width: 300px;
+    border-right: 1px solid #ccc;
+    width: 60%;
 `
 export const postWriterSpan = css`
+    margin-left: 10px;
     display: inline-block;
-    min-width: 70px;
+    border-right: 1px solid #ccc;
+    width: 10%;
 `
 export const postDateSpan = css`
+    margin-left: 10px;
     display: inline-block;
-    min-width: 100px;
+    width: 10%;
 `
 export const boardBottom = css`
     width: 90%;
