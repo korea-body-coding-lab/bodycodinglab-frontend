@@ -221,7 +221,7 @@ export const inputLoginWrapperStyle = css`
 `;
 
 export const inputFindUsernameWrapperStyle = css`
-  width: 350px;
+  width: 400px;
   height: 60px;
   padding: 0 14px;
   border: 1px solid #8F98A9;
@@ -229,7 +229,7 @@ export const inputFindUsernameWrapperStyle = css`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  transition: border 0.3s;
+  transition: border 0.2s;
   &:focus-within {
     outline: none;
     border: 3px solid #707D97;
@@ -427,4 +427,64 @@ export const fullPageLoaderStyle = css`
   font-weight: 600;
   color: #FFF;
   z-index: 9999;
+  `;
+
+export const overlayStyle = css`
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex; align-items: center; justify-content: center;
+`;
+
+export const modalStyle = css`
+  position: relative;
+  width: 500px;
+  height: 600px;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  overflow: visible;
+`;
+
+export const modalOverlayStyle = css`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+export const modalContentStyle = css`
+  background: #fff;
+  width: 500px;
+  height: 600px;
+  border-radius: 10px;
+  padding: 16px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+`;
+
+export const closeButtonStyle = css`
+  position: absolute;
+  top: 10px;
+  right: 4px;
+  z-index: 1001;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+
+  &:hover {
+    color: #333;
+  }
 `;

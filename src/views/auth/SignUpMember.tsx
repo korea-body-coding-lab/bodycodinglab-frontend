@@ -1,15 +1,21 @@
 /** @jsxImportSource @emotion/react */
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import Header from '../header/Header';
 import { SignUpMemberRequestDto } from '@/dtos/auth/request/sign-up-member.request.dto';
 import { signUpMemberRequest } from '@/apis/auth/sign-up-member.api';
 import { useNavigate } from 'react-router-dom';
 import { validateMemberForm } from '@/utils/sign-up.valid';
 import { buttonSignUpStyle, containerStyle, formLabelStyle, formSectionStyle, formSignUpStyle, formSignUpTitleStyle, formWrapperStyle, genderButtonStyle, genderSectionStyle, genderSelectionStyle, hiddenRadioStyle, inputButtonStyle, inputSignUpWrapperStyle, inputStyle } from './auth.style';
+import AddressModal from './AddressModal';
 
 function SignUpMember() {
   const navigate = useNavigate();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zonecode, setZonecode] = useState<string>("");
+  const [memberAddress, setMemberAddress] = useState<string>("");
+  const [detailedAddress, setDetailedAddress] = useState<string>("");
+  const [profile, setProfile] = useState<File | null>(null);
+  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -19,10 +25,24 @@ function SignUpMember() {
     gender: "",
     phone: "",
     email: "",
-    memberAddress: ""
   });
-  const [profile, setProfile] = useState<File | null>(null);
-  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
+  const fullAddress = `${memberAddress} ${detailedAddress}`.trim();
+
+  useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      memberAddress: `${memberAddress} ${detailedAddress}`.trim()
+    }));
+  }, [memberAddress, detailedAddress]);
+
+  const handleAddressComplete = (address: string, zonecode: string) => {
+    setMemberAddress(address);
+    setZonecode(zonecode);
+  };
+
+  const handleDetailedAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDetailedAddress(event.target.value);
+  };
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,7 +83,8 @@ function SignUpMember() {
     
     const requestBody: SignUpMemberRequestDto = {
       ...form,
-      gender: form.gender.toUpperCase()
+      gender: form.gender.toUpperCase(),
+      memberAddress: fullAddress
     };
 
     const formData = new FormData();
@@ -205,6 +226,7 @@ function SignUpMember() {
                   type="text"
                   name='phone'
                   value={form.phone}
+                  placeholder='010-0000-0000'
                   onChange={handleInputChange}
                   css={inputStyle}
                 />
@@ -217,6 +239,7 @@ function SignUpMember() {
                   type="email"
                   name='email'
                   value={form.email}
+                  placeholder='example@example.com'
                   onChange={handleInputChange}
                   css={inputStyle}
                 />
@@ -230,14 +253,38 @@ function SignUpMember() {
               <div css={inputSignUpWrapperStyle}>
                 <input
                   type="text"
-                  name='address'
-                  value={form.memberAddress}
-                  onChange={handleInputChange}
+                  name='memberAddress'
+                  value={memberAddress}
+                  readOnly
                   css={inputStyle}
                 />
-                <button css={inputButtonStyle}>찾아보기</button>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                  css={inputButtonStyle}
+                >
+                  주소 찾기
+                </button>
               </div>
-            </div>       
+              {isModalOpen && (
+                <AddressModal
+                  onClose={() => setIsModalOpen(false)}
+                  onComplete={handleAddressComplete}
+                />
+              )}
+            </div>
+            <div css={formSignUpStyle}>
+              <label css={formLabelStyle}>상세 주소</label>
+              <div css={inputSignUpWrapperStyle}>
+                <input
+                  type="text"
+                  placeholder="상세 주소 입력"
+                  value={detailedAddress}
+                  onChange={handleDetailedAddressChange}
+                  css={inputStyle}
+                />
+              </div>
+            </div>
           </div>
           <div css={formSectionStyle}>
             <h2 css={formSignUpTitleStyle}>선택 정보</h2>

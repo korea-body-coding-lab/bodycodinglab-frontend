@@ -7,7 +7,7 @@ interface FormState {
   gender: string;
   phone: string;
   email: string;
-  address?: string;
+  memberAddress?: string;
   jobAddress?: string;
 }
 
@@ -21,7 +21,7 @@ export const validateMemberForm = (form: FormState): string | null => {
     gender,
     phone,
     email,
-    address
+    memberAddress
   } = form;
 
   const usernameRegex = /^[a-zA-Z][a-zA-Z0-9]{5,12}$/;
@@ -63,7 +63,7 @@ export const validateMemberForm = (form: FormState): string | null => {
     return "이메일은 abc@example.com 형식이어야 합니다.";
   }
 
-  if (!address) {
+  if (!memberAddress) {
     return "주소는 필수 항목입니다.";
   }
 
