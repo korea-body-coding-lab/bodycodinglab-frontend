@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { GetPostFormData } from '@/dtos/board/request/get-post-edit.dto';
 import { getAccessTokenFromCookie } from '@/apis/get-token';
 import { getUserMatchId } from '@/apis/get-user-matchId';
+import { fetchPostDetail } from '@/apis/board/get-post-detail.api';
 
 
 function BoardEdit() {
@@ -31,23 +32,13 @@ function BoardEdit() {
       setLoading(true); 
       return;
     }
-
+ 
     const fetchPost = async () => {
       try {
         const token = getAccessTokenFromCookie(); 
-        const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include', 
-        });
-        if (!res.ok) throw new Error('게시글 불러오기 실패');
-        const data = await res.json();
-        const post = data.data;
-        
-        
+        if (!token) throw new Error("로그인 토큰이 없습니다.");
+
+        const post = await fetchPostDetail(matchId, Number(categoryId), Number(postId), token);
 
         setFormData({
           postId: parsedPostId!,
@@ -60,7 +51,7 @@ function BoardEdit() {
         setLoading(false);
       }
     };
-
+ 
     fetchPost();
   }, [categoryId, postId, matchId]);
 

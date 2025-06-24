@@ -6,8 +6,8 @@ import { GetPostFormData } from '@/dtos/board/request/get-post-edit.dto';
 import { getAccessTokenFromCookie } from '@/apis/get-token';
 import { getUserMatchId } from '@/apis/get-user-matchId';
 import { jwtDecode } from 'jwt-decode';
-
-
+import { editPost } from '@/apis/board/put-edit-post.api';
+import { writePost } from '@/apis/board/post-write-post.api';
 
 function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:GetPostFormData, categoryId:number, postId?:number}){
   const navigate = useNavigate();
@@ -18,11 +18,11 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
   const [matchId, setMatchId] = useState<number | null>(null);
   const [viewCount, setViewCount] = useState(0);
 
-  const categoryMap: Record<number, string> = {
-    1: "MEAL",
-    2: "EVENT",
-    3: "NOTICE"
-  };
+  // const categoryMap: Record<number, string> = {
+  //   1: "MEAL",
+  //   2: "ROUTINE",
+  //   3: "COMMUNITY"
+  // };
 
   useEffect(() => {
     async function fetchMatchId() {
@@ -40,10 +40,10 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
     }
   }, []);
 
-  const category = {
-    id: categoryId,
-    categoryName: categoryMap[categoryId]
-  };
+  // const category = {
+  //   id: categoryId,
+  //   categoryName: categoryMap[categoryId]
+  // };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -65,35 +65,20 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
 
     const category = {id: categoryId};
     const json = JSON.stringify({ title, content, category, matchId, writerId, viewCount });
-    console.log(title);
     const formData = new FormData();
     formData.append('data', new Blob([json], { type: 'application/json' }));
-
     if (selectedFile) {
       formData.append('file', selectedFile);
     }
 
     try {
-      let response;
       if (isEdit) {
         if (!postId) throw new Error("postId가 필요합니다");
-        response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
-          method: 'PUT',            
-          headers: {
-            Authorization: `Bearer ${token}`, 
-          },
-          body: formData,
-        });
+        await editPost(matchId, categoryId, formData, postId, token)
       } else {
-        response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`, 
-          },
-          body: formData,
-        });
+        await writePost(matchId, categoryId, formData, token)
       }
-      if (!response.ok) throw new Error('API 요청 실패');
+      
       alert(isEdit ? '수정 완료' : '작성 완료');
       navigate(`/personal-community-boards/${matchId}/${categoryId}`);
     } catch (error) {

@@ -2,7 +2,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { getUserMatchId } from '@/apis/get-user-matchId'; 
 import { useEffect, useState } from 'react';
 
-
 function RedirectToUserMatch() {
   const [userMatchId, setUserMatchId] = useState<number | null | undefined>(undefined);
   const navigate = useNavigate();

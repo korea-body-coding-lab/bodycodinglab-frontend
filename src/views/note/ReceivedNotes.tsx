@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { NoteList } from '@/dtos/note/request/get-notelist.dto';
 import { getAccessTokenFromCookie } from '@/apis/get-token';
 import { fetchUsernames } from '@/apis/get-username';
+import { getReceivedNotes } from '@/apis/note/get-received-note.api';
 
 
 
@@ -15,35 +16,25 @@ function ReceivedNotes() {
     const [userMap, setUserMap] = useState<Record<number, string>>({});
 
     useEffect(() => {
-            // if (!userId) {
-            //   setLoading(false);
-            //   return;
-            // }
-            const fetchPosts = async () => {
-              try {
-                const token = getAccessTokenFromCookie();
-                  if (!token) throw new Error("토큰이 없습니다.");
-                const res = await fetch(`/api/v1/notes/received`, {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                  },
-                });
-                if (!res.ok) throw new Error("쪽지 불러오기 실패");
-                const data = await res.json();
-                setNotes(data.data); 
-                const userIds: number[] = Array.from(new Set(data.data.flatMap((note: NoteList) => [note.noteWriter, note.noteReceiver])));
-                                
-                const userMapData = await fetchUsernames(userIds);
-                setUserMap(userMapData);
-              } catch (e) {
-                alert("쪽지를 가져오지 못했습니다.");
-              } finally {
-                setLoading(false);
-              }
-            };
-            fetchPosts();
-          },[]);
+      const fetchPosts = async () => {
+        try {
+          const token = getAccessTokenFromCookie();
+          if (!token) throw new Error("토큰이 없습니다.");
+          
+          const data = await getReceivedNotes(token);
+          setNotes(data); 
+          const userIds: number[] = Array.from(new Set(data.flatMap((note: NoteList) => [note.noteWriter, note.noteReceiver])));
+                          
+          const userMapData = await fetchUsernames(userIds);
+          setUserMap(userMapData);
+        } catch (e) {
+          alert("쪽지를 가져오지 못했습니다.");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchPosts();
+    },[]);
 
   return (
     <div>

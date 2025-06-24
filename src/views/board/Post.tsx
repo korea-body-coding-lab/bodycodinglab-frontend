@@ -10,6 +10,10 @@ import { getUserMatchId } from '@/apis/get-user-matchId';
 import { fetchUsernames } from '@/apis/get-username';
 import Comment from './comment/Comment';
 import { CommentDetailData } from '@/dtos/board/comment/request/get-comment.dto';
+import { deletePost } from '@/apis/board/delete-post.api';
+import { fetchPostDetail } from '@/apis/board/get-post-detail.api';
+import { fetchComments } from '@/apis/board/comment/get-comments.api';
+import { writeComment } from '@/apis/board/comment/post-write-comment.api';
 
 function Post() {
     const [matchId, setMatchId] = useState<number | null>(null);
@@ -25,7 +29,8 @@ function Post() {
     const currentUserId = getUserIdFromToken();
     const [comments, setComments] = useState<CommentDetailData[]>([]);
     const [newComment, setNewComment] = useState("");
-
+    const numericCategoryId = Number(categoryId);
+    const numericPostId = Number(postId);
     useEffect(() => {
         async function fetchMatchId() {
           const id = await getUserMatchId();
@@ -34,24 +39,17 @@ function Post() {
         fetchMatchId();
       }, []);
     const handleDelete = async () => {
+      if (matchId === null || !postId || !categoryId) {
+        alert("필수 정보가 누락되었습니다.");
+        return;
+      }
         try {
             const token = getAccessTokenFromCookie();
                 if (!token) {
                 alert("로그인이 필요합니다.");
                 return;
             }
-            const response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${Number(postId)}`, {
-              method: 'DELETE',
-              headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-              
-            });
-            
-            if (!response.ok) throw new Error("삭제 실패");
-        
-            alert("게시글이 삭제되었습니다.");
+            await deletePost(matchId, numericCategoryId, numericPostId, token);
             setDeleteBoxOpen(false); 
             navigate(-1); 
           } catch (error) {
@@ -72,26 +70,10 @@ function Post() {
             try{
                 const token = getAccessTokenFromCookie();
                 if (!token) throw new Error("로그인 토큰이 없습니다.");
-                const response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      "Content-Type": "application/json",
-                    },
-                  });
-                
-                if (!response.ok) throw new Error("데이터 요청 실패");
-
-                const data = await response.json();
-            
-                setPost(data.data);
- 
-                
+                const data = await fetchPostDetail(matchId, numericCategoryId, numericPostId, token);
+                setPost(data);
             }catch(error){
-   
                 alert("게시글을 불러오는데 실패했습니다.")
-     
             }finally{
                 setLoading(false);
             }
@@ -116,22 +98,25 @@ function Post() {
 
    
     useEffect(() => {
-        async function fetchComments() {
+      
+        async function loadComments() {
+          if (!categoryId || !postId || matchId === null) {
+            setLoading(true); 
+            return;
+          }
           const token = getAccessTokenFromCookie();
-          const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}/comments`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
-          if (!res.ok) throw new Error('댓글 불러오기 실패');
-          const data = await res.json();
-          setComments(data.data);
+          if (!token) throw new Error("로그인 토큰이 없습니다.");
+          const data = await fetchComments(matchId, numericCategoryId, numericPostId, token);
+          setComments(data);
         }
       
-        fetchComments();
-      }, [postId]);
+        loadComments();
+      }, [matchId, categoryId, postId]);
       useEffect(() => {
+        if (!categoryId || !postId || matchId === null) {
+      setLoading(true); 
+      return;
+    }
         async function loadCommentUsernames() {
           if (comments.length === 0) return;
       
@@ -155,25 +140,16 @@ function Post() {
       
         try {
           const token = getAccessTokenFromCookie();
+          if (!categoryId || !postId || matchId === null) {
+            setLoading(true); 
+            return;
+          }
           if (!token) {
             alert("로그인이 필요합니다.");
             return;
           }
-      
-          const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}/comments`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              commentContent: newComment,
-            }),
-          });
-          window.location.reload();
-          if (!res.ok) throw new Error("댓글 작성 실패");
-      
-          const result = await res.json();
+          const result = await writeComment(matchId, numericCategoryId, numericPostId, token, newComment);
+          
           setComments(prev => [...prev, result.data]); 
           setNewComment(""); 
         } catch (error) {
@@ -188,7 +164,7 @@ function Post() {
         <Header/>
         <div css={s.body}>
           <div css={s.left}>
-            <BoardCategory categoryId={Number(categoryId)}/>
+            <BoardCategory categoryId={numericCategoryId}/>
           </div>
           <div css={s.right}>
             <div css={s.postHeader}>
