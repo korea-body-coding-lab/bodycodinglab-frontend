@@ -45,10 +45,10 @@ border: 1px solid white;
 cursor: ${status === "NOT_APPROVED" ? "pointer" : "not-allowed"};
 
 background-color: ${status === "APPROVED"
-    ? "#4CAF50"   // 녹색
+    ? "#4CAF50"   
     : status === "REJECT"
-    ? "#d3d3d3"   // 회색
-    : "#699CE4"}; // 파란색
+    ? "#d3d3d3"   
+    : "#699CE4"};
 
   &:hover {
     background-color: ${status === "APPROVED"
@@ -56,6 +56,10 @@ background-color: ${status === "APPROVED"
       : status === "REJECT"
       ? "#d3d3d3"
       : "#437BC0"};
+  }
+
+  &:not(:disabled):hover{
+    transform: scale(1.05);
   }
 
   &:disabled {

@@ -62,6 +62,7 @@ export const trainerRejectModalButtons = css`
 
     &:hover:not(:disabled) {
       background-color: #437bc0;
+      transform: scale(1.05); 
     }
   }
 `;

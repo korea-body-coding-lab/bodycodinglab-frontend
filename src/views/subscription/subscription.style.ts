@@ -32,7 +32,8 @@ export const subscriptionLogBox = css`
   flex-direction: column;
   justify-content: space-around;
   background-color: #F1FAFF;
-  border-radius: 8px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
 `
 

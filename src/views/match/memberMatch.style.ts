@@ -18,9 +18,10 @@ export const MemberMatchContainerBox = css`
 export const MemberMatchContainer = css`
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
+  border-radius: 12px;
   width: 30vw;
   background-color: #F1FAFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 `
 
 export const MemberMatchTitle = css`
@@ -47,6 +48,7 @@ export const MatchButton = css`
   &:hover{
   background-color: #437BC0;
   color: white;
+  transform: scale(1.05); 
 } 
 `
 

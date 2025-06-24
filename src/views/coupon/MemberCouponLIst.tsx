@@ -59,7 +59,8 @@ function MemberCouponLIst() {
       setCoupons((prevCoupons) =>
         prevCoupons.filter((coupon) => coupon.couponId !== couponId)
       );
-
+      
+      return
     } else {
       alert("쿠폰 신청에 실패했습니다. 다시 시도해주세요.");
     }
@@ -79,10 +80,10 @@ function MemberCouponLIst() {
         <h2 style={{color: "#3F4756"}}>{menuTitle}</h2>
         <br />
         <div css={m.memberCouponFilterTab} >
-          <button onClick={() => handleStatusChange("NOT_USED")}>
+          <button onClick={() => handleStatusChange("NOT_USED")} className={status === "NOT_USED" ? "active" : ""}>
             사용하지 않은 쿠폰
           </button>
-          <button onClick={() => handleStatusChange("EXPIRED")}>
+          <button onClick={() => handleStatusChange("EXPIRED")}  className={status === "EXPIRED" ? "active" : ""}>
             기간 만료 쿠폰
           </button>
         </div>

@@ -7,7 +7,7 @@ export const fromCotinaerBox=css`
 
 
 export const formContainer = css`
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 40px 20px;
   background-color: #f5fbff;
@@ -61,7 +61,7 @@ export const submitButtonContainer=css`
 `;
 
 export const submitButton = css`
-  background-color: #3182f6;
+  background-color: #699CE4;
   color: white;
   padding: 10px 30px;
   font-size: 16px;
@@ -70,6 +70,7 @@ export const submitButton = css`
   text-align: center;
   cursor: pointer;
   &:hover {
-    background-color: #2563eb;
+    background-color: #437BC0;
+    transform: scale(1.05); 
   }
 `;
