@@ -5,7 +5,7 @@ export const body = css`
     display: flex;
     flex-grow: 1;
     justify-content: flex-start;
-    
+    margin-bottom: 20px;
 ` 
 
 export const left = css`
@@ -290,6 +290,11 @@ export const comment = css`
     background-color: #F1FAFF;
     border: 2px solid #C5CEE0;
     border-bottom: none;
+`
+export const noComment = css`
+    font-size: 20px;
+    color: #aaa;
+    text-align: center;
 `
 export const commentWrite = css`
     width: 90%;

@@ -6,5 +6,5 @@ export type PostDetailData = {
     createdAt: string;
     postLike?: number; 
     commentCount?: number;
-    viewCount?: number;
+    viewCount?: number; 
   };
