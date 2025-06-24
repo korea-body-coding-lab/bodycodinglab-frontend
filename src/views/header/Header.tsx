@@ -28,7 +28,7 @@ function Header() {
             <div css={s.logoStyle} onClick={() => navigate("/")}></div>
             <nav css={s.headerNav}>
             <div css={s.headerNavDivs} onClick={() => navigate('/fitmateintro')}>핏메이트 소개</div>
-            <div css={s.headerNavDivs} onClick={() => navigate('/find-trainer')}>트레이너 찾기</div>
+            <div css={s.headerNavDivs} onClick={() => navigate('/trainers/search')}>트레이너 찾기</div>
             {isLogin ? (<div css={s.headerNavDivs} onClick={() => navigate('/personal-community-boards')}>1대1 커뮤니티</div>) : <div></div>}
         </nav>
             <div>

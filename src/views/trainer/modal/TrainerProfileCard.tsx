@@ -32,14 +32,21 @@ const TrainerProfileCard: React.FC = () => {
   }, [trainerId]);
 
   if (loading) return <p>불러오는 중...</p>;
-  if (!trainer) return <p>트레이너 정보를 불러올 수 없습니다.</p>; 
+  if (!trainer) return <p>트레이너 정보를 불러올 수 없습니다.</p>;
+
+  const profileImageUrl = trainer.profileImage
+    ? `http://localhost:8080${trainer.profileImage}`
+    : "/default-profile.png";
 
   return (
     <div css={S.cardWrapper}>
       <img
-        src={trainer.profileImage ? `http://localhost:8080${user?.profileImageUrl}` : '/default-profile.png'}
+        src={profileImageUrl}
         alt="프로필 이미지"
         css={S.profileImage}
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = "/default-profile.png";
+        }}
       />
       <div css={S.infoBox}>
         <h3 css={S.name}>{trainer.name ?? "이름 없음"}</h3>
