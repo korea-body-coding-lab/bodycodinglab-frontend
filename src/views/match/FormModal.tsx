@@ -26,15 +26,18 @@ function FormModal({ isOpen, onClose, formData, data }: FormModalProps) {
           src={
             data.profileImageUrl
               ? `http://localhost:8080${data.profileImageUrl}`
-              : "/default-profile.png"
+              : '/default-profile.png'
           }
           alt="회원 프로필 이미지"
           css={f.trainerProfile}
         />
-        <p>{data.memberName}</p>
-        <p>{data.memberAge}</p>
-        <p>{data.memberAddresss}</p>
-        <p>{data.memberPhone}</p>
+        <p>이름: {data.memberName}</p>
+        <p>나이: {data.memberAge}세</p>
+        <p>성별: {data.memberGender}</p>
+        <p>거주지: {data.memberAddress}</p>
+        <p>전화번호: {data.memberPhone}</p>
+        <br />
+        <br />
         {!formData ? (
           <p>작성된 폼이 존재하지 않습니다.</p>
         ) : (

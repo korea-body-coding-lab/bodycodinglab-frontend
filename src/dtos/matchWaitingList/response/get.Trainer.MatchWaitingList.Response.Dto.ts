@@ -8,4 +8,5 @@ export interface trainerMatchWaitingListResponseDto{
   trainerJobAddress: string;
   appliedAt: string;
   approvedStatus : ApprovedStatus;
+  rejectResponse : string;
 }

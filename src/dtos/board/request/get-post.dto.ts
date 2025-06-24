@@ -1,4 +1,4 @@
-export type PostDetailData = {
+export interface PostDetailData {
     id: number;
     writerId: string | null;
     title: string;
@@ -6,5 +6,5 @@ export type PostDetailData = {
     createdAt: string;
     postLike?: number; 
     commentCount?: number;
-    viewCount?: number;
+    viewCount?: number; 
   };

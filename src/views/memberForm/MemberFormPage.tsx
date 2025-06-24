@@ -73,11 +73,12 @@ const MemberFormPage = () => {
       <div>
         <br />
       </div>
-      <FormViewer data={formData!}
-      />
+      <div style={{marginLeft: "20%", width: "100%"}}>
+      <FormViewer data={formData!}/>  
       </div>
       </div>
-   
+      </div>
+  
 
     </>);
 };

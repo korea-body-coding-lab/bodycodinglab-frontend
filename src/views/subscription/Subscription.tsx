@@ -6,6 +6,8 @@ import { subscriptionResponseDto } from '@/dtos/subscription/response/get.Subscr
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import Header from "../header/Header";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
 
 
 
@@ -33,27 +35,49 @@ function Subscription() {
     loadingSubscriptionData()
   }, [])
 
+
+  
   if(loading) return <p>로딩 중입니다.</p>
-  if(!subscriptionData) return <p>구독 신청 이력이 존재하지 않습니다.</p>
+  if(!subscriptionData) return( <div>
+    
+      <div>
+        <Header/>
+      </div>
+
+      <div style={{display: "flex"}}>
+        <MyPageSidebar/> 
+        <div style={{marginTop: "25px"}}>
+          <h2 style={{color: "#3F4756"}}>구독 관리</h2>
+          <br />
+          <p>구독 신청 이력이 존재하지 않습니다.</p>
+        </div>
+      </div>
+    </div>);
   return (
     <div>
-    <h4 css={m.mypageCategory}>구독 관리</h4>
-      <h1 css={m.subscriptionTitle} >핏메이트 온라인 티칭</h1>
+      <div>
+      <Header/>
+      </div>
+    
       <div css={m.subscriptionContainer}>
+        <MyPageSidebar/>
+        <div style={{display: "flex", flexDirection: "column", marginLeft: "15px", marginTop: "20px"}}>
+      <h2  style={{color: "#3F4756"}}> 구독관리</h2> 
+      <div css={m.subscriptionContainerBox}>
+      <h2 css={m.subscriptionTitle} style={{color: "#3F4756"}}>핏메이트 온라인 티칭</h2>
       <div css={m.subscriptionLogBox}>
-   
         <div css={m.memberNameBox}>
-          <p>사용자명: </p>
+          <p  style={{color: "#3F4756"}}>사용자명: </p>
           <p>{subscriptionData.memberName}</p>
         </div>
           <hr />
         <div css={m.priceBox}>
-          <p>결제 금액: </p>
+          <p  style={{color: "#3F4756"}}>결제 금액: </p>
           <p>{subscriptionData.price}원</p>
         </div>
           <hr />
         <div css={m.paymentDateBox}>
-          <p>결제 일자: </p>
+          <p  style={{color: "#3F4756"}}>결제 일자: </p>
           <p>{new Date(subscriptionData.paymentDate).toLocaleString("ko-kR", {
             year: "numeric",
             month: "long",
@@ -65,11 +89,15 @@ function Subscription() {
         </div>
           <hr />
         <div css={m.paymentStatusBox}>
-          <p>구독 상태: </p>
-          <p>{subscriptionData.status}</p>
+          <p  style={{color: "#3F4756"}}>구독 상태: </p>
+          <p>{subscriptionData.status === "PAYMENT" ? "구독 승인" : subscriptionData.status === "NOT_PAYMENT" ? "결제 진행 안 됨" : "결제 취소"}</p>
         </div>
       
       </div>
+      </div>
+          
+        </div>
+        
       </div>
 
     </div>

@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { findTrainerMatchRequest } from "@/apis/match/find.trainer.Match.api";
 import { findTrainerMatchListRequest } from "@/apis/match/find.TrainerMatchListRequest.api";
 import { memberMatchResponseDto } from "@/dtos/match/response/find.member.match.response.dto";
@@ -7,6 +9,9 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import FormModal from "./FormModal";
+import Header from "../header/Header";
+import MyPageSidebar from "../sidebar/MyPageSidebar";
+import * as t from "./trainerMatch.style";
 
 function ReadTrainerMatchList() {
   const [cookies, setCookies] = useCookies(["accessToken"]);
@@ -63,34 +68,81 @@ function ReadTrainerMatchList() {
     }
   };
 
+// return (
+  // <div>
+
+  //   <div>
+  //       <Header/>
+  //   </div>
+
+  //   <div style={{display: "flex"}}>
+  //     <MyPageSidebar/> 
+  //     <div  style={{marginTop: "25px"}}>
+  //       <h2  style={{color: "#3F4756"}}>매칭 조회</h2>
+  //       <br />
+  //       <p>매칭 신청 기록이 존재하지 않습니다.</p>
+  //     </div>
+  //   </div>
+  // </div>);
+
   if (loading) return <p>로딩중입니다.......</p>;
   if (!memberDatas || memberDatas.length === 0)
-    return <p>매칭된 회원이 존재하지 않습니다.</p>;
+    return (
+    <div>
+      
+      <div>
+        <Header/>
+      </div>
+
+      <div style={{display: "flex"}}>
+        <MyPageSidebar/> 
+          <div  style={{marginTop: "25px" , marginLeft: "15px"}}>
+            <h2  style={{color: "#3F4756"}}>매칭 관리</h2>
+            <br />
+            <p>매칭 신청 기록이 존재하지 않습니다.</p>
+          </div>
+        </div>
+      
+      </div>);
   return (
     <div>
-      <p>매칭 관리</p>
-      <div style={{ display: "flex" }}>
+
+      <div>
+        <Header/>
+      </div>
+
+      <div css={t.matchListContainerBox}>
+      <MyPageSidebar/>
+      <div css={t.matchListContainer}>
+      <h2 style={{color: "#3F4756"}}>매칭 관리</h2>
+      <div css={t.matchCardListBox}>
+      <h2 style={{textAlign: "center" ,color: "#3F4756"}}>매칭 리스트</h2>
         {memberDatas.map((memberData) => (
-          <div key={memberData.matchId}>
-            <div>
-              <strong>회원 번호:</strong> <p>{memberData.memberId}</p>
+          <div key={memberData.matchId} css={t.matchCardBox}>
+            <div css={t.matchCardLeft}>
+              <div style={{display: "flex" }}>
+              <strong style={{color: "#3F4756"}}>회원 번호:</strong><span>&nbsp;{memberData.memberId}</span>
+              </div>
+              <div style={{display: "flex"}}>
+              <strong style={{color: "#3F4756"}}>회원 성별:</strong><span>&nbsp;{memberData.memberGender}</span>
+              </div>
             </div>
 
-            <div>
-              <strong>회원 성별: </strong> <p>{memberData.memberGender}</p>
+            <div css={t.matchCardMiddle}>
+              <div style={{display: "flex"}}>
+                <strong style={{color: "#3F4756"}}>회원 이름: </strong> <span>&nbsp;{memberData.memberName}</span>
+              </div>
             </div>
 
-            <div>
-              <strong>회원 이름: </strong> <p>{memberData.memberName}</p>
-            </div>
-
-            <div>
+            <div css={t.matchCardRight}>
               <button onClick={() => getMemberData(memberData.matchId)}>
                 조회하기
               </button>
             </div>
           </div>
         ))}
+        </div>
+      </div>
       </div>
 
       {isModalOpen && modalData && (

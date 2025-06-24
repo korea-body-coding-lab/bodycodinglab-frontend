@@ -17,7 +17,6 @@ export async function getUserMatchId(): Promise<number | null> {
         throw new Error("matchId 가져오기 실패");
     }
     const data = await res.json()
-    console.log("getUserMatchId: response data", data);
     return data.matchId ?? null;
   } catch (error) {
     console.error("matchId 요청 오류:", error);

@@ -4,6 +4,7 @@ import * as s from "./NoteListStyle";
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
 import { fetchUsernames } from '@/apis/get-username';
+import { writeNote } from '@/apis/note/post-write-note.api';
 
 function WriteNote() {
   const [searchParams] = useSearchParams();
@@ -61,19 +62,7 @@ function WriteNote() {
       const token = getAccessTokenFromCookie();
       if (!token) throw new Error("토큰이 없습니다.");
 
-      const response = await fetch('/api/v1/notes', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          noteText,
-          noteReceiver: receiverId,
-        }),
-      });
-
-      if (!response.ok) throw new Error("쪽지 전송 실패");
+      await writeNote(noteText, receiverId, token);
 
       alert("쪽지가 성공적으로 전송되었습니다.");
       navigate('/notes/sent');

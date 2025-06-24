@@ -8,16 +8,24 @@ export const MemberMatchWaitingListContainerBox = css`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 50vh;
+  margin-left:70%;
+
 `
 
 
 export const MemberMatchWaitingListContainer = css`
-  border: 1px solid black;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 30vw;
+  height: 100vh;
+  background-color: #F1FAFF;
 `
 
 export const MemberMatchWaitingListTitle = css`
   text-align: center;
+  color: #3F4756;
 `;
 
 
@@ -29,14 +37,20 @@ export const MemberMatchWaitingListButtonContainer = css`
 export const MatchWaitingListButton = css`
   width: 5vw;
   height: 6vh;
-  background-color: #699CE4;
+  background-color: #ccc;
   color: white;
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 8px;
+  
+  &:not(:disabled) {
+    background-color: #699CE4;
+    cursor: pointer;
+  }
 
   &:not(:disabled):hover{
   background-color: #437BC0;
+  transform: scale(1.05); 
   color: white;
 } 
 `

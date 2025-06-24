@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as s from "./NoteListStyle";
 import { NoteType } from '@/dtos/note/request/get-note.dto';
 import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
 import { fetchUsernames } from '@/apis/get-username';
-import { NoteList } from '@/dtos/note/request/get-notelist.dto';
+import { getNote } from '@/apis/note/get-note-detail.api';
 
 function NoteDetail() {
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ function NoteDetail() {
   const [userMap, setUserMap] = useState<Record<number, string>>({});
 
   const userId = getUserIdFromToken();
-  console.log("userId:", userId);
 
   useEffect(() => {
     if (!noteId) return;
@@ -25,17 +24,9 @@ function NoteDetail() {
         const token = getAccessTokenFromCookie();
         if (!token) throw new Error("토큰이 없습니다.");
 
-        const res = await fetch(`/api/v1/notes/${noteId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!res.ok) throw new Error("쪽지 불러오기 실패");
-        const data = await res.json();
-        setNote(data.data);
-         const userIds: number[] = [data.data.noteWriter, data.data.noteReceiver];
+        const data = await getNote(Number(noteId), token)
+        setNote(data);
+         const userIds: number[] = [data.noteWriter, data.noteReceiver];
         
         const userMapData = await fetchUsernames(userIds);
         setUserMap(userMapData)

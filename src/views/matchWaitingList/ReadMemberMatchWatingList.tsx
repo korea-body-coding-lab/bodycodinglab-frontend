@@ -4,12 +4,45 @@ import { trainerMatchWaitingListResponseDto } from "@/dtos/matchWaitingList/resp
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import * as m from "./memberMatchWaitingList.style";
-import { memberCancelRequest } from "@/apis/MatchWaitingList/put.MatchCancel.api";
 import { useNavigate } from "react-router-dom";
 import { postSubscriptionRequest } from "@/apis/subscription/post.subscription.api";
 import { confirmPaymentRequestDto } from "@/dtos/payment/reqeust/Confirm.Payment.Request.Dto";
 import { postPaymentRequestDto } from "@/dtos/payment/reqeust/post.Payment.Request.Dto";
 import { postPaymentRequeust } from "@/apis/payment/post.payment.api";
+import { memberCancelRequest } from "@/apis/MatchWaitingList/delete.MatchCancel.api";
+
+
+
+declare global {
+  interface Window {
+    IMP: any;
+  }
+}
+
+function useIamportScript() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (document.getElementById("iamport-script")) {
+      setLoaded(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.id = "iamport-script";
+    script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
+    script.onload = () => setLoaded(true);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  return loaded;
+}
+
+
 
 function ReadMemberMatchWatingList() {
   const [cookies, setCookies] = useCookies(["accessToken"]);
@@ -18,6 +51,7 @@ function ReadMemberMatchWatingList() {
   >(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const iamportLoaded = useIamportScript();
 
   useEffect(() => {
     const loadingTrainerData = async () => {
@@ -44,7 +78,6 @@ function ReadMemberMatchWatingList() {
     }
 
     const response = await memberCancelRequest(
-      { approvedStatus: "REJECT" },
       token
     );
     if (response.code === "SU") {
@@ -57,43 +90,86 @@ function ReadMemberMatchWatingList() {
 
 
 
-  const subscriptionButton = async () => {
+  const subscriptionButton = async (matchWaitingListId: number) => {
     const token = cookies.accessToken;
     if (!token) {
       alert("구독 신청을 할 권한이 존재하지 않습니다.");
+    }
+
+    if (!iamportLoaded) {
+      alert("결제 모듈이 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
+      return;
     }
 
     const paymentRequestDto: postPaymentRequestDto = {
     amount: 149000,
   };
 
-  
-  const paymentResponse = await postPaymentRequeust(paymentRequestDto, token);
+  let paymentResponse;
+
+  try{
+    paymentResponse = await postPaymentRequeust(paymentRequestDto, token);
+  } catch(e){
+    alert("결제 생성에 실패했습니다.");
+    return;
+  }
+      
   if (!paymentResponse.data) {
-    alert("결제 생성에 실패하였습니다.");
+    const retry = window.confirm("결제에 실패했습니다. 다시 시도하시겠습니까?");
+    if (retry) {
+      // 재귀 호출로 재시도
+      subscriptionButton(matchWaitingListId);
+    }
+    
     return;
   }
 
-  const { orderId } = paymentResponse.data;
+  const { orderId, amount } = paymentResponse.data;
 
 
-  const subscriptionRequestDto: confirmPaymentRequestDto = {
-    orderId,
-    provider: "KAKAO",
-    matchWaitingListId: trainerData?.matchWaitingListId
-  };
+  const IMP = window.IMP;
+  IMP.init("imp51875446");
 
-    const response = await postSubscriptionRequest(subscriptionRequestDto, token);
-    if (response.data) {
-      alert("구독 신청 완료");
-      navigate("/");
-    }
+    IMP.request_pay(
+      {
+        pg: "kakaopay",
+        pay_method: "card",
+        merchant_uid: orderId,
+        name: "구독 결제",
+        amount: amount,
+      },
+      async (rsp: any) => {
+        if (rsp.success) {
+          const subscriptionRequestDto: confirmPaymentRequestDto = {
+            orderId: orderId,
+            provider: "KAKAO_PAY",
+            matchWaitingListId: matchWaitingListId,
+            paymentKey: rsp.imp_uid, 
+          };
+
+          try {
+            const response = await postSubscriptionRequest(subscriptionRequestDto, token);
+            if (response.data) {
+              alert("구독 신청 완료");
+              navigate("/");
+            } else {
+              alert("구독 신청에 실패했습니다.");
+            }
+          } catch (e) {
+            alert("구독 신청 중 오류가 발생했습니다.");
+          }
+        } else {
+          alert(`결제 실패: ${rsp.error_msg}`);
+        }
+      }
+    );
+
+  
   };
 
   if (loading) return <p>로딩 중입니다...</p>;
   if (!trainerData)
     return <p>매칭 신청한 트레이너가 존재하지 않거나 신청이 거절되었습니다.</p>;
-
   return (
     <div css={m.MemberMatchWaitingListContainerBox}>
       <div css={m.MemberMatchWaitingListContainer}>
@@ -104,19 +180,19 @@ function ReadMemberMatchWatingList() {
         <br />
         <br />
         <div>
-          <strong>트레이너 이름:</strong> <p>{trainerData.trainerName}</p>
+          <strong style={{ color:"#3F4756"}}>트레이너 이름:</strong> <p>{trainerData.trainerName}</p>
         </div>
         <hr />
         <br />
         <br />
         <div>
-          <strong>근무지:</strong> <p>{trainerData.trainerJobAddress}</p>
+          <strong  style={{ color:"#3F4756"}}>근무지:</strong> <p>{trainerData.trainerJobAddress}</p>
         </div>
         <hr />
         <br />
         <br />
         <div>
-          <strong>신청일:</strong>{" "}
+          <strong  style={{ color:"#3F4756"}}>신청일:</strong>{" "}
           <p>
             {new Date(trainerData.appliedAt).toLocaleString("ko-kR", {
               year: "numeric",
@@ -128,6 +204,26 @@ function ReadMemberMatchWatingList() {
             })}
           </p>
         </div>
+        {trainerData.approvedStatus === "REJECT" ?  <>
+        <hr />
+        <br />
+        <br />
+        <div>
+          <div style={{textAlign: "center"}}>
+          <strong style={{ color: "red"}}>매칭 거절 됨</strong>
+          </div>
+          <br />
+          <strong  style={{ color:"#3F4756"}}>거절 사유:</strong>{" "}
+          <p>
+            {trainerData.rejectResponse}
+          </p>
+        </div>
+        </> : 
+          <div>
+            <br />
+            <p style={{fontWeight: 'bolder', color: "#3F4756"}}>신청 대기 중.....</p>
+          </div>
+          } 
         <br />
         <br />
         <div css={m.MemberMatchWaitingListButtonContainer}>
@@ -135,9 +231,9 @@ function ReadMemberMatchWatingList() {
             신청 취소
           </button>
           <button
-            onClick={() => subscriptionButton()}
+            onClick={() => subscriptionButton(trainerData.matchWaitingListId)}
             css={m.MatchWaitingListButton}
-            disabled={trainerData.approvedStatus === "NOT_APPROVED"}
+            disabled={trainerData.approvedStatus === "REJECT" || trainerData.approvedStatus === "NOT_APPROVED"}
           >
             구독
           </button>

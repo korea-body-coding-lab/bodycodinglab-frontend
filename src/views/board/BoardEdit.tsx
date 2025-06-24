@@ -7,6 +7,8 @@ import WriteOrEdit from './WriteOrEdit';
 import { useParams } from 'react-router-dom';
 import { GetPostFormData } from '@/dtos/board/request/get-post-edit.dto';
 import { getAccessTokenFromCookie } from '@/apis/get-token';
+import { getUserMatchId } from '@/apis/get-user-matchId';
+import { fetchPostDetail } from '@/apis/board/get-post-detail.api';
 
 
 function BoardEdit() {
@@ -16,26 +18,27 @@ function BoardEdit() {
   const parsedPostId = postId ? parseInt(postId, 10) : undefined;
   const [formData, setFormData] = useState<GetPostFormData | null>(null);
   const [loading, setLoading] = useState(true);
-  const matchId = getUserMatchId();
+  const [matchId, setMatchId] = useState<number | null>(null);
+ 
   useEffect(() => {
-    if (!categoryId || !postId) return;
-
+    async function fetchMatchId() {
+      const id = await getUserMatchId();
+      setMatchId(id);
+    }
+    fetchMatchId();
+  }, []);
+  useEffect(() => {
+    if (!categoryId || !postId || matchId === null) {
+      setLoading(true); 
+      return;
+    }
+ 
     const fetchPost = async () => {
       try {
         const token = getAccessTokenFromCookie(); 
-        const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include', 
-        });
-        if (!res.ok) throw new Error('게시글 불러오기 실패');
-        const data = await res.json();
-        const post = data.data;
-        
-        
+        if (!token) throw new Error("로그인 토큰이 없습니다.");
+
+        const post = await fetchPostDetail(matchId, Number(categoryId), Number(postId), token);
 
         setFormData({
           postId: parsedPostId!,
@@ -48,9 +51,9 @@ function BoardEdit() {
         setLoading(false);
       }
     };
-
+ 
     fetchPost();
-  }, [categoryId, postId]);
+  }, [categoryId, postId, matchId]);
 
   if (loading) return <div>불러오는 중...</div>;
   if (!formData) return <div>존재하지 않는 게시글입니다.</div>;

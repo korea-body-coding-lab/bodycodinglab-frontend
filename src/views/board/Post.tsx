@@ -6,12 +6,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../header/Header';
 import BoardCategory from './BoardCategory';
 import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
-import { fetchUsernames } from '@/apis/get-username';
-import { userName } from '../header/HeaderStyle';
 import { getUserMatchId } from '@/apis/get-user-matchId';
+import { fetchUsernames } from '@/apis/get-username';
+import Comment from './comment/Comment';
+import { CommentDetailData } from '@/dtos/board/comment/request/get-comment.dto';
+import { deletePost } from '@/apis/board/delete-post.api';
+import { fetchPostDetail } from '@/apis/board/get-post-detail.api';
+import { fetchComments } from '@/apis/board/comment/get-comments.api';
+import { writeComment } from '@/apis/board/comment/post-write-comment.api';
 
 function Post() {
-    const matchId = getUserMatchId();
+    const [matchId, setMatchId] = useState<number | null>(null);
     const {postId, categoryId} = useParams<{ postId: string; categoryId: string }>();
     const [isProfileBoxOpen, setProfileBoxOpen] = useState(false);
     const closeModal = () => setProfileBoxOpen(false);
@@ -20,19 +25,33 @@ function Post() {
     const [isDeleteBoxOpen, setDeleteBoxOpen] = useState(false);
     const [post, setPost] = useState<PostDetailData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [usernameMap, setUsernameMap] = useState<Record<string, string>>({});
     const currentUserId = getUserIdFromToken();
+    const [comments, setComments] = useState<CommentDetailData[]>([]);
+    const [newComment, setNewComment] = useState("");
+    const numericCategoryId = Number(categoryId);
+    const numericPostId = Number(postId);
+    useEffect(() => {
+        async function fetchMatchId() {
+          const id = await getUserMatchId();
+          setMatchId(id); 
+        }
+        fetchMatchId();
+      }, []);
     const handleDelete = async () => {
+      if (matchId === null || !postId || !categoryId) {
+        alert("필수 정보가 누락되었습니다.");
+        return;
+      }
         try {
-            const response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${Number(postId)}`, {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-            });
-        
-            if (!response.ok) throw new Error("삭제 실패");
-        
-            alert("게시글이 삭제되었습니다.");
-            setDeleteBoxOpen(false);  // 모달 닫기
-            navigate(-1); // 뒤로가기 혹은 목록 페이지 이동
+            const token = getAccessTokenFromCookie();
+                if (!token) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+            await deletePost(matchId, numericCategoryId, numericPostId, token);
+            setDeleteBoxOpen(false); 
+            navigate(-1); 
           } catch (error) {
             alert("삭제 중 오류가 발생했습니다.");
           }
@@ -43,46 +62,109 @@ function Post() {
         setProfileModalPosition({ x: e.clientX, y: e.clientY });
     };
     useEffect(() => {
+        if (!categoryId || !postId || matchId === null) {
+            setLoading(true); 
+            return;
+          }
         const fetchPost = async () =>{
             try{
                 const token = getAccessTokenFromCookie();
                 if (!token) throw new Error("로그인 토큰이 없습니다.");
-                const response = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}/${postId}`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      "Content-Type": "application/json",
-                    },
-                  });
-                
-                if (!response.ok) throw new Error("데이터 요청 실패");
-
-                const data = await response.json();
-            
-                setPost(data.data);
- 
-                
+                const data = await fetchPostDetail(matchId, numericCategoryId, numericPostId, token);
+                setPost(data);
             }catch(error){
-   
                 alert("게시글을 불러오는데 실패했습니다.")
-     
             }finally{
                 setLoading(false);
             }
         };
         fetchPost();
-    }, [categoryId, postId]);
-    
-    if (loading) return <div>불러오는 중...</div>;
-    if (!post) return <div>게시글이 존재하지 않습니다.</div>;
-    
+    }, [matchId, categoryId, postId]);
+    useEffect(() => {
+        if (!post || !post?.writerId) return;  // null 체크 필수
+        
+        async function loadUsername() {
+          try {
+            const writerId = post!.writerId as string;
+            const data = await fetchUsernames([writerId]);
+            setUsernameMap(data);
+          } catch (err) {
+            console.error("사용자 이름 불러오기 실패", err);
+          }
+        }
+      
+        loadUsername();
+      }, [post]);
+
+   
+    useEffect(() => {
+      
+        async function loadComments() {
+          if (!categoryId || !postId || matchId === null) {
+            setLoading(true); 
+            return;
+          }
+          const token = getAccessTokenFromCookie();
+          if (!token) throw new Error("로그인 토큰이 없습니다.");
+          const data = await fetchComments(matchId, numericCategoryId, numericPostId, token);
+          setComments(data);
+        }
+      
+        loadComments();
+      }, [matchId, categoryId, postId]);
+      useEffect(() => {
+        if (!categoryId || !postId || matchId === null) {
+      setLoading(true); 
+      return;
+    }
+        async function loadCommentUsernames() {
+          if (comments.length === 0) return;
+      
+          const uniqueCommenterIds = [...new Set(comments.map(c => c.commenterId.toString()))];
+      
+          try {
+            const data = await fetchUsernames(uniqueCommenterIds); 
+            setUsernameMap(prev => ({ ...prev, ...data })); 
+          } catch (error) {
+            console.error("댓글 작성자 이름 불러오기 실패", error);
+          }
+        }
+      
+        loadCommentUsernames();
+      }, [comments]);
+      const handleCommentSubmit = async () => {
+        if (!newComment.trim()) {
+          alert("댓글을 입력해주세요.");
+          return;
+        }
+      
+        try {
+          const token = getAccessTokenFromCookie();
+          if (!categoryId || !postId || matchId === null) {
+            setLoading(true); 
+            return;
+          }
+          if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+          }
+          const result = await writeComment(matchId, numericCategoryId, numericPostId, token, newComment);
+          
+          setComments(prev => [...prev, result.data]); 
+          setNewComment(""); 
+        } catch (error) {
+          alert("댓글 작성 중 오류가 발생했습니다.");
+        }
+      };
+      
+      if (loading) return <div>불러오는 중...</div>;
+      if (!post) return <div>게시글이 존재하지 않습니다.</div>;
   return (
     <div>
         <Header/>
         <div css={s.body}>
           <div css={s.left}>
-            <BoardCategory categoryId={Number(categoryId)}/>
+            <BoardCategory categoryId={numericCategoryId}/>
           </div>
           <div css={s.right}>
             <div css={s.postHeader}>
@@ -90,7 +172,7 @@ function Post() {
         
                     <div css={s.profileImage}>프로필이미지</div>
                     <div css={s.profileSub}>
-                        <span>{post.writerId}</span>
+                        <span>{post.writerId ? usernameMap[post.writerId] ?? post.writerId : "알 수 없음"}</span>
                         <span>{post.createdAt}</span>
                     </div>
                 </div>
@@ -100,7 +182,7 @@ function Post() {
                             <div css={s.profileModal(modalProfilePosition.x, modalProfilePosition.y)} onClick={(e) => e.stopPropagation()}>
                                 <div css={s.modalProfileImage}></div>
                                 <div css={s.profileMiddle}>
-                                    <div css={s.profileUser}>{post.writerId}</div>
+                                    <div css={s.profileUser}>{post.writerId ? usernameMap[post.writerId] ?? post.writerId : "알 수 없음"}</div>
                                     <button css={s.modalNoteBtn}>쪽지</button>
                                 </div>
                                 <div css={s.searchWriter}>작성글검색</div>
@@ -151,12 +233,17 @@ function Post() {
                 </div>
             </div>
             <div css={s.comment}>
-                {/* <Comment/> */}
-                댓글(Comment 구현 예정)
+                {comments && comments.length > 0 ? (
+                comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} username={usernameMap[comment.commenterId.toString()]}/>
+                ))
+                ) : (
+                <div css={s.noComment}>댓글이 없습니다.</div>
+                )}
             </div>
             <div css={s.commentWrite}>
-                <textarea rows={2} css={s.commentWriteInput} placeholder='내용을 입력해주세요.' />
-                <button css={s.commentWriteBtn}>작성</button>
+                <textarea rows={2} css={s.commentWriteInput} placeholder='내용을 입력해주세요.' value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                <button css={s.commentWriteBtn} onClick={handleCommentSubmit}>작성</button>
             </div>
         </div>
         </div>

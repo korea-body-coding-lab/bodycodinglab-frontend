@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 
 export const trainerMatchWaitingListContainerBox = css`
-margin-top: 100px;
 padding-top: 30px ;
 display: flex;
 justify-content: center;
@@ -34,7 +33,7 @@ export const trainerMatchWatingListContext=css`
 background-color: #F1FAFF;
 `
 
-export const trainerMatchWatingListTableButton=css`
+export const trainerMatchWatingListTableButton= (status: string) =>css`
 text-align : center;
 background-color: #699CE4;
 margin-left: 35px;
@@ -43,9 +42,33 @@ height: 40px;
 border-radius: 8px;
 color: white;
 border: 1px solid white;
-&:not(:disabled):hover{
-  background-color: #437BC0;
-  
-}
-`
+cursor: ${status === "NOT_APPROVED" ? "pointer" : "not-allowed"};
+
+background-color: ${status === "APPROVED"
+    ? "#4CAF50"   
+    : status === "REJECT"
+    ? "#d3d3d3"   
+    : "#699CE4"};
+
+  &:hover {
+    background-color: ${status === "APPROVED"
+      ? "#4CAF50"
+      : status === "REJECT"
+      ? "#d3d3d3"
+      : "#437BC0"};
+  }
+
+  &:not(:disabled):hover{
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    background-color: ${status === "APPROVED"
+      ? "#4CAF50"
+      : status === "REJECT"
+      ? "#d3d3d3"
+      : "#699CE4"};
+    color: #ffffff;
+  }
+`;
 

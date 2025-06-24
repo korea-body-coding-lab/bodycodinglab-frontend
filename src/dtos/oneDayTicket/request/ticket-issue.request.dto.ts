@@ -1,4 +1,5 @@
 export interface TicketIssueRequestDto {
-  memberId: number;
+  username: string;
+  name: string;
   trianerId?: number;
 }
