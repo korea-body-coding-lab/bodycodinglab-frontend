@@ -32,6 +32,7 @@ import { TrainerLicenseResponseDto } from "@/dtos/trainer/response/trainer-licen
 import { getRecentCareer } from "@/apis/trainer/trainer-career.api";
 import { TrainerCareerResponseDto } from "@/dtos/trainer/response/trainer-career.response.dto";
 import { uploadTrainerInfoImages } from "@/apis/trainer/update-info-images.api";
+import { FileResponseDto } from "@/apis/file.response.dto";
 
 const TrainerInfo = () => {
   const navigate = useNavigate();
@@ -70,10 +71,13 @@ const TrainerInfo = () => {
           files: undefined,
         });
 
-        const fileRes = await uploadTrainerInfoImages(user.userId, accessToken);
-          if (fileRes.code === "SU" && fileRes.data) {
-          setUploadedFiles(fileRes.data);
-          }
+      if (files && files.length > 0) {
+        const fileRes = await uploadTrainerInfoImages(files, accessToken);
+        if (fileRes.code === "SU") {
+          setUploadedFiles(fileRes.data || []);
+        }
+      }
+
       }
     };
 
@@ -146,7 +150,7 @@ const TrainerInfo = () => {
     }
 
     if (files && files.length > 0 && user?.userId) {
-      const imageUploadResponse = await uploadTrainerInfoImages(files, accessToken, user.userId);
+      const imageUploadResponse = await uploadTrainerInfoImages(files, accessToken);
       if (imageUploadResponse.code !== "SU") {
         setMessage(`파일 업로드 실패: ${imageUploadResponse.message}`);
         return;
@@ -242,7 +246,7 @@ const TrainerInfo = () => {
             ))}
           </ul>
 
-          {uploadedFiles.length > 0 && (
+          {/* {uploadedFiles.length > 0 && (
   <div css={recentInfoBox}>
     <strong>등록된 첨부파일 목록</strong>
     <ul css={fileList}>
@@ -255,7 +259,7 @@ const TrainerInfo = () => {
       ))}
     </ul>
   </div>
-)}
+)} */}
 
           <button type="button" onClick={() => setIsLicenseModalOpen(true)} css={button}>
             자격증 등록
