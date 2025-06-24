@@ -15,7 +15,7 @@ export const uploadTrainerInfoImages = async (
 
   try {
     const response = await axiosInstance.post(
-       `/api/v1/files/multi/INFOS`,
+      `/api/v1/users/trainers/me/trainer-info`,
       formData,
       {
         headers: {
