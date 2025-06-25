@@ -100,3 +100,25 @@ export const activePageButton = css`
   border-color: #0077cc;
   font-weight: 700;
 `;
+
+export const searchResultWrapper = css`
+  display: flex;
+  gap: 20px;
+  height: 500px;
+`;
+
+export const trainerListPanel = css`
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background: white;
+`;
+
+export const mapPanel = css`
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+`;
