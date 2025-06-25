@@ -11,8 +11,16 @@ export const fetchPosts = async(
           "Content-Type": "application/json",
         },
       });
-    
-      if (!res.ok) throw new Error("게시글 불러오기 실패");
+      if (res.status === 403) {
+        const error = new Error("Forbidden");
+        (error as any).status = 403;
+        throw error;
+      }
+      if (!res.ok) {
+        const error = new Error("게시글 불러오기 실패");
+        (error as any).status = res.status;
+        throw error;
+      }
     
       const data = await res.json();
       return data.data; 

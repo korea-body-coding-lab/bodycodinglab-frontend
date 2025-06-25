@@ -22,17 +22,24 @@ function Board() {
 
   useEffect(() => {
     async function fetchMatchId() {
-      const id = await getUserMatchId();
-      setMatchId(id);
+      try {
+        const id = await getUserMatchId();
+        if (id === null) {
+          alert("매칭 정보가 없습니다.");
+          navigate("/"); 
+          return;
+        }
+        setMatchId(id);
+      } catch (e) {
+        alert("매칭 정보를 가져올 수 없습니다.");
+        navigate("/");
+      }
     }
     fetchMatchId();
   }, []);
 
   useEffect(() => {
-    if (!categoryId || matchId === null) {
-      setLoading(true); 
-      return;
-    }
+    if (!categoryId || matchId === null) return;
     const getPosts = async () => {
       try {
         setLoading(true);
@@ -41,8 +48,13 @@ function Board() {
 
         const data = await fetchPosts(matchId, numericCategoryId, token);
         setPosts(data);
-      } catch (e) {
-        alert("게시글을 가져오지 못했습니다.");
+      } catch (e:any) {
+        if (e.status === 403) {
+          alert("해당 게시판에 접근할 수 없습니다.");
+          navigate("/")
+        }else{
+          alert("게시글을 가져오지 못했습니다.");
+        }
       } finally {
         setLoading(false);
       }

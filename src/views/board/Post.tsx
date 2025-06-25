@@ -72,8 +72,9 @@ function Post() {
                 if (!token) throw new Error("로그인 토큰이 없습니다.");
                 const data = await fetchPostDetail(matchId, numericCategoryId, numericPostId, token);
                 setPost(data);
-            }catch(error){
-                alert("게시글을 불러오는데 실패했습니다.")
+            } catch (e:any) {
+              alert("게시글을 가져오지 못했습니다.");
+              navigate(-1)      
             }finally{
                 setLoading(false);
             }
