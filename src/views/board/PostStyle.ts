@@ -57,13 +57,9 @@ export const modalProfileImage = css`
     width: 110px;
     height: 110px;
     border-radius: 50%;
-    background-image: url("/profileImageSample.png");
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
-    font-size: 10px;
-    line-height: 60px;
+    border: 2px solid #437BC0;
+    object-fit: cover;
     
 `
 export const profileMiddle = css`
@@ -158,26 +154,27 @@ width: 90%;
 `
 export const profile = css`
     width: 300px;
+    height: 90px;
     display: flex;
+    justify-content: center;
     align-items: center;
     cursor: pointer;
 `
-export const profileImage = css`
-margin-left: 20px;
-    width: 60px;
-    height: 60px;
-    background-image: url("/profileImageSample.png");
-    background-size: 100%;
+export const loginProfile = css`
+    margin-left: 10px;
+    width: 70px;
+    height: 70px;   
     border-radius: 50%;
-    background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
-    font-size: 10px;
-    line-height: 60px;
-    
+    border: 2px solid #437BC0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+
 `
 export const profileSub = css`
-    width: 240px;
+    width: 200px;
     height: 90px;
     display: flex;
     flex-direction: column;

@@ -50,7 +50,7 @@ const MemberFormPage = () => {
           <div css={m.formContainerBox}>
           <div css={m.formWriteButtonContainerBox}>
         <div  css={m.formWriteButtonContainer}> 
-        <p css={m.formWriteButtontxt}>아직 작성된 폼이 없습니다.</p>
+        <p css={m.formWriteButtontxt}>매칭된 트레이너에게 전달할 폼을 작성하세요</p>
         <br />
         <button css={m.button} onClick={() => setIsWriting(true)}>폼 작성하기</button>
       </div>

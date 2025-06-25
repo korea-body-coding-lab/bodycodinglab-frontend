@@ -101,8 +101,8 @@ export const loading = css`
 export const board = css`
     margin-top: 5%;
     width: 90%;
+    height: 500px;
     margin: auto;
-    height: 600px;
     border: 3px solid #C5CEE0;
     border-radius: 10px 10px 0 0;
     
@@ -154,4 +154,34 @@ export const boardBottom = css`
     border: 3px solid #C5CEE0;
     border-top: 0px;
     border-radius: 0 0 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+`
+export const pageTextBtn = css`
+    width: 20px;
+    height: 30px;
+    border: none;
+    background: none;
+    color: #3F4756;
+    font-size: 18px;
+    line-height: 30px;
+    cursor: pointer;
+    :hover{
+        background-color: #C5CEE0;
+    }
+`
+export const pageNumBtn = css`
+    width: 20px;
+    height: 30px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    line-height: 30px;
+    color: #3F4756;
+    cursor: pointer;
+    :hover{
+        background-color: #C5CEE0;
+    }
 `

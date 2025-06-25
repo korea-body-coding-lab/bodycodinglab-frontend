@@ -6,35 +6,47 @@ import { NoteList } from '@/dtos/note/request/get-notelist.dto';
 import { getAccessTokenFromCookie } from '@/apis/get-token';
 import { fetchUsernames } from '@/apis/get-username';
 import { getAllNotes } from '@/apis/note/get-allnotes.api';
+import getPageNumbers from '@/utils/pagenation.util';
 
 function Allnotes() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [notes, setNotes] = useState<NoteList[]>([]);
     const [userMap, setUserMap] = useState<Record<number, string>>({});
-
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const pageNumbers = getPageNumbers(page, totalPages);
+    
     useEffect(() => {
-      const fetchNosts = async () => {
+      const fetchNotes = async () => {
+        setLoading(true);
         try {
           const token = getAccessTokenFromCookie();
           if (!token) throw new Error("로그인 토큰이 없습니다.");
-          
-          const data = await getAllNotes(token);
-          setNotes(data); 
-
-          const userIds: number[] = Array.from(new Set(data.flatMap((note: NoteList) => [note.noteWriter, note.noteReceiver])));
-
-          const userMapData = await fetchUsernames(userIds);
-          setUserMap(userMapData);
-
+    
+          const data = await getAllNotes(token, page, 20);
+          setNotes(data.content);
+          setTotalPages(data.totalPages);
+    
+          try {
+            const userIds: number[] = Array.from(new Set(
+              data.content.flatMap((note: NoteList) => [note.noteWriter, note.noteReceiver])
+            ));
+            const userMapData = await fetchUsernames(userIds);
+            setUserMap(userMapData);
+          } catch (e) {
+            console.warn("유저 이름 불러오기 실패", e);
+          }
+    
         } catch (e) {
           alert("쪽지를 가져오지 못했습니다.");
         } finally {
           setLoading(false);
         }
       };
-      fetchNosts();
-    },[]);
+    
+      fetchNotes();
+    }, [page]);
 
   return (
     <div>
@@ -69,7 +81,25 @@ function Allnotes() {
                 ))
             )}
         </div>
-        <div css={s.page}>페이지네이션</div>
+        <div css={s.page}>
+          <button css={s.pageTextBtn} onClick={() => setPage(p => Math.max(p - 1, 0))} disabled={page === 0}>
+            ◀
+          </button>
+
+          {pageNumbers.map((pageNumber) => (
+            <button
+              key={pageNumber}
+              onClick={() => setPage(pageNumber)}
+              css={s.pageNumBtn}
+            >
+              {pageNumber + 1}
+            </button>
+          ))}
+
+          <button css={s.pageTextBtn} onClick={() => setPage(p => Math.min(p + 1, totalPages - 1))} disabled={page === totalPages - 1}>
+            ▶
+          </button>
+        </div>
     </div>
   )
 }

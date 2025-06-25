@@ -157,13 +157,9 @@ function App() {
         <Route path="/personal-community-boards/:matchId/:categoryId/:postId" element={<Post />} />
         <Route path='/personal-community-boards/:matchId/:categoryId' element={<Board />} />
 
-        <Route path='/notes/' element={<Navigate to="/notes/allnotes" />} />
+        
         <Route path='/notes/*' element={<Note />} />
         <Route path='/notes' element={<Navigate to="/notes/allnotes" />} />
-        <Route path='/notes/allnotes' element={<Note />} />
-        <Route path='/notes/received-notes' element={<Note />} />
-        <Route path='/notes/sent-notes' element={<Note />} />
-        <Route path='/notes/write-note' element={<Note />} />
         <Route path='/users/members/me/coupons' element={<MemberCouponLIst/>}/>
         <Route path='/users/trainers/me/coupons' element={<TrainerCouponList/>}/>
         <Route path='/users/members/me/forms' element={<MemberFormPage/>}/>

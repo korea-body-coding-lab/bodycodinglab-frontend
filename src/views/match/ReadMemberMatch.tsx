@@ -53,7 +53,7 @@ function ReadMemberMatch() {
   };
 
   if (loading) return <p>로딩 중입니다....</p>;
-  if (!trainerData) return <p>매칭신청이 거절되었거나 신청한 트레이너가 존재하지 않습니다.</p>;
+  if (!trainerData) return <p></p>;
   return (
     <div>
     
