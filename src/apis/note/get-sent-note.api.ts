@@ -1,7 +1,9 @@
 export const getSentNotes = async(
-    token: string
+    token: string,
+    page: number,
+    size: number
 ) => {
-    const res = await fetch(`/api/v1/notes/sent`, {
+    const res = await fetch(`/api/v1/notes/sent?page=${page}&size=${size}`, {
         headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
