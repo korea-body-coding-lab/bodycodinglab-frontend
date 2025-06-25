@@ -34,7 +34,7 @@ export const commnetContentBox = css`
     min-height: 60px;
 `
 export const commentInfoBox = css`
-    width: 100px;
+    width: 120px;
     margin-left: 5px;
     display: flex;
     align-items: center;

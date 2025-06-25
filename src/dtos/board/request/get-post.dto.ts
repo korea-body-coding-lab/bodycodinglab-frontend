@@ -7,4 +7,5 @@ export interface PostDetailData {
     postLike?: number; 
     commentCount?: number;
     viewCount?: number; 
+    profileImageUrl?: string;
   };

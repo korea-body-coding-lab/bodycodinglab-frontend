@@ -6,7 +6,7 @@ export async function fetchUsernames(userIds: (string | number)[]): Promise<Reco
   const token = getAccessTokenFromCookie();
   if (!token) throw new Error("로그인 토큰이 없습니다.");
 
-  const res = await fetch('/api/v1/users/usernames', {
+  const res = await fetch('/api/v1/users/usernames', { 
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -19,6 +19,12 @@ export async function fetchUsernames(userIds: (string | number)[]): Promise<Reco
     throw new Error('사용자 이름 불러오기 실패');
   }
 
-  const data = await res.json();
+  const raw = await res.json();
+
+  
+  const data = Object.fromEntries(
+    Object.entries(raw).map(([k, v]) => [String(k), v])
+  ) as Record<string, string>;
+
   return data;
 }
