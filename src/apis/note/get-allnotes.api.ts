@@ -1,7 +1,9 @@
 export const getAllNotes = async(
-    token: string
+    token: string,
+    page: number,
+    size: number
 ) => {
-    const res = await fetch(`/api/v1/notes/allnotes`, {
+    const res = await fetch(`/api/v1/notes/allnotes?page=${page}&size=${size}`, {
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
