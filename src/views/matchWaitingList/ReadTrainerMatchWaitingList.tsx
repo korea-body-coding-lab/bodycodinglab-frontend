@@ -75,12 +75,6 @@ function ReadTrainerMatchWaitingList() {
     }
   };
 
-  const handleOpenRejectModal = (matchWaitingListId: number) => {
-  setSelectedMatchId(matchWaitingListId);
-  setShowRejectModal(true);
-};
-
-
    const handleRejectConfirm = async (matchWaitingListId: number) => {
     const token = cookies.accessToken;
     if (!token) {
@@ -131,87 +125,68 @@ function ReadTrainerMatchWaitingList() {
   }
   return (
   <div>
-
-    <div>
       <Header />
-    </div>
-
-    <div css={t.trainerMatchWaitingListContainerLayout}>
-    <MyPageSidebar/>
-    
-    <div style={{marginLeft: "15px", marginTop: "20px"}}>
-      <h2 style={{color: "#3F4756"}}>매칭 대기 관리</h2>
-    <div css={t.trainerMatchWaitingListContainerBox}>
-      <div css={t.trainerMatchWaitingListContainer}>
-        <table css={t.trainerMatchWaitingListBox}>
-          <caption style={{color: "#3F4756", fontSize: "24px"}}>매칭 대기 리스트</caption>
-          <br />
-          <tr css={t.trainerMatchWatingListTableTitle}>
-            <td>회원번호</td>
-            <td>회원이름</td>
-            <td>회원나이</td>
-            <td>회원성별</td>
-            <td>신청일자</td>
-            <td>처리상태</td>
-            <td></td>
-            <td></td>
-          </tr>
-          {memberDatas.map((memberData) => (
-            <tr key={memberData.matchWaitingListId}
-            css={t.trainerMatchWatingListContext}
-            >
-              <td scope="col">{memberData.memberId}</td>
-              <td scope="col">{memberData.memberName}</td>
-              <td scope="col">{memberData.memberAge}</td>
-              <td scope="col">{memberData.memberGender}</td>
-              <td scope="col">
-                {new Date(memberData.appliedAt).toLocaleString("ko-kR", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </td>
-              {memberData.approvedStatus === "NOT_APPROVED"
-                ? "승인 대기"
-                : memberData.approvedStatus === "APPROVED"
-                ? "승인"
-                : memberData.approvedStatus === "REJECT"
-                ? "거절"
-                : "알 수 없음"}
-
-              <td>
-                <button
-                  css={t.trainerMatchWatingListTableButton(memberData.approvedStatus)}
-                  onClick={() =>
-                    matchApproveButton(memberData.matchWaitingListId)
-                  }
-                  disabled={memberData.approvedStatus !== "NOT_APPROVED"}
-                >
-                  매칭 승인
-                </button>
-              </td>
-
-              <td>
-                <button
-                  css={t.trainerMatchWatingListTableButton(memberData.approvedStatus)}
-                  onClick={() => handleOpenRejectModal(memberData.matchWaitingListId)}
-                  disabled={memberData.approvedStatus === "APPROVED"}
-                  >
-                  매칭거부
-                </button>
-              </td>
-            </tr>
-          ))}
-        </table>
+      <div css={t.trainerMatchContainerLayout}>
+        <MyPageSidebar />
+        <div css={t.trainerMatchMainBox}>
+          <h2 style={{ color: "#3F4756" }}>매칭 대기 관리</h2>
+          <div css={t.trainerMatchTableWrapper}>
+            <table css={t.trainerMatchTableStyle}>
+              <thead css={t.trainerMatchTableHead}>
+                <tr>
+                  <th>회원번호</th>
+                  <th>이름</th>
+                  <th>나이</th>
+                  <th>성별</th>
+                  <th>신청일</th>
+                  <th>상태</th>
+                  <th colSpan={2}>처리</th>
+                </tr>
+              </thead>
+              <tbody>
+                {memberDatas.map((data) => (
+                  <tr key={data.matchWaitingListId} css={t.trainerMatchTableRow}>
+                    <td css={t.trainerMatchTableCell}>{data.memberId}</td>
+                    <td css={t.trainerMatchTableCell}>{data.memberName}</td>
+                    <td css={t.trainerMatchTableCell}>{data.memberAge}</td>
+                    <td css={t.trainerMatchTableCell}>{data.memberGender}</td>
+                    <td css={t.trainerMatchTableCell}>{new Date(data.appliedAt).toLocaleString()}</td>
+                    <td css={t.trainerMatchTableCell}>{
+                      data.approvedStatus === "NOT_APPROVED"
+                        ? "승인 대기"
+                        : data.approvedStatus === "APPROVED"
+                        ? "승인"
+                        : "거절"
+                    }</td>
+                  
+                    <td css={t.tdButtonCell}>
+                      <button
+                        css={t.trainerMatchButton(data.approvedStatus)}
+                        onClick={() => matchApproveButton(data.matchWaitingListId)}
+                        disabled={data.approvedStatus !== "NOT_APPROVED"}
+                      >
+                        승인
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        css={t.trainerMatchButton(data.approvedStatus)}
+                        onClick={() => {
+                          setSelectedMatchId(data.matchWaitingListId);
+                          setShowRejectModal(true);
+                        }}
+                        disabled={data.approvedStatus === "APPROVED"}
+                      >
+                        거절
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
-  </div>
-
-
         {showRejectModal && selectedMatchId !== null && (
         <div css={m.trainerRejectModalOverlay}>
           <div css={m.trainerRejectModalContent}>

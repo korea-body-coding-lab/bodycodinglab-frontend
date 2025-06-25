@@ -117,8 +117,7 @@ function ReadMemberMatchWatingList() {
   if (!paymentResponse.data) {
     const retry = window.confirm("결제에 실패했습니다. 다시 시도하시겠습니까?");
     if (retry) {
-      // 재귀 호출로 재시도
-      subscriptionButton(matchWaitingListId);
+      setTimeout(() => subscriptionButton(matchWaitingListId), 100);
     }
     
     return;
@@ -149,7 +148,7 @@ function ReadMemberMatchWatingList() {
 
           try {
             const response = await postSubscriptionRequest(subscriptionRequestDto, token);
-            if (response.data) {
+            if (response.code === "SU") {
               alert("구독 신청 완료");
               navigate("/");
             } else {
@@ -172,8 +171,10 @@ function ReadMemberMatchWatingList() {
     return <p>매칭 신청한 트레이너가 존재하지 않거나 신청이 거절되었습니다.</p>;
   return (
     <div css={m.MemberMatchWaitingListContainerBox}>
-      <div css={m.MemberMatchWaitingListContainer}>
+      <div>
         <h2 css={m.MemberMatchWaitingListTitle}>매칭 신청한 트레이너</h2>
+        <br />
+      <div css={m.MemberMatchWaitingListContainer}>
         <br />
         <br />
         <img src={trainerData.profileImageUrl ? `http://localhost:8080${trainerData.profileImageUrl}` : '/default-profile.png'} alt="트레이너 이미지" css={m.trainerProfile} />
@@ -238,6 +239,7 @@ function ReadMemberMatchWatingList() {
             구독
           </button>
         </div>
+      </div>
       </div>
     </div>
   );

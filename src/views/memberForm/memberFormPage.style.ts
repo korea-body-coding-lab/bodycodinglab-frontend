@@ -17,7 +17,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-margin-left: 300px;
+margin-left: 10%;
 `
 
 export const formWriteButtonContainerBox = css`
