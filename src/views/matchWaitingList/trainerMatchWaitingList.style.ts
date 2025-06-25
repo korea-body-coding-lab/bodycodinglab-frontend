@@ -1,74 +1,95 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
-export const trainerMatchWaitingListContainerBox = css`
-padding-top: 30px ;
-display: flex;
-justify-content: center;
+// === 스타일 태그 (trainerMatchWaitingList.style.ts) ===
 
-`
+export const trainerMatchContainerLayout = css`
+  display: flex;
+  padding-top: 30px;
+`;
 
-export const trainerMatchWaitingListContainerLayout = css`
-display: flex;
-`
+export const trainerMatchMainBox = css`
+  margin-top: 2%;
+  margin-left: 15px;
+  flex: 1;
+`;
 
+export const trainerMatchTableWrapper = css`
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+`;
 
-export const trainerMatchWaitingListContainer = css`
- display: flex;
- justify-content: center;
- width: 60vw;
- 
-`
+export const trainerMatchTableStyle = css`
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f1faff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+`;
 
-export const trainerMatchWaitingListBox = css`
-width: 60vw;
-`
-export const trainerMatchWatingListTableTitle=css`
-border: 1px solid black;
-margin: 0;
-background-color: #699CE4;
-`
+export const trainerMatchTableHead = css`
+  background-color: #cfd9e0;
+  color: #ffffff;
 
-export const trainerMatchWatingListContext=css`
-background-color: #F1FAFF;
-`
-
-export const trainerMatchWatingListTableButton= (status: string) =>css`
-text-align : center;
-background-color: #699CE4;
-margin-left: 35px;
-width: 90px;
-height: 40px;
-border-radius: 8px;
-color: white;
-border: 1px solid white;
-cursor: ${status === "NOT_APPROVED" ? "pointer" : "not-allowed"};
-
-background-color: ${status === "APPROVED"
-    ? "#4CAF50"   
-    : status === "REJECT"
-    ? "#d3d3d3"   
-    : "#699CE4"};
-
-  &:hover {
-    background-color: ${status === "APPROVED"
-      ? "#4CAF50"
-      : status === "REJECT"
-      ? "#d3d3d3"
-      : "#437BC0"};
-  }
-
-  &:not(:disabled):hover{
-    transform: scale(1.05);
-  }
-
-  &:disabled {
-    background-color: ${status === "APPROVED"
-      ? "#4CAF50"
-      : status === "REJECT"
-      ? "#d3d3d3"
-      : "#699CE4"};
-    color: #ffffff;
+  th {
+    padding: 14px 12px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
   }
 `;
 
+export const trainerMatchTableRow = css`
+  &:hover {
+    background-color: #f0f8ff;
+  }
+`;
+
+export const trainerMatchTableCell = css`
+  padding: 12px 10px;
+  border-bottom: 1px solid #e0e6ed;
+  color: #3f4756;
+  text-align: center;
+  font-size: 15px;
+`;
+
+export const trainerMatchButton = (status: string) => css`
+  width: 90px;
+  height: 40px;
+  border-radius: 8px;
+  margin: 0 5px;
+  color: white;
+  border: 1px solid white;
+  font-weight: 600;
+  background-color: ${
+    status === "APPROVED"
+      ? "#4CAF50"
+      : status === "REJECT"
+      ? "#d3d3d3"
+      : "#699CE4"
+  };
+  cursor: ${status === "NOT_APPROVED" ? "pointer" : "not-allowed"};
+
+  &:hover {
+    background-color: ${
+      status === "APPROVED"
+        ? "#388e3c"
+        : status === "REJECT"
+        ? "#d3d3d3"
+        : "#437BC0"
+    };
+    transform: ${status === "NOT_APPROVED" ? "scale(1.05)" : "none"};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+export const tdButtonCell = css`
+  width: 100px;
+  text-align: center;
+`;
