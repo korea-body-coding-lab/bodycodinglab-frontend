@@ -4,4 +4,5 @@ export interface GetUserInfoResponseDto {
   username: string;
   name: string;
   profileImageUrl: string,
+  trainerStatus?: string,
 }
