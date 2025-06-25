@@ -29,7 +29,8 @@ function Header() {
             <nav css={s.headerNav}>
             <div css={s.headerNavDivs} onClick={() => navigate('/fitmateintro')}>핏메이트 소개</div>
             <div css={s.headerNavDivs} onClick={() => navigate('/trainers/search')}>트레이너 찾기</div>
-            {isLogin ? (<div css={s.headerNavDivs} onClick={() => navigate('/personal-community-boards')}>1대1 커뮤니티</div>) : <div></div>}
+            {isLogin && user?.role === 'TRAINER' && user.trainerStatus === 'REJECT' ? (<div css={s.headerNavDivs} onClick={() => navigate('/users/trainers/me/reapply')}>트레이너 재신청</div>) : <div></div>}
+            {isLogin && user?.trainerStatus !== 'REJECT' ? (<div css={s.headerNavDivs} onClick={() => navigate('/personal-community-boards')}>1대1 커뮤니티</div>) : <div></div>}
         </nav>
             <div>
               {isLogin ? (

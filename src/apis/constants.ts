@@ -27,7 +27,7 @@ export const GET_USER_INFO_URL = `${USER_MODULE_URL}/me`;
 export const GET_ALL_TRAINERS_URL = `${ADMIN_MODULE_URL}/trainers`;
 export const GET_TRAINER_DETAIL_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
 export const UPDATE_TRAINER_STATUS_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
-export const REAPPLY_TRAINER_URL = (email: string) => `${AUTH_MODULE_URL}/trainer-reapply?email=${email}`;
+export const REAPPLY_TRAINER_URL = `${TRAINER_MODULE_URL}/reapply`;
 export const GET_MEMBER_USERNAME_AND_NAME = (username: string, name: string) =>
   `${API_DOMAIN}/api/v1/members/username-and-name?username=${encodeURIComponent(username)}&name=${encodeURIComponent(name)}`;
 

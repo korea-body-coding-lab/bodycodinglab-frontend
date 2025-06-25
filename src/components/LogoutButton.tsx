@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router-dom';
 function LogoutButton() {
   const [_, __, removeCookie] = useCookies(["accessToken"]);
   const setLogout = useAuthStore((state) => state.setLogout);
+  const setUser = useUserStore((state) => state.setUser);
   const navigate = useNavigate();
 
   const handleLogout= () => {
     removeCookie("accessToken", { path: '/' });
     setLogout();
+    setUser(null);
     alert('로그아웃 되었습니다.');
     navigate('/')
   };

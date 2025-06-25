@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'
 
 import SignUp from './views/auth/SignUp'
@@ -28,7 +28,7 @@ import UpdateMemberInformation from './views/user/UpdateMemberInformation'
 import GetTrainerInformation from './views/user/GetTrainerInformation'
 import UpdateTrainerInformation from './views/user/UpdateTrainerInformation'
 import Note from './views/note/NotePage'
-import ReapplyTrainer from './views/auth/ReapplyTrainer'
+import ReapplyTrainer from './views/trainer/ReapplyTrainer'
 import ReadTrainerMatchWaitingList from './views/matchWaitingList/ReadTrainerMatchWaitingList'
 import UpdateProfileImage from './views/user/UpdateProfileImage'
 
@@ -67,7 +67,9 @@ import TrainerOneDayTicket from './views/oneDayTicket/TrainerOneDayTicket'
 // ts - export const tmp = '';
 // tsx - rfce(함수형 컴포넌트 생성)
 function App() {
+  const navigate = useNavigate();
   const [cookies] = useCookies(["accessToken"]);
+  const location = useLocation();
   const setLogin = useAuthStore((state) => state.setLogin);
   const setUser = useUserStore((state) => state.setUser);
   const user = useUserStore((state) => state.user);
@@ -84,6 +86,23 @@ function App() {
     
   }, [accessToken]);
 
+  useEffect(() => {
+    if (!user) return;
+
+    const isRejectedTrainer = user.role === 'TRAINER' && user.trainerStatus === 'REJECT';
+
+    const allowedPaths = ['/', '/trainers/search', '/users/trainers/me/reapply'];
+    const currentPath = location.pathname;
+    const isAllowed = allowedPaths.includes(currentPath);
+
+    if (isRejectedTrainer && !isAllowed) {
+      if (currentPath !== '/' && currentPath !== '/auth/login') {
+        alert('접근 권한이 없습니다.');
+        navigate('/', { replace: true });
+      }
+    }
+  }, [user, location.pathname]);
+
   const fetchUser = async() => {
     try {
       const response = await GetUserInformationRequest(accessToken);
@@ -93,7 +112,7 @@ function App() {
         return;
       }
 
-      const { id, role, username, name, profileImageUrl } = data;
+      const { id, role, username, name, profileImageUrl, trainerStatus } = data;
 
       setUser({
         userId: id,
@@ -101,6 +120,7 @@ function App() {
         username,
         name,
         profileImageUrl,
+        trainerStatus,
       });
     } catch (e) {
       console.log('사용자 정보 조회 오류: ', e);
@@ -119,7 +139,6 @@ function App() {
         <Route path='/auth/finding-id' element={<FindUsername />} />
         <Route path='/auth/reset-password' element={<FindUserToResetPassword />} />
         <Route path='/auth/reset-password/setting' element={<ResetPassword />} />
-        <Route path='/auth/trainer-reapply' element={<ReapplyTrainer />} />
         <Route path='/users/members/me' element={<GetMemberInfomation />} />
         <Route path='/users/members/me/setting' element={<UpdateMemberInformation />} />
         <Route path='/users/trainers/me' element={<GetTrainerInformation />} />
@@ -130,6 +149,7 @@ function App() {
         <Route path='/users/trainers/me/information' element={<TrainerInfo />} />
         <Route path='/trainers/:trainerId' element={<TrainerDetail />} />
         <Route path='/trainers/search' element={<TrainerSearch />} />
+        <Route path='/users/trainers/me/reapply' element={<ReapplyTrainer />} />
 
         <Route path="/personal-community-boards" element={<RedirectToUserMatch />} />
         <Route path='/personal-community-boards/:matchId/:categoryId/write' element={<BoardWrite />} />
