@@ -1,6 +1,7 @@
 import ResponseDto from "@/dtos/response.dto";
 import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { AxiosError } from "axios";
+import { MULTI_FILE_URL } from "../constants";
 
 export const deleteTrainerInfoImages = async (
   fileId: number,
@@ -8,7 +9,7 @@ export const deleteTrainerInfoImages = async (
 ): Promise<ResponseDto<void>> => {
   try {
     const res = await axiosInstance.delete(
-      `/api/v1/files/multi/${fileId}`,
+      `${MULTI_FILE_URL}/${fileId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

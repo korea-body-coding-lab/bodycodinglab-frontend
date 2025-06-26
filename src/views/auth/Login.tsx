@@ -106,13 +106,13 @@ function Login() {
         <Header />
       </div>
       <div css={containerStyle}>
-        <form css={formWrapperStyle}>
+        <form onSubmit={handleLogin} css={formWrapperStyle}>
           <div css={formSectionStyle}>
             <h2 css={formTitleStyle}>로그인</h2>
             <div css={formStyle}>
               <div css={inputLoginWrapperStyle}>
                 <input
-                  type="text"
+                  type='text'
                   name='username'
                   value={form.username}
                   placeholder='아이디'
@@ -124,7 +124,7 @@ function Login() {
             <div css={formStyle}>
               <div css={inputLoginWrapperStyle}>
                 <input
-                  type="password"
+                  type='password'
                   name='password'
                   value={form.password}
                   placeholder='비밀번호'
@@ -135,14 +135,13 @@ function Login() {
             </div>
             <button
               type='submit'
-              onClick={handleLogin}
               css={buttonLoginStyle}>
               로그인
             </button>
             <div css={linkEtcFunctionStyle}>
-              <Link to="/auth/finding-id" css={linkStyle}>아이디 찾기</Link>
+              <Link to="/username/recovery" css={linkStyle}>아이디 찾기</Link>
               <span css={dividerStyle}>|</span>
-              <Link to="/auth/reset-password" css={linkStyle}>비밀번호 재설정</Link>
+              <Link to="/password/reset-user" css={linkStyle}>비밀번호 재설정</Link>
               <span css={dividerStyle}>|</span>
               <Link to="/auth/sign-up" css={linkStyle}>회원가입</Link>
             </div>

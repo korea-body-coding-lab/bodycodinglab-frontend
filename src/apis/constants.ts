@@ -7,33 +7,32 @@ const USER_MODULE_URL = `${API_DOMAIN}/api/v1/users`;
 const ADMIN_MODULE_URL = `${API_DOMAIN}/api/v1/admin`;
 const MEMBER_MODULE_URL = `${USER_MODULE_URL}/members/me`;
 const TRAINER_MODULE_URL = `${USER_MODULE_URL}/trainers/me`;
-export const SIGN_UP_URL = `${AUTH_MODULE_URL}/sign-up`;
-export const SIGN_UP_MEMBER_URL = `${SIGN_UP_URL}/member`;
-export const SIGN_UP_TRAINER_URL = `${SIGN_UP_URL}/trainer`;
+const COMMON_MODULE_URL = `${API_DOMAIN}/api/v1/common`;
+export const SIGNUP = `${AUTH_MODULE_URL}/signup`;
+export const SIGNUP_MEMBER = `${SIGNUP}/member`;
+export const SIGNUP_TRAINER = `${SIGNUP}/trainer`;
 export const LOGIN_URL = `${AUTH_MODULE_URL}/login`;
 export const LOGOUT_URL = `${AUTH_MODULE_URL}/logout`;
-export const SEND_RESET_PASSWORD_EMAIL_URL = `${AUTH_MODULE_URL}/send-reset-password-email`;
-export const VERIFY_EMAIL_URL = (token: string) => `${AUTH_MODULE_URL}/verify?token=${token}`;
+export const USERNAME_RECOVERY = `${AUTH_MODULE_URL}/username/recovery`;
+export const PASSWORD_RESET_USER = `${AUTH_MODULE_URL}/password/reset-user`;
+export const PASSWORD_RESET = (token: string) => `${AUTH_MODULE_URL}/password/reset?token=${token}`;
+export const PASSWORD_RESET_EMAIL = `${AUTH_MODULE_URL}/password/reset-email`;
+export const EMAIL_VERIFY = (token: string) => `${AUTH_MODULE_URL}/email/verify?token=${token}`;
 export const DELETE_USER_URL = `${USER_MODULE_URL}/account-cancellation/me`;
-export const FIND_USERNAME_URL = `${AUTH_MODULE_URL}/finding-id`;
-export const FIND_RESET_PASSWORD_USER_URL = `${AUTH_MODULE_URL}/reset-password`;
-export const RESET_PASSWORD_USER_URL = (token: string) => `${FIND_RESET_PASSWORD_USER_URL}/setting?token=${token}`;
 export const GET_MEMBER_MY_INFO_URL = `${MEMBER_MODULE_URL}`;
 export const GET_TRAINER_MY_INFO_URL = `${TRAINER_MODULE_URL}`;
 export const UPDATE_MEMBER_MY_INFO_URL = `${MEMBER_MODULE_URL}/setting`;
 export const UPDATE_TRAINER_MY_INFO_URL = `${TRAINER_MODULE_URL}/setting`;
 export const UPDATE_PROFILE_IMAGE = `${USER_MODULE_URL}/me/profile-image`;
 export const GET_USER_INFO_URL = `${USER_MODULE_URL}/me`;
-export const GET_ALL_TRAINERS_URL = `${ADMIN_MODULE_URL}/trainers`;
-export const GET_TRAINER_DETAIL_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
-export const UPDATE_TRAINER_STATUS_URL = (trainerId: number) => `${GET_ALL_TRAINERS_URL}/${trainerId}`;
+export const GET_ALL_TRAINERS = `${ADMIN_MODULE_URL}/trainers`;
+export const GET_TRAINER_DETAIL = (trainerId: number) => `${GET_ALL_TRAINERS}/${trainerId}`;
 export const REAPPLY_TRAINER_URL = `${TRAINER_MODULE_URL}/reapply`;
 export const GET_MEMBER_USERNAME_AND_NAME = (username: string, name: string) =>
   `${API_DOMAIN}/api/v1/members/username-and-name?username=${encodeURIComponent(username)}&name=${encodeURIComponent(name)}`;
 
 //# 트레이너 관련 URL
 const TRAINER_INFO_MODULE_URL = `${TRAINER_MODULE_URL}/information`;
-const TRAINER_SEARCH_MODULE_URL = `${API_DOMAIN}/api/v1/trainers`
 
 export const PUT_TRAINER_INFO = `${TRAINER_INFO_MODULE_URL}`;
 
@@ -51,13 +50,15 @@ export const DELETE_TRAINER_LICENSE = (licenseId: number) => `${TRAINER_INFO_MOD
 export const DELETE_ALL_TRAINER_LICENSE = `${TRAINER_INFO_MODULE_URL}/license/all`;
 export const GET_TRAINER_LICENSE_RECENT = `${TRAINER_INFO_MODULE_URL}/license/recent`;
 
-export const SEARCH_TRAINER_CAREER = `${TRAINER_SEARCH_MODULE_URL}/career`;
-export const SEARCH_TRAINER_LICENSE = `${TRAINER_SEARCH_MODULE_URL}/license`;
-export const GET_ALL_TRAINER_INFO = `${TRAINER_SEARCH_MODULE_URL}/trainer-list`;
-export const GET_TRAINER_INFO = (trainerId: number) => `${TRAINER_SEARCH_MODULE_URL}/${trainerId}`;
-export const GET_TRAINER_BY_NAME = `${TRAINER_SEARCH_MODULE_URL}/search-name`;
-export const GET_TRAINER_BY_ADDRESS = `${TRAINER_SEARCH_MODULE_URL}/search-address`;
-export const UPDATE_INFO_IMAGES = `${TRAINER_INFO_MODULE_URL}/infos`;
+export const SEARCH_TRAINER_CAREER = `${COMMON_MODULE_URL}/career`;
+export const SEARCH_TRAINER_LICENSE = `${COMMON_MODULE_URL}/license`;
+export const GET_ALL_TRAINER_INFO = `${COMMON_MODULE_URL}/trainer-list`;
+export const GET_TRAINER_INFO = (trainerId: number) => `${COMMON_MODULE_URL}/${trainerId}`;
+export const GET_TRAINER_BY_NAME = `${COMMON_MODULE_URL}/search-name`;
+export const GET_TRAINER_BY_ADDRESS = `${COMMON_MODULE_URL}/search-address`;
+export const UPDATE_INFO_IMAGES = `${COMMON_MODULE_URL}/infos`;
+
+export const MULTI_FILE_URL = `/api/v1/files/multi`
 
 
 

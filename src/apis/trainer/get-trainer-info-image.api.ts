@@ -2,6 +2,7 @@ import ResponseDto from "@/dtos/response.dto";
 import { FileResponseDto } from "../file.response.dto";
 import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { AxiosError } from "axios";
+import { MULTI_FILE_URL } from "../constants";
 
 export const getTrainerInfoImages = async (
   trainerId: number,
@@ -9,7 +10,7 @@ export const getTrainerInfoImages = async (
 ): Promise<ResponseDto<FileResponseDto[]>> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/files/multi?targetId=${trainerId}&targetType=INFOS`,
+      `${MULTI_FILE_URL}?targetId=${trainerId}&targetType=INFOS`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

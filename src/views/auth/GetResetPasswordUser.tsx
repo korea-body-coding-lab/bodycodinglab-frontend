@@ -2,13 +2,13 @@
 import React, { FormEvent, useState } from "react";
 import { buttonFindUsernameStyle, containerStyle, formLabelFindUsernameStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, fullPageLoaderStyle, getSectionStyle, inputFindUsernameWrapperStyle, inputStyle, pFindUsernameStyle } from "./auth.style";
 import Header from "../header/Header";
-import { findUserToResetPasswordRequest } from "@/apis/auth/find-user-to-reset-password.api";
-import { GetUserInformationToResetPasswordRequestDto } from "@/dtos/auth/request/get-user-information-to-reset-password.request.dto";
+import { getResetPasswordUserRequeset } from "@/apis/auth/get-reset-password-user.api";
+import { GetResetPasswordUserRequestDto } from "@/dtos/auth/request/get-reset-password-user.request.dto";
 import { validateGetUserInformationToResetPasswordForm } from "@/utils/get-user-informaiton-to-reset-password.valid";
-import { sendResetPasswordEmailRequest } from "@/apis/auth/send-email.api";
+import { sendResetPasswordEmailRequest } from "@/apis/auth/send-reset-password-email.api";
 import { SendResetPasswordEmailRequestDto } from "@/dtos/auth/request/send-reset-password-email.request.dto";
 
-function FindUserToResetPassword() {
+function GetResetPasswordUser() {
   const [verifyEmail, setVerifyEmail] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,8 +38,8 @@ function FindUserToResetPassword() {
     }
 
     try {
-      const dto: GetUserInformationToResetPasswordRequestDto = { username, name, birthdate, email };
-      const response = await findUserToResetPasswordRequest(dto);
+      const dto: GetResetPasswordUserRequestDto = { username, name, birthdate, email };
+      const response = await getResetPasswordUserRequeset(dto);
       const { code, message, data } = response;
 
       if (code !== 'SU' || !data) {
@@ -79,15 +79,15 @@ function FindUserToResetPassword() {
       </div>
       {!isSendingEmail && (
         <div css={containerStyle}>
-          <form css={formWrapperStyle}>
+          <form onSubmit={handleVarify} css={formWrapperStyle}>
             <div css={formSectionStyle}>
               <h2 css={formTitleStyle}>비밀번호 재설정</h2>
               <div css={formStyle}>
                 <label css={formLabelFindUsernameStyle}>아이디</label>
                 <div css={inputFindUsernameWrapperStyle}>
                   <input
-                    type="text"
-                    name="username"
+                    type='text'
+                    name='username'
                     value={form.username}
                     onChange={handleInputChange}
                     css={inputStyle}
@@ -98,8 +98,8 @@ function FindUserToResetPassword() {
                 <label css={formLabelFindUsernameStyle}>성명</label>
                 <div css={inputFindUsernameWrapperStyle}>
                   <input
-                    type="text"
-                    name="name"
+                    type='text'
+                    name='name'
                     value={form.name}
                     onChange={handleInputChange}
                     css={inputStyle}
@@ -110,8 +110,8 @@ function FindUserToResetPassword() {
                 <label css={formLabelFindUsernameStyle}>생년월일</label>
                 <div css={inputFindUsernameWrapperStyle}>
                   <input
-                    type="date"
-                    name="birthdate"
+                    type='date'
+                    name='birthdate'
                     value={form.birthdate}
                     onChange={handleInputChange}
                     css={inputStyle}
@@ -122,8 +122,8 @@ function FindUserToResetPassword() {
                 <label css={formLabelFindUsernameStyle}>이메일</label>
                 <div css={inputFindUsernameWrapperStyle}>
                   <input
-                    type="email"
-                    name="email"
+                    type='email'
+                    name='email'
                     value={form.email}
                     onChange={handleInputChange}
                     css={inputStyle}
@@ -131,8 +131,7 @@ function FindUserToResetPassword() {
                 </div>
               </div>
               <button
-                type="submit"
-                onClick={handleVarify}
+                type='submit'
                 css={buttonFindUsernameStyle}
               >
                 이메일 인증
@@ -154,4 +153,4 @@ function FindUserToResetPassword() {
   );
 }
 
-export default FindUserToResetPassword;
+export default GetResetPasswordUser;

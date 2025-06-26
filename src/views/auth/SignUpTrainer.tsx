@@ -136,7 +136,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>아이디</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="text"
+                  type='text'
                   name='username'
                   value={form.username}
                   onChange={handleInputChange}
@@ -148,7 +148,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>비밀번호</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="password"
+                  type='password'
                   name='password'
                   value={form.password}
                   onChange={handleInputChange}
@@ -160,7 +160,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>비밀번호 확인</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="password"
+                  type='password'
                   name='confirmPassword'
                   value={form.confirmPassword}
                   onChange={handleInputChange}
@@ -175,7 +175,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>성명</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="text"
+                  type='text'
                   name='name'
                   value={form.name}
                   onChange={handleInputChange}
@@ -187,7 +187,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>생년월일</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="date"
+                  type='date'
                   name='birthdate'
                   value={form.birthdate}
                   onChange={handleInputChange}
@@ -199,7 +199,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>성별</label>
               <div css={genderSectionStyle}>
                 <input
-                  type="radio"
+                  type='radio'
                   id='man'
                   name='gender'
                   value="man"
@@ -215,7 +215,7 @@ function SignUpTrainer() {
                 </label>
 
                 <input
-                  type="radio"
+                  type='radio'
                   id='woman'
                   name='gender'
                   value="woman"
@@ -235,7 +235,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>휴대폰번호</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="text"
+                  type='text'
                   name='phone'
                   value={form.phone}
                   placeholder='010-0000-0000'
@@ -248,7 +248,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>이메일</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="email"
+                  type='email'
                   name='email'
                   value={form.email}
                   placeholder='example@example.com'
@@ -264,14 +264,14 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>근무지 주소</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="text"
+                  type='text'
                   name='jobAddress'
                   value={jobAddress}
                   readOnly
                   css={inputStyle}
                 />
                 <button
-                  type="button"
+                  type='button'
                   onClick={() => setIsModalOpen(true)}
                   css={inputButtonStyle}
                 >
@@ -289,8 +289,8 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>상세 주소</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="text"
-                  placeholder="상세 주소 입력"
+                  type='text'
+                  placeholder='상세 주소 입력'
                   value={detailedAddress}
                   onChange={handleDetailedAddressChange}
                   css={inputStyle}
@@ -304,7 +304,7 @@ function SignUpTrainer() {
               </label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="file"
+                  type='file'
                   name='attachmentFile'
                   onChange={handleAttachmentChange}
                   css={inputStyle}
@@ -318,7 +318,7 @@ function SignUpTrainer() {
               <label css={formLabelStyle}>프로필 사진</label>
               <div css={inputSignUpWrapperStyle}>
                 <input
-                  type="file"
+                  type='file'
                   name='profile'
                   onChange={handleProfileChange}
                   css={inputStyle}

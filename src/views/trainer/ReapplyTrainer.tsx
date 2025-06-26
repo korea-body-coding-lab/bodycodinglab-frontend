@@ -3,7 +3,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import Header from '../header/Header';
 import { buttonResetPasswordStyle, containerStyle, formLabelResetPasswordStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputButtonStyle, inputFindUsernameWrapperStyle, inputStyle } from '../auth/auth.style';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ReapplyTrainerRequestDto } from '@/dtos/auth/request/reapply-trainer.request.dto';
+import { ReapplyTrainerRequestDto } from '@/dtos/trainer/request/reapply-trainer.request.dto';
 import { ReapplyTrainerRequest } from '@/apis/trainer/reapply-trainer.api';
 import AddressModal from '../auth/AddressModal';
 import { useCookies } from 'react-cookie';
