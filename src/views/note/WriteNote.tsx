@@ -5,6 +5,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getAccessTokenFromCookie, getUserIdFromToken } from '@/apis/get-token';
 import { fetchUsernames } from '@/apis/get-username';
 import { writeNote } from '@/apis/note/post-write-note.api';
+import { fetchProfileImageUrls } from '@/dtos/board/comment/request/get-profile-images.dto';
 
 function WriteNote() {
   const [searchParams] = useSearchParams();
@@ -13,6 +14,7 @@ function WriteNote() {
   const [noteText, setNoteText] = useState('');
   const navigate = useNavigate();
   const [userMap, setUserMap] = useState<Record<number, string>>({});
+  const [profileImageMap, setProfileImageMap] = useState<Record<number, string>>({});
 
   const handleCheckId = async () => {
     const id = Number(receiverInput);
@@ -31,6 +33,9 @@ function WriteNote() {
       if (username) {
         setReceiver(id);
         setUserMap(prev => ({ ...prev, [id]: username }));
+
+        const profileUrls = await fetchProfileImageUrls([id]);
+        setProfileImageMap(prev => ({ ...prev, ...profileUrls }));
       } else {
         alert("존재하지 않는 사용자입니다.");
       }
@@ -78,7 +83,12 @@ function WriteNote() {
       </div>
       <div css={s.noteWriteWrap}>
         <div css={s.profile}>
-          <div css={s.profileImage}>프로필이미지</div>
+        <img
+          css={s.profileImage}
+          src={receiver !== null ? (profileImageMap[receiver] || "/default-profile.png") : "/default-profile.png"}
+          alt="프로필 이미지"
+          onError={(e) => { e.currentTarget.src = "/default-profile.png"; }}
+        />
           {receiver !== null ? (
             <span css={s.profileSpan}>보낼 사람: {userMap[receiver] ?? `${receiver}`}</span>
           ) : (
