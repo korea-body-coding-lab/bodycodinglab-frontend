@@ -16,6 +16,7 @@ import { fetchComments } from '@/apis/board/comment/get-comments.api';
 import { writeComment } from '@/apis/board/comment/post-write-comment.api';
 import { useUserStore } from '@/stores/user.store';
 import { commentWriter } from './comment/CommentStyle';
+import { fetchProfileImageUrls } from '@/dtos/board/comment/request/get-profile-images.dto';
 
 function Post() {
     const [matchId, setMatchId] = useState<number | null>(null);
@@ -33,6 +34,7 @@ function Post() {
     const numericCategoryId = Number(categoryId);
     const numericPostId = Number(postId);
     const allUsernamesLoaded = comments.every(comment => usernameMap.hasOwnProperty(comment.commenterId.toString()));
+    const [profileImageMap, setProfileImageMap] = useState<Record<number, string>>({});
     const user = useUserStore((state) => state.user);
     const [loadingPost, setLoadingPost] = useState(true);
     const [loadingComments, setLoadingComments] = useState(true);
@@ -186,22 +188,29 @@ function Post() {
         }
       };
       useEffect(() => {
-        async function loadCommentUsernames() {
+        async function loadCommentUserDetails() {
           if (comments.length === 0) return;
       
-          const uniqueCommenterIds = [...new Set(comments.map(c => c.commenterId.toString()))];
-          console.log("loadCommentUsernames 호출, IDs:", uniqueCommenterIds);
+          const uniqueCommenterIds = [...new Set(comments.map(c => c.commenterId))];
+          
       
           try {
-            const data = await fetchUsernames(uniqueCommenterIds);
-            console.log("fetchUsernames 결과:", data);
-            setUsernameMap(prev => ({ ...prev, ...data }));
+            const [usernames, profileUrls] = await Promise.all([
+              fetchUsernames(uniqueCommenterIds.map(String)),
+              fetchProfileImageUrls(uniqueCommenterIds)
+            ]);
+            console.log("✅ profileUrls", profileUrls);
+            setUsernameMap(prev => ({ ...prev, ...usernames }));
+            setProfileImageMap(prev => ({ ...prev, ...profileUrls }));
           } catch (error) {
-            console.error("댓글 작성자 이름 불러오기 실패", error);
+            console.error("댓글 작성자 정보 불러오기 실패", error);
+          } finally {
+            setLoadingUsernames(false);
           }
         }
+        
       
-        loadCommentUsernames();
+        loadCommentUserDetails();
       }, [comments]);
 
       if (loadingPost) return <div>게시글 불러오는 중...</div>;
@@ -305,6 +314,7 @@ function Post() {
                   key={comment.id} 
                   comment={comment} 
                   username={usernameMap[commenterIdStr] ?? `#${commenterIdStr}`} 
+                  profileImageUrl={profileImageMap[comment.commenterId] ?? '/default-profile.png'}
                 />
               );
             })
