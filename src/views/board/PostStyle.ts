@@ -213,6 +213,18 @@ margin: 10px;
     height: auto;
     min-height: 400px;
 `
+export const postImage = css`
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  object-fit: cover;
+`;
+
+export const imageList = css`
+  margin-top: 20px;
+`;
+
 export const postLike = css`
     width: 50px;
     height: 50px;

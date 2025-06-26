@@ -39,6 +39,7 @@ function Post() {
     const [loadingPost, setLoadingPost] = useState(true);
     const [loadingComments, setLoadingComments] = useState(true);
     const [loadingUsernames, setLoadingUsernames] = useState(true);
+    const [postImages, setPostImages] = useState<string[]>([]);
     const profileImageUrl = useMemo(() => {
       return post?.profileImageUrl
         ? `http://localhost:8080${post.profileImageUrl}?v=${Date.now()}`
@@ -86,6 +87,13 @@ function Post() {
                 if (!token) throw new Error("로그인 토큰이 없습니다.");
                 const data = await fetchPostDetail(matchId, numericCategoryId, numericPostId, token);
                 setPost(data);
+                console.log(data.images);
+                console.log("이미지 경로들", postImages);
+                if (data.images) {
+                  const urls = data.images.map((img: { filePath: string }) => `http://localhost:8080${img.filePath}`);
+                  setPostImages(urls);
+                }
+                
             }catch(error){
                 alert("게시글을 불러오는데 실패했습니다.")
             }finally{
@@ -128,7 +136,7 @@ function Post() {
             console.error("댓글 불러오기 실패", error);
             setComments([]); 
           } finally {
-            setLoadingComments(false); // 로딩 종료
+            setLoadingComments(false); 
           }
         }
       
@@ -142,11 +150,11 @@ function Post() {
       
         async function loadCommentUsernames() {
           if (comments.length === 0) {
-            setLoadingUsernames(false); // 댓글 없으면 바로 로딩 종료
+            setLoadingUsernames(false); 
             return;
           }
       
-          setLoadingUsernames(true); // 로딩 시작
+          setLoadingUsernames(true);
       
           try {
             const uniqueCommenterIds = [...new Set(comments.map(c => c.commenterId.toString()))];
@@ -155,7 +163,7 @@ function Post() {
           } catch (error) {
             console.error("댓글 작성자 이름 불러오기 실패", error);
           } finally {
-            setLoadingUsernames(false); // 로딩 종료
+            setLoadingUsernames(false); 
           }
         }
       
@@ -199,7 +207,7 @@ function Post() {
               fetchUsernames(uniqueCommenterIds.map(String)),
               fetchProfileImageUrls(uniqueCommenterIds)
             ]);
-            console.log("✅ profileUrls", profileUrls);
+            
             setUsernameMap(prev => ({ ...prev, ...usernames }));
             setProfileImageMap(prev => ({ ...prev, ...profileUrls }));
           } catch (error) {
@@ -212,7 +220,7 @@ function Post() {
       
         loadCommentUserDetails();
       }, [comments]);
-
+      
       if (loadingPost) return <div>게시글 불러오는 중...</div>;
       if (!post) return <div>게시글이 존재하지 않습니다.</div>;
       if (loadingComments) return <div>댓글 불러오는 중...</div>;
@@ -286,7 +294,20 @@ function Post() {
               )}
       </div>
       <div css={s.postContent}>
-          <div css={s.ContentText}>{post.content}</div>
+          <div css={s.ContentText}>
+            {post.content}
+            <div css={s.imageList}>
+            {postImages.map((url, index) => (
+              <img
+                key={index}
+                src={`${url}?v=${Date.now()}`} 
+                alt={`post-img-${index}`}
+                css={s.postImage}
+                onError={(e) => e.currentTarget.src = '/default-image.png'}
+              />
+            ))}
+          </div>
+          </div>
           <div css={s.postLike}></div>
       </div>
       <div css={s.postFooter}>
