@@ -91,7 +91,7 @@ function App() {
 
     const isRejectedTrainer = user.role === 'TRAINER' && user.trainerStatus === 'REJECT';
 
-    const allowedPaths = ['/', '/trainers/search', '/users/trainers/me/reapply'];
+    const allowedPaths = ['/', '/fitmateintro', '/trainers/search', '/users/trainers/me/reapply'];
     const currentPath = location.pathname;
     const isAllowed = allowedPaths.includes(currentPath);
 
