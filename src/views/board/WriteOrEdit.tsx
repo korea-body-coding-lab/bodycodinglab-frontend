@@ -14,7 +14,7 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
   const [title, setTitle] = useState(data?.title || '');
   const [content, setContent] = useState(data?.content || '');
   const [writerId, setWriterId] = useState<number | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [matchId, setMatchId] = useState<number | null>(null);
   const [viewCount, setViewCount] = useState(0);
 
@@ -47,7 +47,7 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedFile(e.target.files[0]);  
+      setSelectedFiles(Array.from(e.target.files));
     }
   };
 
@@ -67,9 +67,9 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
     const json = JSON.stringify({ title, content, category, matchId, writerId, viewCount });
     const formData = new FormData();
     formData.append('data', new Blob([json], { type: 'application/json' }));
-    if (selectedFile) {
-      formData.append('file', selectedFile);
-    }
+    selectedFiles.forEach((file) => {
+      formData.append('files', file); 
+    });
 
     try {
       if (isEdit) {
@@ -98,7 +98,7 @@ function WriteOrEdit({isEdit, data, categoryId, postId}:{isEdit:boolean, data?:G
       <div css={s.contentwrap}>
         <textarea css={s.content} value={content} onChange={(e) => setContent(e.target.value)} placeholder='내용을 입력해주세요'></textarea>
       </div>
-      <input css={s.file} type="file" accept="image/*" onChange={handleFileChange} />
+      <input css={s.file} type="file" accept="image/*" multiple onChange={handleFileChange} />
       <button css={s.writeBtn} type='submit'>{isEdit ? "수정" : "글쓰기"}</button>
     </form>
   );
