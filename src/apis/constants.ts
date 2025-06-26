@@ -125,8 +125,8 @@ export const CANCEL_ONE_DAY_TICKET_URL = (ticketId: number) => `${GET_TRAINER_AL
 
 
 //# 매칭 대기 리스트 관련 URL
-export const POST_MEMBER_MATCH_WAITING_LIST_URL = (trainerId: number) => `${USER_MODULE_URL}/members/trainers/${trainerId}/match-waiting-lists`;
-export const GET_TRAINER_MATCH_WAITING_LIST_URL = `${API_DOMAIN}/api/v1/trainers/match-waiting-lists`;
+export const POST_MEMBER_MATCH_WAITING_LIST_URL = (trainerId: number) => `${USER_MODULE_URL}/members/trainer/${trainerId}/match-waiting-lists`;
+export const GET_TRAINER_MATCH_WAITING_LIST_URL = `${API_DOMAIN}/api/v1/trainer/match-waiting-lists`;
 export const GET_MEMBER_MATCH_WAITING_LIST_URL = `${API_DOMAIN}/api/v1/members/match-waiting-lists`;
 export const PUT_TRAINER_MATCH_WAITING_LIST_APPROVE_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/approves`;
 export const PUT_TRAINER_MATCH_WAITING_LIST_REJECT_URL = (matchWaitingListId: number) => `${GET_TRAINER_MATCH_WAITING_LIST_URL}/${matchWaitingListId}/rejects`;
@@ -134,7 +134,7 @@ export const DELETE_MEMBER_MATCH_WAITIMG_LIST_CENCEL_URL = `${GET_MEMBER_MATCH_W
 
 //# 매칭 관련 URL 
 export const GET_MEMBER_MATCH_URL =  `${API_DOMAIN}/api/v1/members/match-success-lists`;
-export const GET_TRAINER_MATCH_URL = `$${API_DOMAIN}/api/v1/trainers/match-success-lists`;
+export const GET_TRAINER_MATCH_URL = `${API_DOMAIN}/api/v1/trainer/match-success-lists`;
 export const GET_TRAINER_MATCH_FIND_MEMBER_URL = (matchId: number) => `${GET_TRAINER_MATCH_URL}/${matchId}`;
 export const DELETE_MEBER_MATCH_URL = (matchId: number) => `${GET_MEMBER_MATCH_URL}/${matchId}`;
 
@@ -168,13 +168,13 @@ export const POST_COUPON = `${API_DOMAIN}/api/v1/coupons`;
 export const GET_MEMBER_COUPON_URL = (status: string) => `${API_DOMAIN}/api/v1/members/coupons?status=${status}`;
 
 // 트레이너의 회원이 사용 신청한 혹은 사용 완료된 쿠폰 조회
-export const GET_TRAINER_COUPON_URL =(status: string) => `${API_DOMAIN}/api/v1/trainers/coupons?status=${status}`;
+export const GET_TRAINER_COUPON_URL =(status: string) => `${API_DOMAIN}/api/v1/trainer/coupons?status=${status}`;
 
 // 회원의 쿠폰 사용 설정
 export const PUT_MEMBER_COUPON_URL = (couponId: number) => `${API_DOMAIN}/api/v1/members/coupons/${couponId}`
 
 // 트레이너의 쿠폰 사용 설정
-export const PUT_TRAINER_COUPON_URL = (couponId: number) => `${API_DOMAIN}/api/v1/trainers/coupons/${couponId}`;
+export const PUT_TRAINER_COUPON_URL = (couponId: number) => `${API_DOMAIN}/api/v1/trainer/coupons/${couponId}`;
 
 
 

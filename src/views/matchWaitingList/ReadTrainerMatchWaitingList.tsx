@@ -75,7 +75,7 @@ function ReadTrainerMatchWaitingList() {
     }
   };
 
-   const handleRejectConfirm = async (matchWaitingListId: number) => {
+    const handleRejectConfirm = async (matchWaitingListId: number) => {
     const token = cookies.accessToken;
     if (!token) {
       alert("매칭을 거절할 권한이 없습니다.");
@@ -130,6 +130,8 @@ function ReadTrainerMatchWaitingList() {
         <MyPageSidebar />
         <div css={t.trainerMatchMainBox}>
           <h2 style={{ color: "#3F4756" }}>매칭 대기 관리</h2>
+          <div css={t.trainerMatchBox}>
+          <h2 css={t.trainerMatchTitle}>매칭 대기 리스트</h2>
           <div css={t.trainerMatchTableWrapper}>
             <table css={t.trainerMatchTableStyle}>
               <thead css={t.trainerMatchTableHead}>
@@ -159,6 +161,7 @@ function ReadTrainerMatchWaitingList() {
                         : "거절"
                     }</td>
                   
+                    <div css={t.tdButtonCellBox}>
                     <td css={t.tdButtonCell}>
                       <button
                         css={t.trainerMatchButton(data.approvedStatus)}
@@ -180,10 +183,13 @@ function ReadTrainerMatchWaitingList() {
                         거절
                       </button>
                     </td>
+                    </div>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+
           </div>
         </div>
       </div>
