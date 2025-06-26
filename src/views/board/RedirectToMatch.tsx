@@ -11,7 +11,8 @@ function RedirectToUserMatch() {
       const id = await getUserMatchId();
       if (!id) {
         
-        navigate('/auth/login');
+        navigate('/');
+        alert("매칭 정보가 없습니다!");
         return;
       }
       setUserMatchId(id);
