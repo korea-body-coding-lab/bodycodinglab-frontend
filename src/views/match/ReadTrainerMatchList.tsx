@@ -68,22 +68,6 @@ function ReadTrainerMatchList() {
     }
   };
 
-// return (
-  // <div>
-
-  //   <div>
-  //       <Header/>
-  //   </div>
-
-  //   <div style={{display: "flex"}}>
-  //     <MyPageSidebar/> 
-  //     <div  style={{marginTop: "25px"}}>
-  //       <h2  style={{color: "#3F4756"}}>매칭 조회</h2>
-  //       <br />
-  //       <p>매칭 신청 기록이 존재하지 않습니다.</p>
-  //     </div>
-  //   </div>
-  // </div>);
 
   if (loading) return <p>로딩중입니다.......</p>;
   if (!memberDatas || memberDatas.length === 0)
