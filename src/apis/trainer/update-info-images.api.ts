@@ -2,6 +2,7 @@ import ResponseDto from "@/dtos/response.dto";
 import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { AxiosError } from "axios";
 import { FileResponseDto } from "../file.response.dto";
+import { MULTI_FILE_URL } from "../constants";
 
 export const uploadTrainerInfoImages = async (
   files: File[],
@@ -16,7 +17,7 @@ export const uploadTrainerInfoImages = async (
 
   try {
     const response = await axiosInstance.post(
-      `/api/v1/files/multi?targetId=${trainerId}&targetType=INFOS`,
+      `${MULTI_FILE_URL}?targetId=${trainerId}&targetType=INFOS`,
       formData,
       {
         headers: {
