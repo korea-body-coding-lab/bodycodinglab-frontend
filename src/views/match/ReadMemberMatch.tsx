@@ -98,6 +98,9 @@ function ReadMemberMatch() {
         </div>
         <br />
         <br />
+        <p style={{textAlign: "center", "color": "#4CAF50"}}>매칭 완료</p>
+        <br />
+        <br />
         <div css={m.MemberMatchButtonContainer}>
           <button
             css={m.MatchButton}

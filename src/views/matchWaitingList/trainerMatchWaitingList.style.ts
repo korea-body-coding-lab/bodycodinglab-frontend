@@ -14,11 +14,24 @@ export const trainerMatchMainBox = css`
   flex: 1;
 `;
 
+export const trainerMatchBox = css`
+  margin-top: 5%;
+`
+
+export const trainerMatchTitle = css`
+text-align: center;
+color: #3F4756;
+margin-right: 4%;
+`;
+
+
 export const trainerMatchTableWrapper = css`
-  margin-top: 10%;
+  margin-top: 5%;
   display: flex;
   justify-content: center;
 `;
+
+
 
 export const trainerMatchTableStyle = css`
   width: 100%;
@@ -88,6 +101,11 @@ export const trainerMatchButton = (status: string) => css`
     cursor: not-allowed;
   }
 `;
+
+export const tdButtonCellBox = css`
+  display: flex;
+  justify-content: space-around;
+`
 
 export const tdButtonCell = css`
   width: 100px;
