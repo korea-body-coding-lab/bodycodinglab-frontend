@@ -16,11 +16,18 @@ export const matchListContainer = css`
 
 
 export const matchCardListBox = css`
-  margin-top: 50px;
+  margin-top: 10%;
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 50vw;
+  margin-left: 18%;
+`;
+
+export const matchCardListTitle = css`
+  text-align: center;
+  color: #3F4756;
+  margin-bottom: 5%;
 `;
 
 export const matchCardBox = css`

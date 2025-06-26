@@ -1,4 +1,9 @@
-export const writePost = async(matchId: number, categoryId: number, formData: FormData, token: string) => {
+export const writePost = async(
+  matchId: number, 
+  categoryId: number, 
+  formData: FormData, 
+  token: string,
+) => {
     const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}`, {
         method: 'POST',
         headers: {

@@ -61,11 +61,10 @@ export const profileImage = css`
     margin-right: 10px;
     width: 60px;
     height: 60px;
-    background-image: url("/profileImageSample.png");
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
+    border-radius: 50%;
+    border: 2px solid #437BC0;
+    object-fit: cover;
 `
 export const profileSpan = css`
     font-size: 22px;

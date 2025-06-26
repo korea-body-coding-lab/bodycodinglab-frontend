@@ -8,4 +8,5 @@ export interface PostDetailData {
     commentCount?: number;
     viewCount?: number; 
     profileImageUrl?: string;
+    images: { url: string }[];
   };

@@ -116,7 +116,7 @@ function ReadTrainerMatchList() {
       <div css={t.matchListContainer}>
       <h2 style={{color: "#3F4756"}}>매칭 관리</h2>
       <div css={t.matchCardListBox}>
-      <h2 style={{textAlign: "center" ,color: "#3F4756"}}>매칭 리스트</h2>
+      <h2 css={t.matchCardListTitle}>매칭 리스트</h2>
         {memberDatas.map((memberData) => (
           <div key={memberData.matchId} css={t.matchCardBox}>
             <div css={t.matchCardLeft}>

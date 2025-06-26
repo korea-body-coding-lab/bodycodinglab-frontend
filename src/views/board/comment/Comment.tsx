@@ -4,10 +4,10 @@ import * as s from './CommentStyle';
 import { CommentDetailData } from '@/dtos/board/comment/request/get-comment.dto';
 import getRelativeTime from '../../../utils/createdat-relative.util';
 
-function Comment({ comment, username }: { comment: CommentDetailData; username?: string }) {
+function Comment({ comment, username, profileImageUrl }: { comment: CommentDetailData; username?: string; profileImageUrl: string }) {
   return (
     <div css={s.wrap}>
-      <div css={s.profileImage}>프로필이미지</div>
+      <img css={s.profileImage} src={profileImageUrl ?? '/default-profile.png'} alt="profile"></img>
       <div css={s.commnetContentBox}>
         <div css={s.commentInfoBox}>
           <div css={s.commentWriter}>{username ?? comment.commenterId}</div>
