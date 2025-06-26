@@ -123,8 +123,8 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
             {trainer.attachmentFileUrl ? (
               <a
                 href={`http://localhost:8080${trainer.attachmentFileUrl}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
                 css={fileDownloadLink}
               >
                 첨부파일 다운로드
@@ -140,7 +140,7 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
               <textarea
                 css={textareaStyle}
                 rows={4}
-                placeholder="거부 사유를 입력해주세요"
+                placeholder='거부 사유를 입력해주세요'
                 value={changeReason}
                 onChange={(e) => setChangeReason(e.target.value)}
               />

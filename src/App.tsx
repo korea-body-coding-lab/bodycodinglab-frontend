@@ -10,8 +10,8 @@ import Login from './views/auth/Login'
 import TrainerCouponList from './views/coupon/TrainerCouponList'
 
 import TrainerList from './views/admin/TrainerList'
-import FindUsername from './views/auth/FindUsername'
-import FindUserToResetPassword from './views/auth/FindUserToResetPassword'
+import RecoverUsername from './views/auth/RecoverUsername'
+import GetResetPasswordUser from './views/auth/GetResetPasswordUser'
 
 import MemberCouponLIst from './views/coupon/MemberCouponLIst'
 import BoardWrite from './views/board/BoardWrite'
@@ -136,9 +136,9 @@ function App() {
         <Route path='/auth/sign-up/member' element={<SignUpMember />} />
         <Route path='/auth/sign-up/trainer' element={<SignUpTrainer />} />
         <Route path='/auth/login' element={<Login />} />
-        <Route path='/auth/finding-id' element={<FindUsername />} />
-        <Route path='/auth/reset-password' element={<FindUserToResetPassword />} />
-        <Route path='/auth/reset-password/setting' element={<ResetPassword />} />
+        <Route path='/username/recovery' element={<RecoverUsername />} />
+        <Route path='/password/reset-user' element={<GetResetPasswordUser />} />
+        <Route path='/password/reset' element={<ResetPassword />} />
         <Route path='/users/members/me' element={<GetMemberInfomation />} />
         <Route path='/users/members/me/setting' element={<UpdateMemberInformation />} />
         <Route path='/users/trainers/me' element={<GetTrainerInformation />} />
