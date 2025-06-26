@@ -51,8 +51,8 @@ const TrainerModal = ({ trainer, onClose, onStatusUpdated }: Props) => {
       }
   
       alert(newStatus === 'APPROVE' ? '승인 처리 완료' : '거부 처리 완료');
-      onStatusUpdated();
       onClose();
+      onStatusUpdated();
     } catch (e) {
       console.log('트레이너 상태 변경 오류: ', e);
       alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');

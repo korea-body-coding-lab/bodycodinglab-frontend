@@ -11,20 +11,14 @@ export const wrap = css`
     
 `
 export const profileImage = css`
-
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-image: url("/profileImageSample.png");
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
     font-size: 10px;
-    line-height: 60px;
     margin-left: 10px;
-    margin-top: auto;
-    margin-bottom: auto;
+    border: 2px solid #437BC0;
+    object-fit: cover;
 `
 export const commnetContentBox = css`
     display: flex;
@@ -34,7 +28,7 @@ export const commnetContentBox = css`
     min-height: 60px;
 `
 export const commentInfoBox = css`
-    width: 100px;
+    width: 120px;
     margin-left: 5px;
     display: flex;
     align-items: center;

@@ -1,9 +1,11 @@
 export const fetchPosts = async(
   matchId: number, 
   categoryId: number, 
-  token: string
+  token: string,
+  page: number,
+  size: number
 ) => {
-    const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}`, { 
+    const res = await fetch(`/api/v1/personal-community-boards/${matchId}/${categoryId}?page=${page}&size=${size}`, { 
         method: "GET",
         credentials: "include",
         headers: {

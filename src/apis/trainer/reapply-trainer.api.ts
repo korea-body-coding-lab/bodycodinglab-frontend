@@ -3,11 +3,12 @@ import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../
 import { REAPPLY_TRAINER_URL } from "../constants";
 import { AxiosError } from "axios";
 
-export const ReapplyTrainerRequest = async (token: string, formData: FormData): Promise<ResponseDto<void>> => {
+export const ReapplyTrainerRequest = async (formData: FormData, accessToken: string): Promise<ResponseDto<void>> => {
   try {
-    const response = await axiosInstance.put(REAPPLY_TRAINER_URL(token), formData, {
+    const response = await axiosInstance.put(REAPPLY_TRAINER_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${accessToken}`
       }
     });
     return responseSuccessHandler(response);

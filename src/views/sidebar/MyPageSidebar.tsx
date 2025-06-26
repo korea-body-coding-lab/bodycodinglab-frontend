@@ -43,7 +43,7 @@ function MyPageSidebar() {
     return getMenuTitleByPath(location.pathname);
   }, [location.pathname]);
 
-  const profileImageUrl = useMemo(() => {
+  const profileImageUrl = useMemo(() => {  
   return user?.profileImageUrl
     ? `http://localhost:8080${user.profileImageUrl}?v=${Date.now()}`
     : '/default-profile.png';

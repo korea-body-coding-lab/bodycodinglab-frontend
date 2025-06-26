@@ -17,7 +17,7 @@ import {
   recentInfoBox,
   removeFileButton,
   textarea,
-  title
+  title,
 } from "./TrainerInfoStyle";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/stores/user.store";
@@ -33,6 +33,10 @@ import { getRecentCareer } from "@/apis/trainer/trainer-career.api";
 import { TrainerCareerResponseDto } from "@/dtos/trainer/response/trainer-career.response.dto";
 import { uploadTrainerInfoImages } from "@/apis/trainer/update-info-images.api";
 import { FileResponseDto } from "@/apis/file.response.dto";
+import { TrainerInfoResponseDto } from "@/dtos/trainer/response/trainer-info.response.dto";
+import { GetTrainerInformationRequest } from "@/apis/user/get-trainer-information.api";
+import { getTrainerInfoImages } from "@/apis/trainer/get-trainer-info-image.api";
+import { deleteTrainerInfoImages } from "@/apis/trainer/delete-trainer-upload-image.api";
 
 const TrainerInfo = () => {
   const navigate = useNavigate();
@@ -42,6 +46,7 @@ const TrainerInfo = () => {
 
   const [cookies] = useCookies(["accessToken"]);
   const accessToken = cookies.accessToken || "";
+
   const [formData, setFormData] = useState<TrainerInfoRequestDto>({
     jobAddress: "",
     shortIntroduce: "",
@@ -51,38 +56,65 @@ const TrainerInfo = () => {
     educationGraduate: "",
   });
 
-  const [files, setFiles] = useState<File[] | undefined>(undefined);
+  const [files, setFiles] = useState<File[]>([]);
   const [message, setMessage] = useState<string>("");
 
   const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
   const [isCareerModalOpen, setIsCareerModalOpen] = useState(false);
-  const [recentLicense, setRecentLicense] = useState<TrainerLicenseResponseDto | null>(null);
-  const [recentCareer, setRecentCareer] = useState<TrainerCareerResponseDto | null>(null);
+  const [recentLicense, setRecentLicense] =
+    useState<TrainerLicenseResponseDto | null>(null);
+  const [recentCareer, setRecentCareer] =
+    useState<TrainerCareerResponseDto | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<FileResponseDto[]>([]);
+  const [trainerId, setTrainerId] = useState<number | null>(null);
+  const [trainerInfo, setTrainerInfo] = useState<TrainerInfoResponseDto>();
 
   useEffect(() => {
-    if (!user?.userId) return;
+    const fetchTrainerIdFirst = async () => {
+      if (!accessToken) return;
 
-    const fetchData = async () => {
-      const response = await getTrainerInfo(user.userId, accessToken);
-      if (response.code && response.data) {
-        setFormData({
-          ...response.data,
-          files: undefined,
-        });
-
-      if (files && files.length > 0) {
-        const fileRes = await uploadTrainerInfoImages(files, accessToken);
-        if (fileRes.code === "SU") {
-          setUploadedFiles(fileRes.data || []);
-        }
-      }
-
+      const res = await GetTrainerInformationRequest(accessToken);
+      if (res.code === "SU" && res.data) {
+        setTrainerId(res.data.trainerId);
       }
     };
 
-    fetchData();
-  }, [user?.userId]);
+    fetchTrainerIdFirst();
+  }, [accessToken]);
+
+  useEffect(() => {
+    const fetchTrainerInfo = async () => {
+      if (!trainerId) return;
+
+      const response = await getTrainerInfo(trainerId, accessToken);
+      if (response.code === "SU" && response.data) {
+        setTrainerInfo(response.data);
+        setFormData({
+          jobAddress: response.data.jobAddress || "",
+          shortIntroduce: response.data.shortIntroduce || "",
+          longIntroduce: response.data.longIntroduce || "",
+          educationName: response.data.educationName || "",
+          educationEntrance: response.data.educationEntrance || "",
+          educationGraduate: response.data.educationGraduate || "",
+        });
+      }
+    };
+
+    fetchTrainerInfo();
+  }, [trainerId, accessToken]);
+
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      if (!trainerId) return;
+
+      const res = await getTrainerInfoImages(trainerId, accessToken);
+      if (res.code === "SU" && res.data) {
+        setUploadedFiles(res.data);
+      }
+    };
+
+    fetchUploadedFiles();
+  }, [trainerId, accessToken]);
 
   const fetchRecentLicense = async () => {
     try {
@@ -122,7 +154,9 @@ const TrainerInfo = () => {
     fetchRecentCareer();
   }, [user?.userId, accessToken]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -133,15 +167,22 @@ const TrainerInfo = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const newFiles = Array.from(e.target.files);
-    setFiles((prev) => [...(prev ?? []), ...newFiles]);
+    setFiles((prev) => [...prev, ...newFiles]);
   };
 
-  const handleFileRemove = (indexToRemove: number) => {
-    setFiles((prev) => (prev ?? []).filter((_, index) => index !== indexToRemove));
+  const handleUploadedFileDelete = async (fileId: number) => {
+    const res = await deleteTrainerInfoImages(fileId, accessToken);
+    if (res.code === "SU") {
+      setUploadedFiles((prev) => prev.filter((file) => file.fileId !== fileId));
+    } else {
+      alert(`파일 삭제 실패: ${res.message}`);
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    setMessage("");
 
     const infoResponse = await updateInfo(formData, accessToken);
     if (infoResponse.code !== "SU") {
@@ -149,15 +190,29 @@ const TrainerInfo = () => {
       return;
     }
 
-    if (files && files.length > 0 && user?.userId) {
-      const imageUploadResponse = await uploadTrainerInfoImages(files, accessToken);
-      if (imageUploadResponse.code !== "SU") {
-        setMessage(`파일 업로드 실패: ${imageUploadResponse.message}`);
+    if (files.length > 0) {
+      const uploadResponse = await uploadTrainerInfoImages(
+        files,
+        Number(trainerId),
+        accessToken
+      );
+      if (uploadResponse.code !== "SU") {
+        setMessage(`파일 업로드 실패: ${uploadResponse.message}`);
         return;
       }
+      setUploadedFiles(uploadResponse.data || []);
+      setFiles([]);
     }
 
-    setMessage("트레이너 정보 및 이미지 업로드가 완료되었습니다.");
+    alert("트레이너 정보 및 이미지 업로드가 완료되었습니다.");
+
+    window.location.reload();
+  };
+
+  const handleFileRemove = (index: number) => {
+    const newFiles = [...files];
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
   };
 
   return (
@@ -220,7 +275,7 @@ const TrainerInfo = () => {
           />
 
           <label css={fileLabel} htmlFor="file-upload">
-            {files && files.length > 0 ? `${files.length}개 파일 선택됨` : "파일 선택"}
+            {files.length > 0 ? `${files.length}개 파일 선택됨` : "파일 선택"}
           </label>
           <input
             id="file-upload"
@@ -231,66 +286,98 @@ const TrainerInfo = () => {
             css={fileInput}
           />
 
-          <ul css={fileList}>
-            {(files ?? []).map((file, index) => (
-              <li key={index} css={fileItem}>
-                <span>{file.name}</span>
-                <button
-                  type="button"
-                  onClick={() => handleFileRemove(index)}
-                  css={removeFileButton}
-                >
-                  삭제
-                </button>
-              </li>
-            ))}
-          </ul>
+          {files.length > 0 && (
+            <ul css={fileList}>
+              {files.map((file, index) => (
+                <li key={index} css={fileItem}>
+                  <span>{file.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleFileRemove(index)}
+                    css={removeFileButton}
+                  >
+                    삭제
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
 
-          {/* {uploadedFiles.length > 0 && (
-  <div css={recentInfoBox}>
-    <strong>등록된 첨부파일 목록</strong>
-    <ul css={fileList}>
-      {uploadedFiles.map((file) => (
-        <li key={file.id} css={fileItem}>
-          <a href={file.url} target="_blank" rel="noreferrer">
-            {file.originalName}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </div>
-)} */}
+          {uploadedFiles.length > 0 && (
+            <div css={recentInfoBox}>
+              <strong>등록된 첨부파일 목록</strong>
+              <ul css={fileList}>
+                {uploadedFiles.map((file) => (
+                  <li key={file.fileName} css={fileItem}>
+                    <a
+                      href={`${file.filePath}${file.fileName}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {file.originalName}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => handleUploadedFileDelete(file.fileId)}
+                      css={removeFileButton}
+                    >
+                      삭제
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <button type="button" onClick={() => setIsLicenseModalOpen(true)} css={button}>
+          <button
+            type="button"
+            onClick={() => setIsLicenseModalOpen(true)}
+            css={button}
+          >
             자격증 등록
           </button>
           {recentLicense && (
             <div css={recentInfoBox}>
-              <strong>최근 등록 자격증:</strong> {recentLicense.licenseName} ({recentLicense.licenseType})
+              <strong>최근 등록 자격증:</strong> {recentLicense.licenseName} (
+              {recentLicense.licenseType})
             </div>
           )}
 
-          <button type="button" onClick={() => setIsCareerModalOpen(true)} css={button}>
+          <button
+            type="button"
+            onClick={() => setIsCareerModalOpen(true)}
+            css={button}
+          >
             경력 등록
           </button>
           {recentCareer && (
             <div css={recentInfoBox}>
-              <strong>최근 경력:</strong> {recentCareer.companyName} ({recentCareer.companyJoin} ~ {recentCareer.companyQuit || "재직 중"})
+              <strong>최근 경력:</strong> {recentCareer.companyName} (
+              {recentCareer.companyJoin} ~{" "}
+              {recentCareer.companyQuit || "재직 중"})
             </div>
           )}
 
-          <button type="submit" css={button}>저장</button>
+          <button type="submit" css={button}>
+            저장
+          </button>
           {message && <p css={messageText}>{message}</p>}
         </form>
 
         {isLicenseModalOpen && (
-          <Modal onClose={() => setIsLicenseModalOpen(false)} onSave={fetchRecentLicense}>
+          <Modal
+            onClose={() => setIsLicenseModalOpen(false)}
+            onSave={fetchRecentLicense}
+          >
             <TrainerLicense onClose={() => setIsLicenseModalOpen(false)} />
           </Modal>
         )}
 
         {isCareerModalOpen && (
-          <Modal onClose={() => setIsCareerModalOpen(false)} onSave={fetchRecentCareer}>
+          <Modal
+            onClose={() => setIsCareerModalOpen(false)}
+            onSave={fetchRecentCareer}
+          >
             <TrainerCareer onClose={() => setIsCareerModalOpen(false)} />
           </Modal>
         )}

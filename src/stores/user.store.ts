@@ -6,11 +6,12 @@ interface User {
   username: string;
   name: string;
   profileImageUrl: string | null;
+  trainerStatus?: string;
 }
 
 interface UserState {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   setName: (name: string) => void;
 }
 

@@ -184,6 +184,7 @@ function TrainerList() {
                 setIsModalOpen(false);
                 setSelectedTrainer(null);
                 setPage(0);
+                fetchTrainers();
               }}
             />
           )}

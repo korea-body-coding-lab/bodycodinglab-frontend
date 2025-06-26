@@ -47,7 +47,7 @@ function Login() {
         return;
       }
   
-      const { id, role, username, name, profileImageUrl, token, exprTime } = data;
+      const { token, exprTime, id, role, username, name, profileImageUrl } = data;
   
       if (!exprTime || isNaN(exprTime)) {
         console.error('Invalid exprTime:', exprTime);
@@ -58,6 +58,7 @@ function Login() {
       expireDate.setMilliseconds(expireDate.getMilliseconds() + exprTime);
   
       console.log('exprTime:', exprTime);
+      console.log(response);
   
       setCookies("accessToken", token, {
         path: '/',
@@ -67,14 +68,32 @@ function Login() {
       });
   
       setLogin(token);
-      setUser({
-        userId: id,
-        role,
-        username,
-        name,
-        profileImageUrl,
-      });
-      navigate('/');
+      
+      if (role === 'TRAINER' && 'trainerStatus' in data && data.trainerStatus === 'REJECT') {
+        const trainerStatus = data.trainerStatus;
+
+        setUser({
+          userId: id,
+          role,
+          username,
+          name,
+          profileImageUrl,
+          trainerStatus,
+        });
+
+        navigate('/users/trainers/me/reapply');
+      } else {
+        setUser({
+          userId: id,
+          role,
+          username,
+          name,
+          profileImageUrl,
+        });
+  
+        navigate('/');
+      }
+
     } catch (e) {
       console.log('로그인 요청 오류: ', e);
       alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');

@@ -8,15 +8,19 @@ import {
 } from "@/apis/trainer/trainer-search.api";
 import { TrainerListResponseDto } from "@/dtos/trainer/response/trainer-list.response.dto";
 import TrainerSearchCard from "@/views/trainer/modal/TrainerSearchCard";
+import KakaoMap from "@/components/KakaoMap";
 
 import {
   container,
   searchBar,
   searchInput,
   searchButton,
-  trainerList,
   trainerCard,
+  searchResultWrapper,
+  trainerListPanel,
+  mapPanel,
 } from "./TrainerSearchStyle";
+import Header from "@/views/header/Header";
 
 const TrainerSearch = () => {
   const [trainers, setTrainers] = useState<TrainerListResponseDto[]>([]);
@@ -56,8 +60,9 @@ const TrainerSearch = () => {
   };
 
   return (
+    <div>
+      <Header />
     <div css={container}>
-
       <div css={searchBar}>
         <select
           value={searchType}
@@ -82,20 +87,29 @@ const TrainerSearch = () => {
         </button>
       </div>
 
-      <div css={trainerList}>
-        {trainers.length > 0 ? (
-          trainers.map((trainer) => (
-            <div key={trainer.trainerId} css={trainerCard}>
-              <TrainerSearchCard
-                trainer={trainer}
-                onClick={() => handleCardClick(trainer.trainerId)}
-              />
-            </div>
-          ))
-        ) : (
-          <p>검색 결과가 없습니다.</p>
-        )}
+      <div css={searchResultWrapper}>
+        {/* 왼쪽: 트레이너 리스트 */}
+        <div css={trainerListPanel}>
+          {trainers.length > 0 ? (
+            trainers.map((trainer) => (
+              <div key={trainer.trainerId} css={trainerCard}>
+                <TrainerSearchCard
+                  trainer={trainer}
+                  onClick={() => handleCardClick(trainer.trainerId)}
+                />
+              </div>
+            ))
+          ) : (
+            <p>검색 결과가 없습니다.</p>
+          )}
+        </div>
+
+        {/* 오른쪽: 지도 */}
+        <div css={mapPanel}>
+          <KakaoMap />
+        </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -1,12 +1,13 @@
 import ResponseDto from "@/dtos/response.dto";
 import { axiosInstance, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
-import { UPDATE_INFO_IMAGES } from "../constants";
 import { AxiosError } from "axios";
+import { FileResponseDto } from "../file.response.dto";
 
 export const uploadTrainerInfoImages = async (
   files: File[],
+  trainerId: number,
   accessToken: string
-): Promise<ResponseDto<void>> => {
+): Promise<ResponseDto<FileResponseDto[]>> => {
   const formData = new FormData();
 
   files.forEach((file) => {
@@ -15,7 +16,7 @@ export const uploadTrainerInfoImages = async (
 
   try {
     const response = await axiosInstance.post(
-      `/api/v1/users/trainers/me/trainer-info`,
+      `/api/v1/files/multi?targetId=${trainerId}&targetType=INFOS`,
       formData,
       {
         headers: {
@@ -23,9 +24,10 @@ export const uploadTrainerInfoImages = async (
           Authorization: `Bearer ${accessToken}`,
         },
       }
-    );
+    );console.log("🔥 업로드 결과:", response); 
     return responseSuccessHandler(response);
   } catch (e) {
+    console.error("❌ 파일 업로드 실패!", e);
     return responseErrorHandler(e as AxiosError<ResponseDto>);
   }
 };

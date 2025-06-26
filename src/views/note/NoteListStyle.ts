@@ -20,7 +20,7 @@ export const noteListWrap = css`
     margin-top: 10px;
     width: 80%;
     max-width: 1000px;
-    height: 600px;
+    height: 500px;
     background-color: #F1FAFF;
     border: 2px solid #9D9D9D;
     border-radius: 10px 10px 0 0;
@@ -61,11 +61,10 @@ export const profileImage = css`
     margin-right: 10px;
     width: 60px;
     height: 60px;
-    background-image: url("/profileImageSample.png");
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
+    border-radius: 50%;
+    border: 2px solid #437BC0;
+    object-fit: cover;
 `
 export const profileSpan = css`
     font-size: 22px;
@@ -138,7 +137,7 @@ export const note = css`
     
 `
 export const spanHead = css`
-    color: #3F4756;;
+    color: #3F4756;
     border-bottom: 2px solid #C5CEE0;
 `
 export const noteTextHead = css`
@@ -204,4 +203,30 @@ export const page = css`
     border-top: 0px;
     text-align: center;
     line-height: 50px;
+`
+export const pageTextBtn = css`
+    width: 20px;
+    height: 30px;
+    border: none;
+    background: none;
+    color: #3F4756;
+    font-size: 18px;
+    line-height: 30px;
+    cursor: pointer;
+    :hover{
+        color: white;
+    }
+`
+export const pageNumBtn = css`
+    width: 20px;
+    height: 30px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    line-height: 30px;
+    color: #3F4756;
+    cursor: pointer;
+    :hover{
+        color: white;
+    }
 `

@@ -8,6 +8,7 @@ import { getAccessTokenFromCookie } from '@/apis/get-token';
 import { getUserMatchId } from '@/apis/get-user-matchId';
 import { fetchPosts } from '@/apis/board/get-posts.api';
 import { BoardPost } from '@/utils/board-post.util';
+import getPageNumbers from '@/utils/pagenation.util';
 
 
 
@@ -19,7 +20,9 @@ function Board() {
   const navigate = useNavigate();
   const { categoryId } = useParams<{ categoryId: string }>();
   const numericCategoryId = Number(categoryId);
-
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageNumbers = getPageNumbers(page, totalPages);
   useEffect(() => {
     async function fetchMatchId() {
       const id = await getUserMatchId();
@@ -39,17 +42,23 @@ function Board() {
         const token = getAccessTokenFromCookie();
         if (!token) throw new Error("로그인 토큰이 없습니다.");
 
-        const data = await fetchPosts(matchId, numericCategoryId, token);
-        setPosts(data);
-      } catch (e) {
-        alert("게시글을 가져오지 못했습니다.");
+        const data = await fetchPosts(matchId, numericCategoryId, token, page, 20);
+        setPosts(data.content);
+        setTotalPages(data.totalPages);
+      } catch (e:any) {
+        if (e.status === 403) {
+          alert("해당 게시판에 접근할 수 없습니다.");
+          navigate("/")
+        }else{
+          alert("게시글을 가져오지 못했습니다.");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     getPosts();
-  }, [categoryId, matchId]);
+  }, [categoryId, matchId, page]);
 
   if (!categoryId) return <div>잘못된 접근입니다.</div>;
 
@@ -107,7 +116,25 @@ function Board() {
               )}
             
           </div>
-          <div css={s.boardBottom}>페이지네이션</div>
+          <div css={s.boardBottom}>
+            <button css={s.pageTextBtn} onClick={() => setPage(p => Math.max(p - 1, 0))} disabled={page === 0}>
+              ◀
+            </button>
+
+            {pageNumbers.map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => setPage(pageNumber)}
+                css={s.pageNumBtn}
+              >
+                {pageNumber + 1}
+              </button>
+            ))}
+
+            <button css={s.pageTextBtn} onClick={() => setPage(p => Math.min(p + 1, totalPages - 1))} disabled={page === totalPages - 1}>
+              ▶
+            </button>
+          </div>
         </div>
       </div>
     </div>
