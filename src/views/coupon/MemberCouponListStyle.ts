@@ -102,7 +102,7 @@ export const memberCouponFilterTab = css`
   button {
     background-color: #699CE4;
     color: white;
-    border: 1px solid #aaa;
+    border: 1px solid white;
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;

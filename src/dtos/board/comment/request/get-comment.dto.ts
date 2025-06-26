@@ -4,4 +4,5 @@ export interface CommentDetailData {
     commentContent: string;
     commenterId: number;
     createdAt: string;
+
 }
