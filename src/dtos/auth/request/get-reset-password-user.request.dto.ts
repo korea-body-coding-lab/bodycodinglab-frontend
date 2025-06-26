@@ -1,4 +1,4 @@
-export interface GetUserInformationToResetPasswordRequestDto {
+export interface GetResetPasswordUserRequestDto {
   username: string;
   name: string;
   birthdate: string;

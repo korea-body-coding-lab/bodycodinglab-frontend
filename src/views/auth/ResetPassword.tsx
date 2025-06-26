@@ -84,15 +84,15 @@ function ResetPassword() {
         <Header />
       </div>
       <div css={containerStyle}>
-        <form css={formWrapperStyle}>
+        <form onSubmit={handleReset} css={formWrapperStyle}>
           <div css={formSectionStyle}>
             <h2 css={formTitleStyle}>비밀번호 재설정</h2>
             <div css={formStyle}>
               <label css={formLabelResetPasswordStyle}>비밀번호</label>
               <div css={inputFindUsernameWrapperStyle}>
                 <input
-                  type="password"
-                  name="newPassword"
+                  type='password'
+                  name='newPassword'
                   value={form.newPassword}
                   onChange={handleInputChange}
                   css={inputStyle}
@@ -103,8 +103,8 @@ function ResetPassword() {
               <label css={formLabelResetPasswordStyle}>비밀번호 확인</label>
               <div css={inputFindUsernameWrapperStyle}>
                 <input
-                  type="password"
-                  name="confirmPassword"
+                  type='password'
+                  name='confirmPassword'
                   value={form.confirmPassword}
                   onChange={handleInputChange}
                   css={inputStyle}
@@ -112,8 +112,7 @@ function ResetPassword() {
               </div>
             </div>
             <button
-              type="submit"
-              onClick={handleReset}
+              type='submit'
               css={buttonResetPasswordStyle}
             >
               재설정

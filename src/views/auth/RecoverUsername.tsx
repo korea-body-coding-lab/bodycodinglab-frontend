@@ -4,12 +4,12 @@ import Header from '../header/Header';
 import { buttonFindUsernameStyle, containerStyle, formSectionStyle, formStyle, formTitleStyle, formWrapperStyle, inputFindUsernameWrapperStyle, inputStyle, formLabelFindUsernameStyle, getSectionStyle, getFindedUsernameStyle, linkStyle, linkLoginOrResetPasswordStyle, pLoginOrResetPasswordStyle, linkGroupStyle, labelFindUsernameStyle } from './auth.style';
 import { Link } from 'react-router-dom';
 import { validateFindUsernameForm } from '@/utils/find-username.valid';
-import { FindUsernameRequestDto } from '@/dtos/auth/request/find-username.request.dto';
-import { findUsernameRequest } from '@/apis/auth/find-username.api';
+import { RecoverUsernameRequestDto } from '@/dtos/auth/request/recover-username.request.dto';
+import { recoverUsernameRequest } from '@/apis/auth/recover-username.api';
 
-function FindUsername() {
+function RecoverUsername() {
   const [isFinding, setIsFinding] = useState(false);
-  const [findedUsername, setFindedUsername] = useState('');
+  const [foundUsername, setFoundUsername] = useState('');
   const [form, setForm] = useState({
     name: "",
     birthdate: "",
@@ -32,8 +32,8 @@ function FindUsername() {
     }
 
     try {
-      const dto: FindUsernameRequestDto = { name, birthdate, email };
-      const response = await findUsernameRequest(dto);
+      const dto: RecoverUsernameRequestDto = { name, birthdate, email };
+      const response = await recoverUsernameRequest(dto);
       const { code, message, data } = response;
 
       if (code !== 'SU' || !data) {
@@ -42,7 +42,7 @@ function FindUsername() {
       }
 
       const { username } = data;
-      setFindedUsername(username);
+      setFoundUsername(username);
       setIsFinding(true);
     } catch (e) {
     console.log('아이디 찾기 오류: ', e);
@@ -57,15 +57,15 @@ function FindUsername() {
       </div>
       {!isFinding && (
         <div css={containerStyle}>
-          <form css={formWrapperStyle}>
+          <form onSubmit={handleSubmit} css={formWrapperStyle}>
             <div css={formSectionStyle}>
               <h2 css={formTitleStyle}>아이디 찾기</h2>
               <div css={formStyle}>
                 <label css={formLabelFindUsernameStyle}>성명</label>
                 <div css={inputFindUsernameWrapperStyle}>
                 <input
-                  type="text"
-                  name="name"
+                  type='text'
+                  name='name'
                   value={form.name}
                   onChange={handleInputChange}
                   css={inputStyle}
@@ -76,8 +76,8 @@ function FindUsername() {
                 <label css={formLabelFindUsernameStyle}>생년월일</label>
                 <div css={inputFindUsernameWrapperStyle}>
                 <input
-                  type="date"
-                  name="birthdate"
+                  type='date'
+                  name='birthdate'
                   value={form.birthdate}
                   onChange={handleInputChange}
                   css={inputStyle}
@@ -88,8 +88,8 @@ function FindUsername() {
                 <label css={formLabelFindUsernameStyle}>이메일</label>
                 <div css={inputFindUsernameWrapperStyle}>
                 <input
-                  type="email"
-                  name="email"
+                  type='email'
+                  name='email'
                   value={form.email}
                   placeholder='example@example.com'
                   onChange={handleInputChange}
@@ -99,7 +99,6 @@ function FindUsername() {
               </div>
               <button
                 type='submit'
-                onClick={handleSubmit}
                 css={buttonFindUsernameStyle}>
                 아이디 찾기
               </button>
@@ -112,7 +111,7 @@ function FindUsername() {
         <div css={containerStyle}>
           <div css={getSectionStyle}>
             <label css={labelFindUsernameStyle}>회원님의 아이디는</label>
-            <span css={getFindedUsernameStyle}>{findedUsername}</span>
+            <span css={getFindedUsernameStyle}>{foundUsername}</span>
             <span css={labelFindUsernameStyle}>입니다.</span>
             <div css={linkLoginOrResetPasswordStyle}>
                 <div css={linkGroupStyle}>
@@ -121,7 +120,7 @@ function FindUsername() {
                 </div>
                 <div css={linkGroupStyle}>
                   <span css={pLoginOrResetPasswordStyle}>비밀번호를 재설정하시겠습니까?</span>
-                  <Link to="/auth/reset-password" css={linkStyle}>비밀번호 재설정</Link>
+                  <Link to="/password/reset-user" css={linkStyle}>비밀번호 재설정</Link>
                 </div>
             </div>
           </div>
@@ -131,4 +130,4 @@ function FindUsername() {
   );
 }
 
-export default FindUsername;
+export default RecoverUsername;
