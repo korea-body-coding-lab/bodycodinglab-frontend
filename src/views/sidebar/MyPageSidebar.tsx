@@ -44,9 +44,9 @@ function MyPageSidebar() {
   }, [location.pathname]);
 
   const profileImageUrl = useMemo(() => {  
-  return user?.profileImageUrl
-    ? `http://localhost:8080${user.profileImageUrl}?v=${Date.now()}`
-    : '/default-profile.png';
+    return user?.profileImageUrl
+      ? `http://localhost:8080${user.profileImageUrl}?v=${Date.now()}`
+      : '/default-profile.png';
   }, [user?.profileImageUrl]);
   
   const handleUpdateClick = async () => {
